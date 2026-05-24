@@ -1,6 +1,6 @@
 # Pareto Governance Engine
 
-A Nobel-caliber governance application prototype inspired by the Pareto Legislative Engine and Adaptive Trust Networks proposals.
+An innovateive governance application prototype inspired by the Pareto Legislative Engine and Adaptive Trust Networks proposals.
 
 ## Core Capabilities
 

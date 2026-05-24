@@ -1,5 +1,6 @@
 import { Link, Outlet, useRouterState } from "@tanstack/react-router";
-import { BarChart3, BookOpenText, GitBranch, Landmark, Scale, ShieldCheck, Vote } from "lucide-react";
+import { BarChart3, BookOpenText, GitBranch, Landmark, Menu, Scale, ShieldCheck, Vote, X } from "lucide-react";
+import { useEffect, useState } from "react";
 
 const navItems = [
   { to: "/", label: "Command", icon: BarChart3 },
@@ -12,9 +13,26 @@ const navItems = [
 
 export function AppShell() {
   const pathname = useRouterState({ select: (state) => state.location.pathname });
+  const [isNavOpen, setIsNavOpen] = useState(false);
+
+  useEffect(() => {
+    setIsNavOpen(false);
+  }, [pathname]);
 
   return (
-    <div className="app-shell">
+    <div className={isNavOpen ? "app-shell nav-open" : "app-shell"}>
+      <button
+        type="button"
+        className="mobile-nav-toggle"
+        onClick={() => setIsNavOpen((current) => !current)}
+        aria-expanded={isNavOpen}
+        aria-controls="workspace-navigation"
+        aria-label={isNavOpen ? "Close navigation" : "Open navigation"}
+      >
+        {isNavOpen ? <X size={18} /> : <Menu size={18} />}
+        <span>{isNavOpen ? "Close" : "Menu"}</span>
+      </button>
+      <button type="button" className="sidebar-backdrop" aria-hidden={!isNavOpen} tabIndex={-1} onClick={() => setIsNavOpen(false)} />
       <aside className="sidebar">
         <div className="brand">
           <div className="brand-mark">
@@ -26,7 +44,7 @@ export function AppShell() {
           </div>
         </div>
 
-        <nav className="nav-list" aria-label="Workspace navigation">
+        <nav id="workspace-navigation" className="nav-list" aria-label="Workspace navigation">
           {navItems.map((item) => {
             const Icon = item.icon;
             const active = item.to === "/" ? pathname === "/" : pathname.startsWith(item.to);
