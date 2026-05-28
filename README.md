@@ -67,6 +67,27 @@ If institutions can repeatedly choose higher-utility, constraint-respecting comp
 - Node.js 20+
 - npm 10+
 
+## Deploying On Vercel
+
+This repository is configured for Vercel static deployment with SPA route fallback.
+
+### Why This Works
+- Vercel builds the app with `npm run build`
+- Output is served from `dist`
+- Files in `dist` are served first
+- Any unmatched route rewrites to `index.html` so client-side routes like `/bills`, `/impact`, and `/trust` do not 404
+
+### Configuration Source
+- `vercel.json`
+
+### Recommended Vercel Project Settings
+- Framework Preset: `Vite`
+- Build Command: `npm run build`
+- Output Directory: `dist`
+- Install Command: `npm install`
+
+No additional serverless functions are required for the current app.
+
 ### 1. Install and Run (2 minutes)
 
 ```bash
