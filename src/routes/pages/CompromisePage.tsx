@@ -10,9 +10,9 @@ export function CompromisePage() {
   return (
     <div className="page">
       <PageHeader
-        eyebrow="Pareto-efficient compromise engine"
+        eyebrow="Balanced compromise options"
         title={paretoScenario.name}
-        description="A deterministic simulation workbench that evaluates amendments against utility, minimum faction satisfaction, risk, and implementation complexity."
+        description="Compare amendments by shared benefit, minimum stakeholder support, and delivery risk to find options that hold up across groups."
       />
 
       <section className="dashboard-grid">
@@ -21,13 +21,14 @@ export function CompromisePage() {
             <h2>Frontier map</h2>
             <Badge tone="green">{frontier.filter((point) => point.isParetoEfficient).length} efficient</Badge>
           </div>
+          <p className="card-helper">Higher is better. Shared benefit reflects overall value; minimum support prevents any group from being left behind; risk reflects delivery complexity.</p>
           <div className="frontier">
             {frontier.map((point) => (
               <article key={point.amendmentId} className={point.isParetoEfficient ? "frontier-point efficient" : "frontier-point"}>
                 <strong>{point.label}</strong>
-                <Meter value={point.totalUtility} label="total utility" />
-                <Meter value={point.minimumFactionUtility} label="floor utility" color="#7c3aed" />
-                <Meter value={point.riskAdjustedScore} label="risk adjusted" color="#0f766e" />
+                <Meter value={point.totalUtility} label="Shared benefit" />
+                <Meter value={point.minimumFactionUtility} label="Minimum support" color="#7c3aed" />
+                <Meter value={point.riskAdjustedScore} label="Risk-adjusted score" color="#0f766e" />
               </article>
             ))}
           </div>

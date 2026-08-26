@@ -18,9 +18,9 @@ export function FeedbackPage() {
   return (
     <div className="page">
       <PageHeader
-        eyebrow="Quadratic constituent feedback"
-        title="Voice-token allocation"
-        description="Citizens spend scarce weekly voice tokens. Votes cost votes squared, forcing factions to reveal intensity and prioritize what truly matters."
+        eyebrow="Voter feedback"
+        title="Set issue priorities"
+        description="Allocate a weekly voice-token budget to show which issues matter most. Stronger preferences cost more tokens."
       />
 
       <section className="dashboard-grid">
@@ -34,7 +34,7 @@ export function FeedbackPage() {
             ))}
           </div>
           <div className="boundary-box">
-            <strong>Hard boundaries</strong>
+            <strong>Core constraints</strong>
             {selectedFaction.hardBoundaries.map((boundary) => <span key={boundary}>{boundary}</span>)}
           </div>
         </Card>
@@ -43,7 +43,7 @@ export function FeedbackPage() {
           <div className="section-title">
             <div>
               <h2>Weekly budget</h2>
-              <p>{budget.spent} spent from 50 voice tokens</p>
+              <p>50 voice tokens each week · {budget.spent} spent</p>
             </div>
             <Badge tone={budget.overBudget ? "red" : "green"}>{budget.remaining} remaining</Badge>
           </div>
@@ -52,7 +52,7 @@ export function FeedbackPage() {
               <label key={allocation.issueId} className="allocation-row">
                 <div>
                   <strong>{allocation.label}</strong>
-                  <span>{allocation.sentiment} · cost {calculateQuadraticCost(allocation.votes)}</span>
+                  <span>{{ support: "Support", oppose: "Oppose", condition: "Conditional" }[allocation.sentiment]} · cost {calculateQuadraticCost(allocation.votes)}</span>
                 </div>
                 <input
                   type="range"

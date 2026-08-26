@@ -86,6 +86,8 @@ This repository is configured for Vercel static deployment with SPA route fallba
 - Output Directory: `dist`
 - Install Command: `npm install`
 
+Set `PUBLIC_SITE_URL` to the production origin, for example `https://governance.example.org`. The build uses it to generate canonical sitemap and AI-discovery URLs. On Vercel, `VERCEL_PROJECT_PRODUCTION_URL` or `VERCEL_URL` is used when `PUBLIC_SITE_URL` is not set.
+
 No additional serverless functions are required for the current app.
 
 ### 1. Install and Run (2 minutes)

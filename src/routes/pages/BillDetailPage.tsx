@@ -1,7 +1,6 @@
 import { Link, useParams } from "@tanstack/react-router";
 import { Badge, Card, EmptyState, Meter, PageHeader } from "../../components/ui";
 import { EvidenceList } from "../../components/EvidenceList";
-import { evidenceSources } from "../../data/governance-data";
 import { getBill, getEvidenceForBill } from "../../services/governance-engine";
 import { useQuery } from "@tanstack/react-query";
 
@@ -63,10 +62,14 @@ export function BillDetailPage() {
 
       <Card>
         <div className="section-title">
-          <h2>Evidence memory</h2>
-          <Badge tone="green">Virtualized</Badge>
+          <h2>Evidence</h2>
+          <Badge tone="green">{evidence.length} sources</Badge>
         </div>
-        <EvidenceList evidence={evidence.length ? evidence : evidenceSources} />
+        {evidence.length ? (
+          <EvidenceList evidence={evidence} />
+        ) : (
+          <EmptyState title="No linked evidence" description="This bill does not yet have supporting sources attached." />
+        )}
       </Card>
     </div>
   );

@@ -49,7 +49,12 @@ export function BillTable({ bills }: { bills: Bill[] }) {
   return (
     <div className="table-panel">
       <div className="table-toolbar">
-        <input value={globalFilter} onChange={(event) => setGlobalFilter(event.target.value)} placeholder="Search bills, sponsors, domains" />
+        <input
+          value={globalFilter}
+          onChange={(event) => setGlobalFilter(event.target.value)}
+          placeholder="Search bills, sponsors, or topics"
+          aria-label="Search bills"
+        />
         <span>{table.getRowModel().rows.length} bills</span>
       </div>
       <div className="table-scroll">
@@ -57,11 +62,28 @@ export function BillTable({ bills }: { bills: Bill[] }) {
           <thead>
             {table.getHeaderGroups().map((headerGroup) => (
               <tr key={headerGroup.id}>
-                {headerGroup.headers.map((header) => (
-                  <th key={header.id} onClick={header.column.getToggleSortingHandler()}>
-                    {flexRender(header.column.columnDef.header, header.getContext())}
-                  </th>
-                ))}
+                {headerGroup.headers.map((header) => {
+                  const sortDirection = header.column.getIsSorted();
+                  const sortable = header.column.getCanSort();
+                  return (
+                    <th
+                      key={header.id}
+                      aria-sort={sortDirection === "asc" ? "ascending" : sortDirection === "desc" ? "descending" : "none"}
+                    >
+                      {header.isPlaceholder ? null : (
+                        <button
+                          type="button"
+                          className={sortable ? "table-sort-button" : "table-sort-button disabled"}
+                          onClick={header.column.getToggleSortingHandler()}
+                          disabled={!sortable}
+                        >
+                          {flexRender(header.column.columnDef.header, header.getContext())}
+                          {sortable ? <span aria-hidden="true">{sortDirection === "asc" ? "↑" : sortDirection === "desc" ? "↓" : "↕"}</span> : null}
+                        </button>
+                      )}
+                    </th>
+                  );
+                })}
               </tr>
             ))}
           </thead>

@@ -9,9 +9,9 @@ export function TrustPage() {
   return (
     <div className="page">
       <PageHeader
-        eyebrow="Adaptive Trust Networks"
-        title="Credibility-weighted governance"
-        description="Trust scores combine accuracy, expertise, consistency, and transparency so public decisions can incorporate reliable knowledge without silencing constituents."
+        eyebrow="Stakeholder trust"
+        title="Understand source credibility"
+        description="Scores range from 0 to 100 and weigh accuracy, expertise, consistency, and transparency equally. They help place reliable context beside public input."
       />
 
       <section className="trust-grid">

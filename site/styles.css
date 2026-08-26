@@ -1,0 +1,48 @@
+:root {
+  --ink: #102844;
+  --muted: #48667f;
+  --line: #cfe0ea;
+  --canvas: #eef7fa;
+  --paper: #ffffff;
+  --blue: #164b7c;
+  --red: #b22234;
+  --teal: #0f766e;
+  font-family: Georgia, "Times New Roman", serif;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { margin: 0; background: var(--canvas); color: var(--ink); }
+a { color: inherit; }
+.site-header, main, footer { width: min(1120px, calc(100% - 40px)); margin: 0 auto; }
+.site-header { display: flex; align-items: center; justify-content: space-between; gap: 24px; min-height: 82px; font-family: "Trebuchet MS", sans-serif; }
+.brand { display: inline-flex; align-items: center; gap: 10px; color: var(--ink); font-weight: 800; text-decoration: none; }
+.brand-mark { display: grid; width: 36px; height: 36px; place-items: center; background: var(--blue); color: #fff; font-size: .78rem; }
+nav { display: flex; flex-wrap: wrap; align-items: center; justify-content: flex-end; gap: 18px; font-size: .9rem; }
+nav a { text-decoration: none; }
+.nav-cta, .button.primary { background: var(--blue); color: #fff; }
+.nav-cta { padding: 9px 12px; }
+.hero { display: grid; grid-template-columns: minmax(0, 1.45fr) minmax(280px, .75fr); gap: 52px; padding: 80px 0 72px; }
+.eyebrow { margin: 0 0 14px; color: var(--red); font: 800 .76rem/1.2 "Trebuchet MS", sans-serif; letter-spacing: .1em; text-transform: uppercase; }
+h1, h2, h3 { margin: 0; line-height: 1.08; }
+h1 { max-width: 760px; font-size: clamp(2.6rem, 5vw, 5.15rem); }
+h2 { font-size: clamp(2rem, 3vw, 3.3rem); }
+h3 { font-size: 1.3rem; }
+.lead { max-width: 680px; margin: 24px 0 0; color: var(--muted); font: 1.12rem/1.7 "Trebuchet MS", sans-serif; }
+.hero-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 30px; }
+.button { padding: 12px 17px; font: 800 .9rem "Trebuchet MS", sans-serif; text-decoration: none; }
+.button.secondary { border: 1px solid var(--line); background: var(--paper); }
+.hero-panel { align-self: end; border-top: 8px solid var(--red); background: var(--ink); color: #fff; padding: 28px; box-shadow: 12px 12px 0 #bfd9e5; }
+.hero-panel > p { margin: 0; color: #b7d9e5; font: 800 .76rem "Trebuchet MS", sans-serif; letter-spacing: .1em; text-transform: uppercase; }
+.hero-panel ol { display: grid; gap: 22px; margin: 26px 0 0; padding: 0; list-style: none; }
+.hero-panel li { display: grid; gap: 4px; }
+.hero-panel strong { font-size: 1.3rem; }.hero-panel span { color: #d5e8ef; font: .9rem "Trebuchet MS", sans-serif; }
+.section { padding: 72px 0; }.band { border-block: 1px solid var(--line); background: #e4f0f4; box-shadow: 0 0 0 100vmax #e4f0f4; clip-path: inset(0 -100vmax); }
+.section-heading { max-width: 680px; margin-bottom: 34px; }
+.step-grid, .resource-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+.step-grid article { min-height: 260px; padding: 22px; border: 1px solid var(--line); background: var(--paper); }
+.step-grid span { color: var(--red); font: 800 .8rem "Trebuchet MS", sans-serif; }.step-grid h3 { margin-top: 42px; }.step-grid p, .step-grid a, .resource-grid span { font-family: "Trebuchet MS", sans-serif; }.step-grid p { color: var(--muted); line-height: 1.6; }.step-grid a { color: var(--blue); font-weight: 800; }
+.capability-list { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0 48px; margin: 0; }.capability-list div { padding: 20px 0; border-top: 1px solid var(--line); }.capability-list dt { font-weight: 800; font-size: 1.15rem; }.capability-list dd { margin: 8px 0 0; color: var(--muted); font: .94rem/1.55 "Trebuchet MS", sans-serif; }
+.resource-grid a { display: grid; gap: 8px; min-height: 150px; background: var(--paper); border-left: 5px solid var(--teal); padding: 24px; text-decoration: none; }.resource-grid strong { font-size: 1.2rem; }.resource-grid span { color: var(--muted); line-height: 1.5; }
+footer { display: flex; justify-content: space-between; gap: 20px; padding: 34px 0 48px; color: var(--muted); font: .9rem "Trebuchet MS", sans-serif; } footer p { margin: 0; } footer a { color: var(--blue); font-weight: 800; }
+@media (max-width: 760px) { .site-header, footer { align-items: flex-start; flex-direction: column; padding-block: 20px; } nav { justify-content: flex-start; gap: 12px; }.hero, .step-grid, .resource-grid, .capability-list { grid-template-columns: 1fr; }.hero { padding: 46px 0; gap: 32px; }.section { padding: 52px 0; }.hero-panel { box-shadow: 8px 8px 0 #bfd9e5; } }
