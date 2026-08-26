@@ -2,6 +2,7 @@ import { Link, Outlet, useRouterState } from "@tanstack/react-router";
 import { Menu, Scale, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import { primaryNavigationItems } from "../routes/navigation";
+import { updatePageMetadata } from "../seo";
 import {
   applyThemeModeToBody,
   emitThemeChanged,
@@ -21,6 +22,10 @@ export function AppShell() {
 
   useEffect(() => {
     setIsNavOpen(false);
+  }, [pathname]);
+
+  useEffect(() => {
+    updatePageMetadata(pathname);
   }, [pathname]);
 
   useEffect(() => {
@@ -59,14 +64,21 @@ export function AppShell() {
         type="button"
         className="mobile-nav-toggle"
         onClick={() => setIsNavOpen((current) => !current)}
-        aria-expanded={isNavOpen}
+        aria-expanded={isNavOpen ? "true" : "false"}
         aria-controls="workspace-navigation"
         aria-label={isNavOpen ? "Close navigation" : "Open navigation"}
       >
         {isNavOpen ? <X size={18} /> : <Menu size={18} />}
         <span>{isNavOpen ? "Close" : "Menu"}</span>
       </button>
-      <button type="button" className="sidebar-backdrop" aria-hidden={!isNavOpen} tabIndex={-1} onClick={() => setIsNavOpen(false)} />
+      <button
+        type="button"
+        className="sidebar-backdrop"
+        aria-hidden={isNavOpen ? "false" : "true"}
+        aria-label="Close navigation"
+        tabIndex={-1}
+        onClick={() => setIsNavOpen(false)}
+      />
       <aside className="sidebar">
         <div className="flag-band" aria-hidden="true" />
         <div className="brand">

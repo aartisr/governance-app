@@ -434,6 +434,11 @@ body {
   line-height: 1.6;
 }
 
+.card-helper {
+  margin: -4px 0 16px;
+  font-size: 0.86rem;
+}
+
 .stat-grid {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -514,7 +519,7 @@ body {
 .impact-grid,
 .trust-grid {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: var(--space-2);
 }
 
@@ -727,12 +732,34 @@ table {
 }
 
 th {
-  cursor: pointer;
   color: var(--muted);
   font-size: 0.75rem;
   letter-spacing: 0.08em;
   text-align: left;
   text-transform: uppercase;
+}
+
+.table-sort-button {
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  font-weight: 800;
+  letter-spacing: inherit;
+  text-transform: inherit;
+}
+
+.table-sort-button:hover,
+.table-sort-button:focus-visible {
+  color: var(--accent);
+}
+
+.table-sort-button.disabled {
+  cursor: default;
 }
 
 td,
