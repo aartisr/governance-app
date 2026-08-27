@@ -8,6 +8,9 @@ on:
       - .github/workflows/publish-wiki.yml
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   publish:
     runs-on: ubuntu-latest
@@ -15,9 +18,8 @@ jobs:
       - uses: actions/checkout@v4
       - name: Publish Wiki source
         env:
-          WIKI_PUSH_TOKEN: ${{ secrets.WIKI_PUSH_TOKEN }}
+          WIKI_PUSH_TOKEN: ${{ github.token }}
         run: |
-          test -n "$WIKI_PUSH_TOKEN" || { echo "Set WIKI_PUSH_TOKEN before publishing the Wiki."; exit 1; }
           git clone "https://x-access-token:${WIKI_PUSH_TOKEN}@github.com/${GITHUB_REPOSITORY}.wiki.git" published-wiki
           rsync -a --delete wiki/ published-wiki/
           cd published-wiki
