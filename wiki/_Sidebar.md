@@ -2,6 +2,7 @@
 
 - [[Home]]
 - [[How-It-Works]]
+- [Plain-language app guide](https://aartisr.github.io/governance-app/how-it-works.html)
 - [[Bill-Intelligence|Bill Intelligence]]
 - [[Impact-Analysis|Impact Analysis]]
 - [[Voter-Feedback-and-Trust|Voter Feedback and Trust]]

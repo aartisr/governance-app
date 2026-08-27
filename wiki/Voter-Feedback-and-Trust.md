@@ -9,3 +9,5 @@ Stakeholder trust is separate from preference. Trust scores provide transparent 
 Open [Stakeholder trust](https://governanceapp.ai-aarti.com/trust) to review credibility dimensions.
 
 [Back to the main website](https://governanceapp.ai-aarti.com/).
+
+Read the [plain-language walkthrough](https://aartisr.github.io/governance-app/how-it-works.html) for a complete bill-to-compromise example.
