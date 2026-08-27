@@ -112,6 +112,17 @@ Set `PUBLIC_SITE_URL` to the production origin, for example `https://governance.
 
 No additional serverless functions are required for the current app.
 
+## Publishing the GitHub Wiki
+
+GitHub Wikis are a separate Git repository, so the built-in Actions token cannot publish these files reliably. To publish the Markdown in [wiki](wiki):
+
+1. Enable **Wikis** under the repository's **Settings → General → Features**.
+2. Create a new **classic** GitHub personal access token with the `repo` scope. Do not reuse an existing exposed token.
+3. Add it as the `WIKI_PUSH_TOKEN` Actions secret under **Settings → Secrets and variables → Actions**.
+4. Run the **Publish Wiki** workflow, or push a change under [wiki](wiki).
+
+The token is used only by [.github/workflows/publish-wiki.yml](.github/workflows/publish-wiki.yml) to write to `governance-app.wiki.git`.
+
 ### 1. Install and Run (2 minutes)
 
 ```bash
