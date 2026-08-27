@@ -11,8 +11,10 @@ export function TrustPage() {
       <PageHeader
         eyebrow="Stakeholder trust"
         title="Understand source credibility"
-        description="Scores range from 0 to 100 and weigh accuracy, expertise, consistency, and transparency equally. They help place reliable context beside public input."
+        description="Scores range from 0 to 100. Accuracy carries the most weight, followed by expertise, consistency, and transparency. They add context to public input; they do not replace it."
       />
+
+      <p className="page-helper">Trust score: 36% accuracy, 28% expertise, 22% consistency, and 14% transparency.</p>
 
       <section className="trust-grid">
         {ranked.map((participant) => {

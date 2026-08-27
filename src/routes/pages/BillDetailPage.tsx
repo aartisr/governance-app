@@ -21,13 +21,18 @@ export function BillDetailPage() {
         eyebrow={bill.id.toUpperCase()}
         title={bill.title}
         description={bill.summary}
-        actions={<Link to="/impact" className="button primary">Simulate local impact</Link>}
+        actions={(
+          <>
+            <Link to="/bills" className="button secondary">All bills</Link>
+            <Link to="/impact" className="button primary">See local impact</Link>
+          </>
+        )}
       />
 
       <section className="dashboard-grid">
         <Card className="span-2">
           <div className="section-title">
-            <h2>Section intelligence</h2>
+            <h2>What this bill changes</h2>
             <Badge tone="violet">{bill.status}</Badge>
           </div>
           <div className="section-list">
@@ -39,8 +44,8 @@ export function BillDetailPage() {
                 </div>
                 <div className="section-metrics">
                   <Badge>{section.domain}</Badge>
-                  <span>{section.affectedPopulationPercent}% exposed</span>
-                  <span>${section.budgetDeltaMillions}M</span>
+                  <span>{section.affectedPopulationPercent}% locally affected</span>
+                  <span>${section.budgetDeltaMillions}M estimated change</span>
                 </div>
               </article>
             ))}
@@ -48,14 +53,14 @@ export function BillDetailPage() {
         </Card>
 
         <Card>
-          <h2>Neutral summary</h2>
+          <h2>How to read this</h2>
           <p>
-            Political claims are separated from bill text, budget assumptions, public testimony, and expert review. The interface keeps evidence visible beside every generated interpretation.
+            The summary separates bill text from claims about it. Check the linked sources below before treating any estimate as settled.
           </p>
           <div className="stack">
-            <Meter value={0.84} label="Rhetoric removal confidence" />
-            <Meter value={0.79} label="Evidence coverage" color="#0f766e" />
-            <Meter value={0.72} label="Downstream model readiness" color="#b45309" />
+            <Meter value={0.84} label="Clarity of bill summary" />
+            <Meter value={0.79} label="Supporting evidence coverage" color="#0f766e" />
+            <Meter value={0.72} label="Ready for impact analysis" color="#b45309" />
           </div>
         </Card>
       </section>

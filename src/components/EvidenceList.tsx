@@ -3,6 +3,18 @@ import { useRef } from "react";
 import type { EvidenceSource } from "../domain/types";
 import { Badge, Meter } from "./ui";
 
+function confidenceTone(score: number) {
+  if (score >= 0.85) return "green";
+  if (score >= 0.7) return "amber";
+  return "red";
+}
+
+function confidenceLabel(score: number) {
+  if (score >= 0.85) return "High confidence";
+  if (score >= 0.7) return "Moderate confidence";
+  return "Review carefully";
+}
+
 export function EvidenceList({ evidence }: { evidence: EvidenceSource[] }) {
   const parentRef = useRef<HTMLDivElement>(null);
   const virtualizer = useVirtualizer({
@@ -22,7 +34,10 @@ export function EvidenceList({ evidence }: { evidence: EvidenceSource[] }) {
               <div>
                 <div className="evidence-title">
                   <strong>{source.title}</strong>
-                  <Badge>{source.sourceType}</Badge>
+                  <div className="evidence-badges">
+                    <Badge tone={confidenceTone(source.trustScore)}>{confidenceLabel(source.trustScore)}</Badge>
+                    <Badge>{source.sourceType}</Badge>
+                  </div>
                 </div>
                 <p>{source.excerpt}</p>
                 <small>{source.publisher}</small>

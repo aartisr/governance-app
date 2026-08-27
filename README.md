@@ -2,6 +2,8 @@
 
 Pareto Governance Engine is a civic decision-support prototype that transforms legislative debate into a measurable, transparent, and explainable workflow.
 
+> **Prototype status:** This repository currently uses illustrative mock bills, districts, evidence sources, trust scores, and deterministic simulations. It is not connected to official legislative data and must not be used as policy, legal, financial, or civic decision advice without independently verifying primary sources.
+
 The platform combines:
 - Preference intensity modeling (quadratic voice-token feedback)
 - Evidence-grounded policy interpretation
