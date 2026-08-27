@@ -15,9 +15,9 @@ export function ImpactPage() {
   return (
     <div className="page">
       <PageHeader
-        eyebrow="Multi-tenant RAG and impact mapping"
-        title="Localized downstream impact"
-        description="Select any bill and district profile to see section-level estimates grounded in evidence, demographic context, and budget assumptions."
+        eyebrow="Local policy impact"
+        title="See what this could mean where you live"
+        description="Choose a bill and district profile to review section-level estimates, their assumptions, and the confidence behind them."
       />
 
       <Card>
@@ -37,14 +37,16 @@ export function ImpactPage() {
         </div>
       </Card>
 
+      <p className="page-helper">Percentages estimate the share of residents affected after accounting for local demographics, business density, and rural or urban context.</p>
+
       <section className="impact-grid">
         {impacts.map((impact) => (
           <Card key={impact.sectionId}>
             <div className="section-title">
               <h2>{impact.label}</h2>
-              <Badge tone="green">{Math.round(impact.confidence * 100)}%</Badge>
+              <Badge tone="green">{Math.round(impact.confidence * 100)}% confidence</Badge>
             </div>
-            <strong className="impact-number">{impact.delta}{impact.unit.replace("% exposed population equivalent", "%")}</strong>
+            <strong className="impact-number">{impact.delta}%</strong>
             <p>{impact.explanation}</p>
           </Card>
         ))}

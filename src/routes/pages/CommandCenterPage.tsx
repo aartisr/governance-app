@@ -20,7 +20,7 @@ export function CommandCenterPage() {
         actions={(
           <>
             <Link to="/bills" className="button secondary">Review bills</Link>
-            <Link to="/compromise" className="button primary">Run Pareto engine</Link>
+            <Link to="/compromise" className="button primary">Compare options</Link>
           </>
         )}
       />
@@ -29,7 +29,7 @@ export function CommandCenterPage() {
         <StatCard label="Active bills" value={snapshot.isPending ? "…" : activeBills.length} detail="ready to review" intent="strong" />
         <StatCard label="District profiles" value={districts.length} detail="available for impact analysis" />
         <StatCard label="Trust signal" value={`${Math.round(trustAverage * 100)}%`} detail="weighted source credibility" intent="good" />
-        <StatCard label="Recommended option" value={recommendation.best.riskAdjustedScore.toFixed(2)} detail={recommendation.amendment?.title} intent="warn" />
+        <StatCard label="Top simulated option" value={recommendation.best.riskAdjustedScore.toFixed(2)} detail={recommendation.amendment?.title} intent="warn" />
       </section>
 
       <section className="dashboard-grid">
@@ -43,25 +43,25 @@ export function CommandCenterPage() {
           </div>
           <div className="flow-grid">
             {([
-              ["Review", "Start with the bill and its linked evidence.", Brain],
-              ["Understand impact", "Compare local outcomes across district profiles.", Vote],
-              ["Compare options", "See which compromise protects the most shared value.", GitMerge],
-            ] satisfies Array<[string, string, LucideIcon]>).map(([title, body, IconComponent]) => {
+              ["Review", "Start with the bill and its linked evidence.", Brain, "/bills"],
+              ["Understand impact", "Compare local outcomes across district profiles.", Vote, "/impact"],
+              ["Compare options", "See which compromise protects the most shared value.", GitMerge, "/compromise"],
+            ] satisfies Array<[string, string, LucideIcon, "/bills" | "/impact" | "/compromise"]>).map(([title, body, IconComponent, path]) => {
               return (
-                <article key={title} className="flow-card">
+                <Link key={title} to={path} className="flow-card">
                   <IconComponent size={20} />
                   <strong>{title}</strong>
                   <p>{body}</p>
-                </article>
+                </Link>
               );
             })}
           </div>
         </Card>
 
         <Card>
-          <p className="eyebrow">Recommended action</p>
+          <p className="eyebrow">Simulation result</p>
           <h2>{recommendation.amendment?.title}</h2>
-          <p>{recommendation.amendment?.description}</p>
+          <p>{recommendation.amendment?.description} This is a model output using the app's illustrative data, not policy advice or a real legislative recommendation.</p>
           <div className="stack">
             <Meter value={recommendation.best.totalUtility} label="Total utility" />
             <Meter value={recommendation.best.minimumFactionUtility} label="Minimum faction utility" color="#7c3aed" />

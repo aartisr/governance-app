@@ -52,7 +52,7 @@ export function BillTable({ bills }: { bills: Bill[] }) {
         <input
           value={globalFilter}
           onChange={(event) => setGlobalFilter(event.target.value)}
-          placeholder="Search bills, sponsors, or topics"
+          placeholder="Search by bill ID, title, sponsor, or policy area"
           aria-label="Search bills"
         />
         <span>{table.getRowModel().rows.length} bills</span>
@@ -68,7 +68,8 @@ export function BillTable({ bills }: { bills: Bill[] }) {
                   return (
                     <th
                       key={header.id}
-                      aria-sort={sortDirection === "asc" ? "ascending" : sortDirection === "desc" ? "descending" : "none"}
+                      scope="col"
+                      aria-sort={sortDirection === "asc" ? "ascending" : sortDirection === "desc" ? "descending" : "none" as "none"}
                     >
                       {header.isPlaceholder ? null : (
                         <button
@@ -88,13 +89,15 @@ export function BillTable({ bills }: { bills: Bill[] }) {
             ))}
           </thead>
           <tbody>
-            {table.getRowModel().rows.map((row) => (
+            {table.getRowModel().rows.length ? table.getRowModel().rows.map((row) => (
               <tr key={row.id}>
                 {row.getVisibleCells().map((cell) => (
                   <td key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</td>
                 ))}
               </tr>
-            ))}
+            )) : (
+              <tr><td className="table-empty" colSpan={columns.length}>No bills match that search. Try a bill number, sponsor, or policy area.</td></tr>
+            )}
           </tbody>
         </table>
       </div>

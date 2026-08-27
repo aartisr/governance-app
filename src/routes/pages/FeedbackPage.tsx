@@ -20,12 +20,12 @@ export function FeedbackPage() {
       <PageHeader
         eyebrow="Voter feedback"
         title="Set issue priorities"
-        description="Allocate a weekly voice-token budget to show which issues matter most. Stronger preferences cost more tokens."
+        description="Allocate a weekly voice-token budget to show which issues matter most. Stronger preferences cost more tokens, so priorities stay clear."
       />
 
       <section className="dashboard-grid">
         <Card>
-          <h2>Faction lens</h2>
+          <h2>Whose priorities?</h2>
           <div className="segmented">
             {factions.map((faction) => (
               <button key={faction.id} className={faction.id === selectedFactionId ? "active" : ""} onClick={() => switchFaction(faction)}>
@@ -34,7 +34,8 @@ export function FeedbackPage() {
             ))}
           </div>
           <div className="boundary-box">
-            <strong>Core constraints</strong>
+            <strong>What {selectedFaction.name} will not trade away</strong>
+            <small>These constraints remain protected when compromise options are compared.</small>
             {selectedFaction.hardBoundaries.map((boundary) => <span key={boundary}>{boundary}</span>)}
           </div>
         </Card>
@@ -43,7 +44,7 @@ export function FeedbackPage() {
           <div className="section-title">
             <div>
               <h2>Weekly budget</h2>
-              <p>50 voice tokens each week · {budget.spent} spent</p>
+              <p>50 voice tokens each week · {budget.spent} spent · 1 vote costs 1 token; 7 votes cost 49.</p>
             </div>
             <Badge tone={budget.overBudget ? "red" : "green"}>{budget.remaining} remaining</Badge>
           </div>

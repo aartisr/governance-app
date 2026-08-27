@@ -1,5 +1,5 @@
 import { Link, Outlet, useRouterState } from "@tanstack/react-router";
-import { Menu, Scale, X } from "lucide-react";
+import { Info, Menu, Scale, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import { primaryNavigationItems } from "../routes/navigation";
 import { updatePageMetadata } from "../seo";
@@ -127,6 +127,10 @@ export function AppShell() {
       </aside>
 
       <main className="workspace">
+        <aside className="prototype-notice" aria-label="Prototype data notice">
+          <Info size={17} aria-hidden="true" />
+          <p><strong>Prototype demonstration.</strong> All bills, districts, sources, scores, and recommendations in this version are illustrative mock data and deterministic simulations. Verify primary sources before using any result in a real decision.</p>
+        </aside>
         <Outlet />
       </main>
     </div>
