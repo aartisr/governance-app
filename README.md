@@ -11,8 +11,28 @@ The platform combines:
 
 It is designed to show how democracy can move from zero-sum rhetoric toward structured, high-utility compromise.
 
+## An Invitation To Participate
+
+Democracy is not a performance delivered to the public. It is work we do with one another.
+
+Every bill carries the shape of ordinary life: the safety of a neighborhood, the cost of care, the chances available to a child, the health of a local business, and the future handed forward. When people stay close to that work, public decisions become harder to ignore, easier to question, and more worthy of trust.
+
+Participation does not require perfect expertise, endless time, or agreement with everyone in the room. It begins with a simple civic practice: read with care, ask what the evidence shows, share what your community knows, and remain open to a solution that protects what matters to more people. Disagreement is not democracy's failure. It is the raw material of democratic life when we meet it with honesty and attention.
+
+Pareto Governance Engine is an invitation to make that practice easier. Use it to [review a bill](https://governanceapp.ai-aarti.com/bills), [understand local impact](https://governanceapp.ai-aarti.com/impact), [express priorities](https://governanceapp.ai-aarti.com/feedback), and [compare compromise options](https://governanceapp.ai-aarti.com/compromise). Bring your questions, your experience, and your conviction that this country can become more responsive when more of us help shape its choices.
+
+Democracy succeeds when people refuse to surrender their voice or their curiosity. Join the work.
+
+## See It in Action
+
+For a non-technical walkthrough, follow one fictional bill from its text through local impact, public priorities, credibility context, and a practical compromise. The guide explains what each workspace does and why it matters in everyday terms.
+
+[Read: How the Governance App Works](docs/how-the-governance-app-works.md) or [open the public guide](https://aartisr.github.io/governance-app/how-it-works.html).
+
 ## Table Of Contents
 
+- An Invitation To Participate
+- See It in Action
 - Executive Summary For Judges And Investors
 - 10-Minute Contributor Onboarding
 - Product Vision
