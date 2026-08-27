@@ -125,13 +125,13 @@ The token is used only by [.github/workflows/publish-wiki.yml](.github/workflows
 
 ## IndexNow
 
-Each production build publishes a stable IndexNow verification key at the canonical site root. After a production deploy, submit all public application routes with:
+Each production build publishes a stable IndexNow verification key at the canonical site root. The same key is published with the GitHub Pages documentation site. After both deploys complete, submit all canonical-app and GitHub Pages URLs with:
 
 ```bash
 npm run indexnow:submit
 ```
 
-The command submits the canonical URLs to `api.indexnow.org`. It requires the verification-key file from that deployment to be publicly reachable before it is run.
+The command submits separate host-verified URL batches to `api.indexnow.org`. It requires the verification-key file on both deployments to be publicly reachable before it is run.
 
 ### 1. Install and Run (2 minutes)
 
