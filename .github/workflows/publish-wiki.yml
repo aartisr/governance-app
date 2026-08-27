@@ -39,7 +39,7 @@ jobs:
             rsync -a --delete ../wiki/ ./
             git add .
             git diff --cached --quiet && { echo "Wiki is already up to date."; exit 0; }
-            git commit -m "docs: publish wiki"
+            GIT_AUTHOR_NAME="github-actions[bot]" GIT_AUTHOR_EMAIL="41898282+github-actions[bot]@users.noreply.github.com" GIT_COMMITTER_NAME="github-actions[bot]" GIT_COMMITTER_EMAIL="41898282+github-actions[bot]@users.noreply.github.com" git commit -m "docs: publish wiki"
             git push "https://x-access-token:${WIKI_PUSH_TOKEN}@github.com/${GITHUB_REPOSITORY}.wiki.git" "HEAD:${wiki_branch}" && exit 0
             echo "Wiki changed during publication; retrying (${attempt}/3)."
           done
