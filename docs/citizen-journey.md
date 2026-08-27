@@ -35,7 +35,7 @@ That means:
 5. Go to Voice Tokens
 - Allocate your weekly tokens to issues that matter most.
 
-6. Go to Pareto Engine
+6. Go to Compromise Analysis
 - Review compromise options and the recommended amendment.
 
 7. Go to Trust Network
@@ -112,7 +112,7 @@ Why this is fairer:
 - You can strongly back what truly matters to you.
 - But no one can cheaply overwhelm everything else.
 
-### Step 6: Pareto Engine (Find Better Compromises)
+### Step 6: Compromise Analysis (Find Better Compromises)
 
 What you do:
 - Review amendment options.
@@ -144,7 +144,7 @@ flowchart TD
     C --> D[Bill Detail: Read Sections and Evidence]
     D --> E[Impact: Check Your District Effects]
     E --> F[Voice Tokens: Express Priority Intensity]
-    F --> G[Pareto Engine: Compare Compromise Options]
+    F --> G[Compromise Analysis: Compare Options]
     G --> H[Trust Network: Verify Credibility Weights]
     H --> I[Make Informed Civic Action]
     I --> J[Track Outcomes and Return Next Week]

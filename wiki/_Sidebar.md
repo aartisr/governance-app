@@ -1,4 +1,4 @@
-## Pareto Governance Engine
+## Civic Accord
 
 - [[Home]]
 - [[How-It-Works]]

@@ -1,6 +1,6 @@
-# Pareto Governance Engine
+# Civic Accord
 
-Pareto Governance Engine is an evidence-based civic decision-support workspace. It helps people review legislation, understand local policy impact, express priorities, compare compromise options, and evaluate stakeholder trust.
+Civic Accord is an evidence-based civic decision-support workspace. It helps people review legislation, understand local policy impact, express priorities, compare compromise options, and evaluate stakeholder trust.
 
 > [Open the live governance workspace](https://governanceapp.ai-aarti.com/)
 

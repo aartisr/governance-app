@@ -322,6 +322,23 @@ body {
   min-width: 0;
 }
 
+.app-credit {
+  max-width: 1480px;
+  margin: 0 auto;
+  padding: 12px clamp(16px, 3vw, 34px) 28px;
+  color: var(--muted);
+  font-size: 0.78rem;
+  line-height: 1.5;
+  text-align: right;
+}
+
+.app-credit a {
+  color: var(--accent);
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
 .prototype-notice {
   display: flex;
   align-items: flex-start;
@@ -1091,6 +1108,11 @@ th {
   .prototype-notice {
     margin: 0 16px;
     padding: 10px 14px;
+  }
+
+  .app-credit {
+    padding: 12px 16px 24px;
+    text-align: left;
   }
 
   .sidebar-note {

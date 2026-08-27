@@ -1,6 +1,6 @@
-# How the Governance App Works: A Plain-Language Example
+# How Civic Accord Works: A Plain-Language Example
 
-This guide uses a fictional bill to show, step by step, how Pareto Governance Engine helps a person understand legislation and take part in public life.
+This guide uses a fictional bill to show, step by step, how Civic Accord helps a person understand legislation and take part in public life.
 
 ## The Question
 
@@ -10,7 +10,7 @@ A resident, elected official, journalist, or community organization has a reason
 
 > What does this bill actually do, what could it mean where I live, and is there a version more people could support?
 
-The Governance App is built to make answering that question easier.
+Civic Accord is built to make answering that question easier.
 
 ## 1. Review the Bill Before the Argument
 

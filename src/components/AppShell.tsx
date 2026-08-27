@@ -86,8 +86,8 @@ export function AppShell() {
             <Scale size={22} />
           </div>
           <div>
-            <strong>Pareto Governance</strong>
-            <span>Civic Operations Console</span>
+            <strong>Civic Accord</strong>
+            <span>Powered by Pareto Governance Engine</span>
           </div>
         </div>
 
@@ -132,6 +132,9 @@ export function AppShell() {
           <p><strong>Prototype demonstration.</strong> All bills, districts, sources, scores, and recommendations in this version are illustrative mock data and deterministic simulations. Verify primary sources before using any result in a real decision.</p>
         </aside>
         <Outlet />
+        <footer className="app-credit">
+          Created with care for community by <a href="https://ai-aarti.com/">Aarti S Ravikumar</a>
+        </footer>
       </main>
     </div>
   );

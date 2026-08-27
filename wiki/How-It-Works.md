@@ -1,6 +1,6 @@
 # How It Works
 
-Pareto Governance Engine connects five decision questions in a single, inspectable workflow:
+Civic Accord connects five decision questions in a single, inspectable workflow:
 
 1. What does the bill say?
 2. What evidence supports the interpretation?

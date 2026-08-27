@@ -20,7 +20,7 @@ Allow: /
 Sitemap: ${siteUrl}/sitemap.xml
 `;
 
-const llms = `# Pareto Governance Engine
+const llms = `# Civic Accord
 
 > An evidence-based civic decision-support workspace for reviewing bills, local policy impact, voter priorities, compromise options, and stakeholder trust.
 
@@ -39,8 +39,8 @@ const llms = `# Pareto Governance Engine
 `;
 
 const manifest = JSON.stringify({
-  name: "Pareto Governance Engine",
-  short_name: "Pareto Governance",
+  name: "Civic Accord",
+  short_name: "Civic Accord",
   description: "Evidence-based civic decision support for bills, impact, compromise, and trust.",
   start_url: "/",
   display: "standalone",
@@ -49,14 +49,13 @@ const manifest = JSON.stringify({
 }, null, 2);
 
 const socialCard = `<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-labelledby="title description">
-  <title id="title">Pareto Governance Engine</title>
+  <title id="title">Civic Accord</title>
   <desc id="description">Evidence-based civic decision support</desc>
   <rect width="1200" height="630" fill="#f2f5fb"/>
   <rect width="1200" height="24" fill="#b31942"/>
   <rect y="24" width="1200" height="12" fill="#ffffff"/>
   <rect y="36" width="1200" height="24" fill="#0a3161"/>
-  <text x="100" y="250" fill="#0a3161" font-family="Georgia, serif" font-size="72" font-weight="700">Pareto Governance</text>
-  <text x="100" y="335" fill="#0a3161" font-family="Georgia, serif" font-size="72" font-weight="700">Engine</text>
+  <text x="100" y="280" fill="#0a3161" font-family="Georgia, serif" font-size="88" font-weight="700">Civic Accord</text>
   <text x="104" y="420" fill="#4e5f82" font-family="Arial, sans-serif" font-size="30">Evidence-based civic decision support</text>
   <circle cx="1030" cy="354" r="86" fill="#0f766e"/>
   <path d="M986 356h88M1030 312v88" stroke="#ffffff" stroke-width="18" stroke-linecap="round"/>
