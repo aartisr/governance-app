@@ -29,3 +29,7 @@ Use this process as an invitation, not an instruction: learn what is at stake, s
 [Return to the live governance workspace](https://governanceapp.ai-aarti.com/).
 
 For a detailed fictional example, read [How the Governance App Works](https://aartisr.github.io/governance-app/how-it-works.html).
+
+---
+
+[Open the main website](https://governanceapp.ai-aarti.com/) · Created with care for community by [Aarti S Ravikumar](https://ai-aarti.com/)

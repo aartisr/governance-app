@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "vite --host 127.0.0.1 --port 5180",
     "build": "npm run typecheck && vite build && node scripts/generate-discovery-files.mjs",
+    "indexnow:submit": "node scripts/submit-indexnow.mjs",
     "preview": "vite preview --host 127.0.0.1 --port 5180",
     "typecheck": "tsc --noEmit"
   },

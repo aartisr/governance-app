@@ -14,3 +14,7 @@ Open [Local policy impact](https://governanceapp.ai-aarti.com/impact).
 [Back to the main website](https://governanceapp.ai-aarti.com/).
 
 Read the [plain-language walkthrough](https://aartisr.github.io/governance-app/how-it-works.html) for a complete bill-to-compromise example.
+
+---
+
+[Open the main website](https://governanceapp.ai-aarti.com/) · Created with care for community by [Aarti S Ravikumar](https://ai-aarti.com/)

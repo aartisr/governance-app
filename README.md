@@ -108,7 +108,7 @@ This repository is configured for Vercel static deployment with SPA route fallba
 - Output Directory: `dist`
 - Install Command: `npm install`
 
-Set `PUBLIC_SITE_URL` to the production origin, for example `https://governance.example.org`. The build uses it to generate canonical sitemap and AI-discovery URLs. On Vercel, `VERCEL_PROJECT_PRODUCTION_URL` or `VERCEL_URL` is used when `PUBLIC_SITE_URL` is not set.
+Set `PUBLIC_SITE_URL` to `https://governanceapp.ai-aarti.com`. The build uses it to generate canonical sitemap and AI-discovery URLs. On Vercel, `VERCEL_PROJECT_PRODUCTION_URL` or `VERCEL_URL` is used when `PUBLIC_SITE_URL` is not set.
 
 No additional serverless functions are required for the current app.
 
@@ -121,7 +121,17 @@ GitHub Wikis are a separate Git repository, so the built-in Actions token cannot
 3. Add it as the `WIKI_PUSH_TOKEN` Actions secret under **Settings → Secrets and variables → Actions**.
 4. Run the **Publish Wiki** workflow, or push a change under [wiki](wiki).
 
-The token is used only by [.github/workflows/publish-wiki.yml](.github/workflows/publish-wiki.yml) to write to `governance-app.wiki.git`.
+The token is used only by [.github/workflows/publish-wiki.yml](.github/workflows/publish-wiki.yml) to write to `governance-app.wiki.git`. Do not manually push the `wiki/` source directory to `governance-app-wiki.git`; it is not the GitHub Wiki repository. The workflow publishes it automatically.
+
+## IndexNow
+
+Each production build publishes a stable IndexNow verification key at the canonical site root. After a production deploy, submit all public application routes with:
+
+```bash
+npm run indexnow:submit
+```
+
+The command submits the canonical URLs to `api.indexnow.org`. It requires the verification-key file from that deployment to be publicly reachable before it is run.
 
 ### 1. Install and Run (2 minutes)
 
