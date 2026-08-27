@@ -1,4 +1,4 @@
-# End-to-End Workflow: Pareto Governance Engine
+# End-to-End Workflow: Civic Accord
 
 This workflow is synthesized from the docs and implemented code paths:
 - `docs/congressional_app.txt`

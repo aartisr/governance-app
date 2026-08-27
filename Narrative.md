@@ -1,6 +1,6 @@
 # The Day Democracy Learned to Listen
 
-## A simple story about the Pareto Governance Engine
+## A simple story about Civic Accord
 
 Imagine that a town must decide what to do with one shared dollar.
 
@@ -12,7 +12,7 @@ That is like asking a whole orchestra to play with only two notes.
 
 It can tell us which side has more hands in the air. It cannot tell us who is facing a small inconvenience, who is facing a closed business, who is facing an unsafe road, or whether there is a better answer hidden between two loud positions.
 
-The Pareto Governance Engine is built for that missing middle.
+Civic Accord is built for that missing middle.
 
 It is a working civic decision-support prototype: a tool meant to help people and public offices understand a bill, see its likely local effects, express what matters most, and examine fairer compromise choices. Its promise is not to replace democracy. Its promise is to help democracy do what it was always meant to do: listen carefully, reason openly, and let people decide with their eyes open.
 
@@ -42,7 +42,7 @@ The result is not a secret answer from a machine. It is a clear map of the choic
 
 Many laws are long, technical, and hard to read. That leaves most people dependent on headlines, slogans, and whichever side explains first and loudest.
 
-The Governance Engine gives a bill a more human shape. It organizes the bill into smaller sections. For each section, it can show a simple summary, the groups likely to be affected, the evidence behind the summary, and how confident the system is in its estimate.
+Civic Accord gives a bill a more human shape. It organizes the bill into smaller sections. For each section, it can show a simple summary, the groups likely to be affected, the evidence behind the summary, and how confident the system is in its estimate.
 
 Instead of being told, “Trust us,” a citizen can ask:
 
@@ -138,7 +138,7 @@ No one has to become a policy expert overnight. The first step is simply to unde
 
 ## The heart of the project
 
-The Pareto Governance Engine is not asking people to care less. It is asking institutions to listen better.
+Civic Accord is not asking people to care less. It is asking institutions to listen better.
 
 It gives citizens a way to say more than “yes” or “no.” It gives decision-makers a way to see evidence, local effects, real priorities, and possible common ground in one place. It gives everyone a way to inspect the path from a bill to a recommendation.
 

@@ -1,6 +1,6 @@
-# Pareto Governance Engine
+# Civic Accord
 
-Pareto Governance Engine is a civic decision-support prototype that transforms legislative debate into a measurable, transparent, and explainable workflow.
+Civic Accord is a civic decision-support prototype that transforms legislative debate into a measurable, transparent, and explainable workflow. Its internal decision methodology is the Pareto Governance Engine.
 
 > **Prototype status:** This repository currently uses illustrative mock bills, districts, evidence sources, trust scores, and deterministic simulations. It is not connected to official legislative data and must not be used as policy, legal, financial, or civic decision advice without independently verifying primary sources.
 
@@ -21,7 +21,7 @@ Every bill carries the shape of ordinary life: the safety of a neighborhood, the
 
 Participation does not require perfect expertise, endless time, or agreement with everyone in the room. It begins with a simple civic practice: read with care, ask what the evidence shows, share what your community knows, and remain open to a solution that protects what matters to more people. Disagreement is not democracy's failure. It is the raw material of democratic life when we meet it with honesty and attention.
 
-Pareto Governance Engine is an invitation to make that practice easier. Use it to [review a bill](https://governanceapp.ai-aarti.com/bills), [understand local impact](https://governanceapp.ai-aarti.com/impact), [express priorities](https://governanceapp.ai-aarti.com/feedback), and [compare compromise options](https://governanceapp.ai-aarti.com/compromise). Bring your questions, your experience, and your conviction that this country can become more responsive when more of us help shape its choices.
+Civic Accord is an invitation to make that practice easier. Use it to [review a bill](https://governanceapp.ai-aarti.com/bills), [understand local impact](https://governanceapp.ai-aarti.com/impact), [express priorities](https://governanceapp.ai-aarti.com/feedback), and [compare compromise options](https://governanceapp.ai-aarti.com/compromise). Bring your questions, your experience, and your conviction that this country can become more responsive when more of us help shape its choices.
 
 Democracy succeeds when people refuse to surrender their voice or their curiosity. Join the work.
 
@@ -59,7 +59,7 @@ For a non-technical walkthrough, follow one fictional bill from its text through
 Democratic systems often fail at preference fidelity, evidence transparency, and compromise quality.
 
 ### Solution
-Pareto Governance Engine turns legislative deliberation into a transparent optimization loop with:
+Civic Accord turns legislative deliberation into a transparent optimization loop with:
 - Intensity-aware constituent input (quadratic token budgeting)
 - Evidence-linked and locally contextualized policy interpretation
 - Trust-weighted participant influence
@@ -148,7 +148,7 @@ Open: http://127.0.0.1:5180
 	2. Bills
 	3. Voice Tokens
 	4. Impact
-	5. Pareto Engine
+	5. Compromise Analysis
 	6. Trust Network
 
 ### 3. Learn The Code Surface (3 minutes)
@@ -216,7 +216,7 @@ The application provides six operational workspaces:
 - Localized district impact estimates per bill section
 - Evidence-linked explanations and confidence context
 
-5. Pareto Engine Workspace
+5. Compromise Analysis Workspace
 - Amendment scoring
 - Pareto frontier identification
 - Risk-adjusted compromise recommendation
@@ -274,7 +274,7 @@ flowchart TD
 	C --> D[Bill Detail: Read Sections and Evidence]
 	D --> E[Impact: Check Your District Effects]
 	E --> F[Voice Tokens: Express Priority Intensity]
-	F --> G[Pareto Engine: Compare Compromise Options]
+	F --> G[Compromise Analysis: Compare Options]
 	G --> H[Trust Network: Verify Credibility Weights]
 	H --> I[Make Informed Civic Action]
 	I --> J[Track Outcomes and Return Next Week]
@@ -465,3 +465,7 @@ Quality checklist before merge:
 - Trust and compromise outputs are decision-support signals, not final policy decisions.
 
 The repository is intentionally structured so production services can replace mock components without a full rewrite.
+
+---
+
+Created with care for community by [Aarti S Ravikumar](https://ai-aarti.com/)

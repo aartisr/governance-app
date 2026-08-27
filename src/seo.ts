@@ -3,7 +3,7 @@ export interface PageMetadata {
   description: string;
 }
 
-const siteName = "Pareto Governance Engine";
+const siteName = "Civic Accord";
 const defaultMetadata: PageMetadata = {
   title: `${siteName} | Evidence-Based Civic Decision Support`,
   description: "Review bills, understand local impact, compare compromise options, and place evidence beside public input.",
