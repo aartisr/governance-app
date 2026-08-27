@@ -1,7 +1,8 @@
 import { mkdir, writeFile } from "node:fs/promises";
 import { resolve } from "node:path";
+import { INDEXNOW_KEY } from "./indexnow-config.mjs";
 
-const rawSiteUrl = process.env.PUBLIC_SITE_URL ?? process.env.VERCEL_PROJECT_PRODUCTION_URL ?? process.env.VERCEL_URL ?? "http://localhost:5180";
+const rawSiteUrl = process.env.PUBLIC_SITE_URL ?? process.env.VERCEL_PROJECT_PRODUCTION_URL ?? process.env.VERCEL_URL ?? "https://governanceapp.ai-aarti.com";
 const siteUrl = new URL(rawSiteUrl.startsWith("http") ? rawSiteUrl : `https://${rawSiteUrl}`).origin;
 const distDirectory = resolve("dist");
 const routes = ["/", "/bills", "/feedback", "/impact", "/compromise", "/trust"];
@@ -69,6 +70,7 @@ await Promise.all([
   writeFile(resolve(distDirectory, "ai.txt"), llms),
   writeFile(resolve(distDirectory, "site.webmanifest"), manifest),
   writeFile(resolve(distDirectory, "social-card.svg"), socialCard),
+  writeFile(resolve(distDirectory, `${INDEXNOW_KEY}.txt`), INDEXNOW_KEY),
 ]);
 
 console.log(`Generated discovery files for ${siteUrl}`);

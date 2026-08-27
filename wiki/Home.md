@@ -32,3 +32,7 @@ This workspace is built for that work. [Bring your voice to the main website](ht
 The public documentation site is available at [aartisr.github.io/governance-app](https://aartisr.github.io/governance-app/).
 
 Read the complete [plain-language example of how the Governance App works](https://aartisr.github.io/governance-app/how-it-works.html).
+
+---
+
+[Open the main website](https://governanceapp.ai-aarti.com/) · Created with care for community by [Aarti S Ravikumar](https://ai-aarti.com/)

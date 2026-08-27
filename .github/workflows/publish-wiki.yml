@@ -28,13 +28,20 @@ jobs:
         run: |
           test -n "$WIKI_PUSH_TOKEN" || { echo "Wiki publishing needs the WIKI_PUSH_TOKEN repository secret. Create a new classic GitHub PAT with the repo scope, store it as WIKI_PUSH_TOKEN, then rerun this workflow."; exit 1; }
           rm -rf published-wiki
-          git clone "https://x-access-token:${WIKI_PUSH_TOKEN}@github.com/${GITHUB_REPOSITORY}.wiki.git" published-wiki
-          rsync -a --delete wiki/ published-wiki/
+          git clone "https://x-access-token:${WIKI_PUSH_TOKEN}@github.com/${GITHUB_REPOSITORY}.wiki.git" published-wiki || { echo "Could not clone the Wiki repository. Enable Wikis for this repository and verify WIKI_PUSH_TOKEN has write access."; exit 1; }
           cd published-wiki
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add .
-          git diff --cached --quiet || git commit -m "docs: publish wiki"
           wiki_branch="$(git branch --show-current)"
-          git pull --rebase origin "$wiki_branch"
-          git push "https://x-access-token:${WIKI_PUSH_TOKEN}@github.com/${GITHUB_REPOSITORY}.wiki.git" "HEAD:${wiki_branch}"
+          for attempt in 1 2 3; do
+            git fetch origin "$wiki_branch"
+            git reset --hard "origin/${wiki_branch}"
+            rsync -a --delete ../wiki/ ./
+            git add .
+            git diff --cached --quiet && { echo "Wiki is already up to date."; exit 0; }
+            git commit -m "docs: publish wiki"
+            git push "https://x-access-token:${WIKI_PUSH_TOKEN}@github.com/${GITHUB_REPOSITORY}.wiki.git" "HEAD:${wiki_branch}" && exit 0
+            echo "Wiki changed during publication; retrying (${attempt}/3)."
+          done
+          echo "Could not publish the Wiki after three concurrent-update retries. Rerun the workflow."
+          exit 1

@@ -10,3 +10,5 @@
 - [[Contributing]]
 
 [Open the main website](https://governanceapp.ai-aarti.com/)
+
+Created with care for community by [Aarti S Ravikumar](https://ai-aarti.com/)
