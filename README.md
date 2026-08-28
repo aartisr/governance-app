@@ -31,6 +31,8 @@ For a non-technical walkthrough, follow one fictional bill from its text through
 
 [Read: How the Governance App Works](docs/how-the-governance-app-works.md) or [open the public guide](https://aartisr.github.io/governance-app/how-it-works.html).
 
+For the internal decision method, formulas, worked examples, and prototype limitations, read [Pareto Governance Engine: Methods and Mathematics](docs/pareto-governance-engine-and-math.md).
+
 ## Table Of Contents
 
 - An Invitation To Participate
