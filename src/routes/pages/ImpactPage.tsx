@@ -35,9 +35,8 @@ export function ImpactPage() {
             </select>
           </label>
         </div>
+        <p className="control-helper">Estimates show the share of residents affected after accounting for local demographics, business density, and rural or urban context.</p>
       </Card>
-
-      <p className="page-helper">Percentages estimate the share of residents affected after accounting for local demographics, business density, and rural or urban context.</p>
 
       <section className="impact-grid">
         {impacts.map((impact) => (

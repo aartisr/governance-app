@@ -3,22 +3,10 @@ import { Info, Menu, Scale, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import { primaryNavigationItems } from "../routes/navigation";
 import { updatePageMetadata } from "../seo";
-import {
-  applyThemeModeToBody,
-  emitThemeChanged,
-  getInitialThemeMode,
-  isThemeMode,
-  THEME_CHANGE_REQUEST_EVENT,
-  THEME_STORAGE_KEY,
-  themeModes,
-  type ThemeMode,
-} from "../theme/theme-mode";
 
 export function AppShell() {
   const pathname = useRouterState({ select: (state) => state.location.pathname });
   const [isNavOpen, setIsNavOpen] = useState(false);
-  const [themeMode, setThemeMode] = useState<ThemeMode>(getInitialThemeMode);
-  const [isThemeAnimating, setIsThemeAnimating] = useState(false);
 
   useEffect(() => {
     setIsNavOpen(false);
@@ -28,38 +16,8 @@ export function AppShell() {
     updatePageMetadata(pathname);
   }, [pathname]);
 
-  useEffect(() => {
-    window.localStorage.setItem(THEME_STORAGE_KEY, themeMode);
-    applyThemeModeToBody(themeMode);
-    emitThemeChanged(themeMode);
-
-    setIsThemeAnimating(true);
-    const timeoutId = window.setTimeout(() => {
-      setIsThemeAnimating(false);
-    }, 360);
-
-    return () => {
-      window.clearTimeout(timeoutId);
-    };
-  }, [themeMode]);
-
-  useEffect(() => {
-    const listener = (event: Event) => {
-      const customEvent = event as CustomEvent<ThemeMode>;
-      if (isThemeMode(customEvent.detail)) {
-        setThemeMode(customEvent.detail);
-      }
-    };
-
-    window.addEventListener(THEME_CHANGE_REQUEST_EVENT, listener);
-
-    return () => {
-      window.removeEventListener(THEME_CHANGE_REQUEST_EVENT, listener);
-    };
-  }, []);
-
   return (
-    <div className={`app-shell theme-${themeMode}${isThemeAnimating ? " theme-animating" : ""}${isNavOpen ? " nav-open" : ""}`}>
+    <div className={`app-shell${isNavOpen ? " nav-open" : ""}`}>
       <button
         type="button"
         className="mobile-nav-toggle"
@@ -90,22 +48,6 @@ export function AppShell() {
             <span>Powered by Pareto Governance Engine</span>
           </div>
         </div>
-
-        <section className="theme-switch" aria-label="Visual theme mode">
-          <p>Chamber mode</p>
-          <div className="theme-switch-buttons" role="group" aria-label="Theme selection">
-            {themeModes.map((mode) => (
-              <button
-                key={mode.id}
-                type="button"
-                className={mode.id === themeMode ? "active" : ""}
-                onClick={() => setThemeMode(mode.id)}
-              >
-                {mode.label}
-              </button>
-            ))}
-          </div>
-        </section>
 
         <nav id="workspace-navigation" className="nav-list" aria-label="Workspace navigation">
           {primaryNavigationItems.map((item) => {
