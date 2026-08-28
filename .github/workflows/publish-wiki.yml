@@ -32,16 +32,18 @@ jobs:
           cd published-wiki
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          wiki_branch="$(git branch --show-current)"
+          git remote set-url origin "https://x-access-token:${WIKI_PUSH_TOKEN}@github.com/${GITHUB_REPOSITORY}.wiki.git"
           for attempt in 1 2 3; do
-            git fetch origin "$wiki_branch"
-            git reset --hard "origin/${wiki_branch}"
+            wiki_branch="$(git ls-remote --symref origin HEAD | sed -n 's@^ref: refs/heads/\([^[:space:]]*\)[[:space:]].*@\1@p')"
+            test -n "$wiki_branch" || { echo "Could not identify the Wiki repository default branch."; exit 1; }
+            git fetch --prune origin "refs/heads/${wiki_branch}:refs/remotes/origin/${wiki_branch}"
+            git checkout -B "$wiki_branch" "origin/${wiki_branch}"
             rsync -a --delete ../wiki/ ./
             git add .
             git diff --cached --quiet && { echo "Wiki is already up to date."; exit 0; }
             GIT_AUTHOR_NAME="github-actions[bot]" GIT_AUTHOR_EMAIL="41898282+github-actions[bot]@users.noreply.github.com" GIT_COMMITTER_NAME="github-actions[bot]" GIT_COMMITTER_EMAIL="41898282+github-actions[bot]@users.noreply.github.com" git commit -m "docs: publish wiki"
-            git push "https://x-access-token:${WIKI_PUSH_TOKEN}@github.com/${GITHUB_REPOSITORY}.wiki.git" "HEAD:${wiki_branch}" && exit 0
+            git push origin "HEAD:refs/heads/${wiki_branch}" && exit 0
             echo "Wiki changed during publication; retrying (${attempt}/3)."
           done
-          echo "Could not publish the Wiki after three concurrent-update retries. Rerun the workflow."
+          echo "Could not publish the Wiki. If this is an authentication error, replace WIKI_PUSH_TOKEN with a new classic PAT that has the repo scope and repository write access."
           exit 1
