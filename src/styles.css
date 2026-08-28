@@ -1078,6 +1078,7 @@ th {
     left: 0;
     top: 0;
     bottom: 0;
+    z-index: 65;
     width: min(85vw, 320px);
     height: 100dvh;
     transform: translateX(-100%);
