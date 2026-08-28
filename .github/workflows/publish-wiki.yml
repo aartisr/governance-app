@@ -43,7 +43,15 @@ jobs:
             git add .
             git diff --cached --quiet && { echo "Wiki is already up to date."; exit 0; }
             GIT_AUTHOR_NAME="github-actions[bot]" GIT_AUTHOR_EMAIL="41898282+github-actions[bot]@users.noreply.github.com" GIT_COMMITTER_NAME="github-actions[bot]" GIT_COMMITTER_EMAIL="41898282+github-actions[bot]@users.noreply.github.com" git commit -m "docs: publish wiki"
-            git push origin "HEAD:refs/heads/${wiki_branch}" && exit 0
+            if push_output="$(GIT_TERMINAL_PROMPT=0 git push origin "HEAD:refs/heads/${wiki_branch}" 2>&1)"; then
+              echo "$push_output"
+              exit 0
+            fi
+            echo "$push_output"
+            if echo "$push_output" | grep -qiE 'authentication failed|could not read Username|repository not found|permission denied'; then
+              echo "Wiki authentication failed. Replace WIKI_PUSH_TOKEN with a new classic PAT that has the repo scope and write access to ${GITHUB_REPOSITORY}."
+              exit 1
+            fi
             echo "Wiki changed during publication; retrying (${attempt}/3)."
           done
           echo "Could not publish the Wiki. If this is an authentication error, replace WIKI_PUSH_TOKEN with a new classic PAT that has the repo scope and repository write access."
