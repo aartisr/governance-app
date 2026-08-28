@@ -27,14 +27,15 @@ jobs:
           WIKI_PUSH_TOKEN: ${{ secrets.WIKI_PUSH_TOKEN }}
         run: |
           test -n "$WIKI_PUSH_TOKEN" || { echo "Wiki publishing needs the WIKI_PUSH_TOKEN repository secret. Create a new classic GitHub PAT with the repo scope, store it as WIKI_PUSH_TOKEN, then rerun this workflow."; exit 1; }
+          auth_header="AUTHORIZATION: basic $(printf 'x-access-token:%s' "$WIKI_PUSH_TOKEN" | base64 | tr -d '\n')"
           rm -rf published-wiki
-          git clone "https://x-access-token:${WIKI_PUSH_TOKEN}@github.com/${GITHUB_REPOSITORY}.wiki.git" published-wiki || { echo "Could not clone the Wiki repository. Enable Wikis for this repository and verify WIKI_PUSH_TOKEN has write access."; exit 1; }
+          GIT_TERMINAL_PROMPT=0 git -c "http.https://github.com/.extraheader=${auth_header}" clone "https://github.com/${GITHUB_REPOSITORY}.wiki.git" published-wiki || { echo "Could not clone the Wiki repository. Enable Wikis for this repository and verify WIKI_PUSH_TOKEN has write access."; exit 1; }
           cd published-wiki
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git remote set-url origin "https://x-access-token:${WIKI_PUSH_TOKEN}@github.com/${GITHUB_REPOSITORY}.wiki.git"
+          git config http.https://github.com/.extraheader "$auth_header"
           for attempt in 1 2 3; do
-            wiki_branch="$(git ls-remote --symref origin HEAD | sed -n 's@^ref: refs/heads/\([^[:space:]]*\)[[:space:]].*@\1@p')"
+            wiki_branch="$(GIT_TERMINAL_PROMPT=0 git ls-remote --symref origin HEAD | sed -n 's@^ref: refs/heads/\([^[:space:]]*\)[[:space:]].*@\1@p')"
             test -n "$wiki_branch" || { echo "Could not identify the Wiki repository default branch."; exit 1; }
             git fetch --prune origin "refs/heads/${wiki_branch}:refs/remotes/origin/${wiki_branch}"
             git checkout -B "$wiki_branch" "origin/${wiki_branch}"
