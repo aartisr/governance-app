@@ -1,10 +1,15 @@
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
+import { ShieldCheck, Download } from "lucide-react";
 import { Badge, Card, Meter, PageHeader } from "../../components/ui";
+import { NistSafetyCardModal } from "../../components/NistSafetyCardModal";
+import { ReportExportModal } from "../../components/ReportExportModal";
 import { trustParticipants } from "../../data/governance-data";
 import { scoreTrust } from "../../services/governance-engine";
 
 export function TrustPage() {
   const ranked = useMemo(() => [...trustParticipants].sort((a, b) => scoreTrust(b) - scoreTrust(a)), []);
+  const [isNistModalOpen, setIsNistModalOpen] = useState(false);
+  const [isReportModalOpen, setIsReportModalOpen] = useState(false);
 
   return (
     <div className="page">
@@ -12,6 +17,24 @@ export function TrustPage() {
         eyebrow="Stakeholder trust"
         title="Understand source credibility"
         description="Scores range from 0 to 100. Accuracy carries the most weight, followed by expertise, consistency, and transparency. They add context to public input; they do not replace it."
+        actions={(
+          <>
+            <button
+              type="button"
+              onClick={() => setIsNistModalOpen(true)}
+              className="button primary flex items-center gap-1.5 text-xs"
+            >
+              <ShieldCheck size={16} /> NIST AI Safety Card
+            </button>
+            <button
+              type="button"
+              onClick={() => setIsReportModalOpen(true)}
+              className="button secondary flex items-center gap-1.5 text-xs"
+            >
+              <Download size={15} /> Export Audit Report
+            </button>
+          </>
+        )}
       />
 
       <p className="page-helper">Trust score: 36% accuracy, 28% expertise, 22% consistency, and 14% transparency.</p>
@@ -38,6 +61,10 @@ export function TrustPage() {
           );
         })}
       </section>
+
+      <NistSafetyCardModal isOpen={isNistModalOpen} onClose={() => setIsNistModalOpen(false)} />
+      <ReportExportModal isOpen={isReportModalOpen} onClose={() => setIsReportModalOpen(false)} />
     </div>
   );
 }
+

@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { Badge, Card, PageHeader } from "../../components/ui";
+import { MonteCarloRiskSimulator } from "../../components/MonteCarloRiskSimulator";
 import { districts } from "../../data/governance-data";
 import { getLocalizedImpacts, listBills } from "../../services/governance-engine";
 
@@ -50,6 +51,12 @@ export function ImpactPage() {
           </Card>
         ))}
       </section>
+
+      {/* 1,000-Run Monte Carlo Risk Simulator */}
+      <div className="mt-6">
+        <MonteCarloRiskSimulator />
+      </div>
     </div>
   );
 }
+

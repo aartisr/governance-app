@@ -1,6 +1,7 @@
 import { CheckCircle2, SlidersHorizontal } from "lucide-react";
 import { useState } from "react";
 import { Badge, Card, Meter, PageHeader } from "../../components/ui";
+import { InteractiveParetoSimulator } from "../../components/InteractiveParetoSimulator";
 import { factions, paretoScenario } from "../../data/governance-data";
 import { computeParetoFrontier, getRecommendedCompromise } from "../../services/governance-engine";
 
@@ -18,10 +19,15 @@ export function CompromisePage() {
         description="Compare amendments by shared benefit, minimum stakeholder support, and delivery risk to find options that hold up across groups."
       />
 
+      {/* Dynamic Interactive Pareto Simulator */}
+      <div className="mb-6">
+        <InteractiveParetoSimulator />
+      </div>
+
       <section className="dashboard-grid">
         <Card className="span-2">
           <div className="section-title">
-            <h2>Frontier map</h2>
+            <h2>Frontier map overview</h2>
             <Badge tone="green">{frontier.filter((point) => point.isParetoEfficient).length} strongest options</Badge>
           </div>
           <p className="card-helper">Green options deliver the strongest combined outcome. Higher is better: shared benefit reflects overall value, minimum support shows whether any group is left behind, and the final score accounts for delivery risk.</p>
@@ -76,3 +82,4 @@ export function CompromisePage() {
     </div>
   );
 }
+
