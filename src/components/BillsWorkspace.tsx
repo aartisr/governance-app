@@ -1,28 +1,27 @@
 import { useMemo, useState } from "react";
 import { Link } from "@tanstack/react-router";
-import { Badge, Card, Meter } from "./ui";
+import { Badge, Card } from "./ui";
 import { BillComparisonModal } from "./BillComparisonModal";
-import type { Bill, PolicyDomain } from "../domain/types";
+import { LegiScanDocketSyncModal } from "./LegiScanDocketSyncModal";
+import type { Bill } from "../domain/types";
 import { evidenceSources } from "../data/governance-data";
 import {
   ArrowRight,
   Check,
-  CheckSquare,
   Columns,
-  Compass,
   DollarSign,
   FileCode,
-  FileText,
   Filter,
   Layers,
   LayoutGrid,
-  ListFilter,
+  Radio,
+  RotateCcw,
   Search,
   ShieldCheck,
-  Sliders,
   Sparkles,
   Table as TableIcon,
   X,
+  SlidersHorizontal,
 } from "lucide-react";
 
 interface BillsWorkspaceProps {
@@ -38,6 +37,16 @@ export function BillsWorkspace({ bills }: BillsWorkspaceProps) {
   const [activeBillId, setActiveBillId] = useState<string>(bills[0]?.id ?? "");
   const [comparedBillIds, setComparedBillIds] = useState<string[]>([]);
   const [isCompareModalOpen, setIsCompareModalOpen] = useState(false);
+  const [isLegiScanModalOpen, setIsLegiScanModalOpen] = useState(false);
+
+  // Compute domain counts for navigation tabs
+  const domainCounts = useMemo(() => {
+    const counts: Record<string, number> = { all: bills.length };
+    bills.forEach((b) => {
+      counts[b.domain] = (counts[b.domain] || 0) + 1;
+    });
+    return counts;
+  }, [bills]);
 
   // Filter logic
   const filteredBills = useMemo(() => {
@@ -119,13 +128,26 @@ export function BillsWorkspace({ bills }: BillsWorkspaceProps) {
     return bills.filter((b) => comparedBillIds.includes(b.id));
   }, [bills, comparedBillIds]);
 
+  const isFilterActive =
+    searchTerm.trim() !== "" ||
+    selectedDomain !== "all" ||
+    selectedStatus !== "all" ||
+    activePreset !== "all";
+
+  const clearAllFilters = () => {
+    setSearchTerm("");
+    setSelectedDomain("all");
+    setSelectedStatus("all");
+    setActivePreset("all");
+  };
+
   return (
     <div className="space-y-6">
       {/* Executive KPI Summary Strip */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
         <div className="bg-white border border-slate-200 rounded-xl p-4 shadow-xs">
           <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider block mb-1">
-            Active Docket Corpus
+            Active Legislative Corpus
           </span>
           <div className="flex items-baseline justify-between">
             <span className="text-2xl font-serif font-bold text-slate-900">{bills.length}</span>
@@ -176,164 +198,222 @@ export function BillsWorkspace({ bills }: BillsWorkspaceProps) {
         </div>
       </div>
 
-      {/* Control Toolbar & Filters */}
-      <Card className="p-4 bg-white border border-slate-200 shadow-xs">
-        <div className="flex flex-col lg:flex-row gap-4 justify-between lg:items-center mb-4">
-          {/* Search Box */}
-          <div className="relative flex-1 max-w-lg">
-            <Search className="absolute left-3.5 top-2.5 text-slate-400" size={16} />
-            <input
-              type="text"
-              placeholder="Search by title, bill number, sponsor, or clause..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-10 pr-9 py-2 bg-slate-50 border border-slate-300 rounded-lg text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:bg-white transition-all font-medium"
-            />
-            {searchTerm && (
+      {/* ULTRA-MODERN DISCOVERY & FILTER SUITE */}
+      <div className="bg-white border border-slate-200 rounded-2xl p-5 shadow-xs space-y-4">
+        {/* Row 1: Prominent Search Input */}
+        <div className="relative">
+          <Search className="absolute left-4 top-3.5 text-slate-400" size={18} />
+          <input
+            type="text"
+            placeholder="Search legislative bills by title, bill number, sponsor, or statutory clause..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="w-full pl-11 pr-20 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:bg-white transition-all font-medium"
+          />
+          <div className="absolute right-3 top-3 flex items-center gap-1.5">
+            {searchTerm ? (
               <button
                 type="button"
                 onClick={() => setSearchTerm("")}
-                className="absolute right-3 top-2.5 text-slate-400 hover:text-slate-700"
+                className="p-1 rounded-md text-slate-400 hover:text-slate-700 hover:bg-slate-200 transition-colors"
+                title="Clear search"
               >
-                <X size={14} />
+                <X size={16} />
               </button>
+            ) : (
+              <kbd className="hidden sm:inline-block px-2 py-0.5 text-[10px] font-mono font-semibold text-slate-400 bg-slate-200/60 rounded border border-slate-300">
+                /
+              </kbd>
             )}
           </div>
+        </div>
 
-          {/* Preset Buttons & View Switcher */}
+        {/* Row 2: Policy Domain Navigation Tabs */}
+        <div className="flex items-center gap-1 overflow-x-auto pb-1 scrollbar-none border-b border-slate-100 text-xs">
+          {[
+            { id: "all", label: "All Policy Domains" },
+            { id: "infrastructure", label: "Infrastructure" },
+            { id: "health", label: "Public Health" },
+            { id: "tax", label: "Tax & Fiscal" },
+            { id: "climate", label: "Climate & Energy" },
+            { id: "security", label: "Security & Tech" },
+            { id: "civil-rights", label: "Civil Rights" },
+          ].map((domain) => {
+            const count = domainCounts[domain.id] || 0;
+            const isSelected = selectedDomain === domain.id;
+            return (
+              <button
+                key={domain.id}
+                type="button"
+                onClick={() => setSelectedDomain(domain.id)}
+                className={`px-3 py-2 rounded-lg font-medium whitespace-nowrap transition-all flex items-center gap-1.5 ${
+                  isSelected
+                    ? "bg-slate-900 text-white shadow-xs font-semibold"
+                    : "text-slate-600 hover:bg-slate-100 hover:text-slate-900"
+                }`}
+              >
+                <span>{domain.label}</span>
+                <span
+                  className={`px-1.5 py-0.5 rounded-full text-[10px] font-mono font-bold ${
+                    isSelected ? "bg-slate-700 text-white" : "bg-slate-100 text-slate-500"
+                  }`}
+                >
+                  {count}
+                </span>
+              </button>
+            );
+          })}
+        </div>
+
+        {/* Row 3: Filter Controls & Tools Bar */}
+        <div className="flex flex-wrap items-center justify-between gap-3 text-xs pt-1">
           <div className="flex flex-wrap items-center gap-2">
-            {/* Quick Presets */}
-            <div className="flex items-center gap-1 bg-slate-100 p-1 rounded-lg border border-slate-200">
-              <button
-                type="button"
-                onClick={() => setActivePreset("all")}
-                className={`px-2.5 py-1 text-xs rounded-md font-medium transition-all ${
-                  activePreset === "all"
-                    ? "bg-white text-slate-900 shadow-xs"
-                    : "text-slate-600 hover:text-slate-900"
-                }`}
+            {/* Status Dropdown */}
+            <div className="flex items-center gap-1.5 bg-slate-50 border border-slate-200 rounded-lg px-2.5 py-1.5">
+              <Filter size={13} className="text-slate-400" />
+              <span className="text-slate-500 font-medium text-[11px]">Status:</span>
+              <select
+                value={selectedStatus}
+                onChange={(e) => setSelectedStatus(e.target.value)}
+                className="bg-transparent text-slate-900 font-semibold text-xs focus:outline-none cursor-pointer"
               >
-                All
-              </button>
-              <button
-                type="button"
-                onClick={() => setActivePreset("high-impact")}
-                className={`px-2.5 py-1 text-xs rounded-md font-medium transition-all ${
-                  activePreset === "high-impact"
-                    ? "bg-white text-emerald-950 shadow-xs"
-                    : "text-slate-600 hover:text-slate-900"
-                }`}
-              >
-                High Impact ($200M+)
-              </button>
-              <button
-                type="button"
-                onClick={() => setActivePreset("needs-compromise")}
-                className={`px-2.5 py-1 text-xs rounded-md font-medium transition-all ${
-                  activePreset === "needs-compromise"
-                    ? "bg-white text-amber-950 shadow-xs"
-                    : "text-slate-600 hover:text-slate-900"
-                }`}
-              >
-                Needs Compromise
-              </button>
+                <option value="all">All Statuses</option>
+                <option value="ready">Ready (3)</option>
+                <option value="negotiating">Negotiating (1)</option>
+                <option value="stalled">Stalled (1)</option>
+                <option value="committee">Committee (0)</option>
+              </select>
             </div>
 
-            {/* View Mode Toggle */}
-            <div className="flex items-center gap-1 bg-slate-100 p-1 rounded-lg border border-slate-200 ml-auto">
+            {/* Impact Preset Dropdown */}
+            <div className="flex items-center gap-1.5 bg-slate-50 border border-slate-200 rounded-lg px-2.5 py-1.5">
+              <SlidersHorizontal size={13} className="text-slate-400" />
+              <span className="text-slate-500 font-medium text-[11px]">Quick Filter:</span>
+              <select
+                value={activePreset}
+                onChange={(e) => setActivePreset(e.target.value)}
+                className="bg-transparent text-slate-900 font-semibold text-xs focus:outline-none cursor-pointer"
+              >
+                <option value="all">All Proposals</option>
+                <option value="high-impact">High Impact ($200M+)</option>
+                <option value="high-confidence">High Confidence (85%+)</option>
+                <option value="needs-compromise">Needs Compromise</option>
+              </select>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-2 ml-auto">
+            {/* LegiScan API Sync Modal Trigger */}
+            <button
+              type="button"
+              onClick={() => setIsLegiScanModalOpen(true)}
+              className="bg-emerald-50 text-emerald-900 hover:bg-emerald-100 border border-emerald-200 rounded-lg px-3 py-1.5 font-semibold text-xs flex items-center gap-1.5 transition-colors"
+            >
+              <Radio size={13} className="text-emerald-600 animate-pulse" /> LegiScan Live Feed
+            </button>
+
+            {/* View Mode Segmented Control */}
+            <div className="flex items-center gap-0.5 bg-slate-100 p-1 rounded-lg border border-slate-200">
               <button
                 type="button"
                 onClick={() => setViewMode("split")}
-                className={`px-3 py-1 text-xs rounded-md font-medium flex items-center gap-1.5 transition-all ${
+                className={`px-3 py-1 rounded-md text-xs font-medium flex items-center gap-1.5 transition-all ${
                   viewMode === "split"
-                    ? "bg-white text-blue-950 shadow-xs"
+                    ? "bg-white text-blue-950 shadow-xs font-semibold"
                     : "text-slate-600 hover:text-slate-900"
                 }`}
                 title="Split Inspector View"
               >
-                <LayoutGrid size={14} /> Split View
+                <LayoutGrid size={13} /> Split View
               </button>
               <button
                 type="button"
                 onClick={() => setViewMode("table")}
-                className={`px-3 py-1 text-xs rounded-md font-medium flex items-center gap-1.5 transition-all ${
+                className={`px-3 py-1 rounded-md text-xs font-medium flex items-center gap-1.5 transition-all ${
                   viewMode === "table"
-                    ? "bg-white text-blue-950 shadow-xs"
+                    ? "bg-white text-blue-950 shadow-xs font-semibold"
                     : "text-slate-600 hover:text-slate-900"
                 }`}
-                title="Data Corpus Table"
+                title="Corpus Table View"
               >
-                <TableIcon size={14} /> Corpus Table
+                <TableIcon size={13} /> Corpus Table
               </button>
             </div>
           </div>
         </div>
 
-        {/* Domain & Status Chip Filters */}
-        <div className="flex flex-wrap items-center gap-2 pt-3 border-t border-slate-100 text-xs">
-          <span className="text-slate-400 font-semibold uppercase tracking-wider text-[10px] mr-1">
-            Filter Domain:
-          </span>
-          {["all", "infrastructure", "health", "tax", "climate", "security", "civil-rights"].map(
-            (domain) => (
+        {/* Row 4: Active Filter Tags & Count Summary (Only visible when filters are applied) */}
+        {isFilterActive && (
+          <div className="flex flex-wrap items-center justify-between gap-2 pt-3 border-t border-slate-100 text-xs animate-fade-in">
+            <div className="flex flex-wrap items-center gap-1.5">
+              <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider mr-1">
+                Active Filters:
+              </span>
+
+              {searchTerm.trim() !== "" && (
+                <span className="bg-blue-50 text-blue-800 border border-blue-200 px-2 py-0.5 rounded-full font-medium text-[11px] flex items-center gap-1">
+                  Query: "{searchTerm}"
+                  <button type="button" onClick={() => setSearchTerm("")} className="hover:text-blue-950">
+                    <X size={12} />
+                  </button>
+                </span>
+              )}
+
+              {selectedDomain !== "all" && (
+                <span className="bg-indigo-50 text-indigo-800 border border-indigo-200 px-2 py-0.5 rounded-full font-medium text-[11px] flex items-center gap-1">
+                  Domain: {selectedDomain.toUpperCase()}
+                  <button type="button" onClick={() => setSelectedDomain("all")} className="hover:text-indigo-950">
+                    <X size={12} />
+                  </button>
+                </span>
+              )}
+
+              {selectedStatus !== "all" && (
+                <span className="bg-emerald-50 text-emerald-800 border border-emerald-200 px-2 py-0.5 rounded-full font-medium text-[11px] flex items-center gap-1">
+                  Status: {selectedStatus.toUpperCase()}
+                  <button type="button" onClick={() => setSelectedStatus("all")} className="hover:text-emerald-950">
+                    <X size={12} />
+                  </button>
+                </span>
+              )}
+
+              {activePreset !== "all" && (
+                <span className="bg-amber-50 text-amber-900 border border-amber-200 px-2 py-0.5 rounded-full font-medium text-[11px] flex items-center gap-1">
+                  Preset: {activePreset}
+                  <button type="button" onClick={() => setActivePreset("all")} className="hover:text-amber-950">
+                    <X size={12} />
+                  </button>
+                </span>
+              )}
+
               <button
-                key={domain}
                 type="button"
-                onClick={() => setSelectedDomain(domain)}
-                className={`px-2.5 py-1 rounded-full text-xs transition-all ${
-                  selectedDomain === domain
-                    ? "bg-slate-900 text-white font-semibold shadow-xs"
-                    : "bg-slate-100 text-slate-600 hover:bg-slate-200"
-                }`}
+                onClick={clearAllFilters}
+                className="text-[11px] text-slate-500 hover:text-slate-900 underline font-medium ml-1 flex items-center gap-1"
               >
-                {domain === "all" ? "All Domains" : domain.toUpperCase()}
+                <RotateCcw size={11} /> Reset all filters
               </button>
-            )
-          )}
+            </div>
 
-          <div className="h-4 w-px bg-slate-200 mx-1 hidden sm:block" />
+            <span className="text-[11px] text-slate-500 font-mono">
+              Showing {filteredBills.length} of {bills.length} bills
+            </span>
+          </div>
+        )}
+      </div>
 
-          <span className="text-slate-400 font-semibold uppercase tracking-wider text-[10px] mr-1">
-            Status:
-          </span>
-          {["all", "ready", "negotiating", "stalled", "committee"].map((st) => (
-            <button
-              key={st}
-              type="button"
-              onClick={() => setSelectedStatus(st)}
-              className={`px-2.5 py-1 rounded-full text-xs transition-all ${
-                selectedStatus === st
-                  ? "bg-blue-600 text-white font-semibold shadow-xs"
-                  : "bg-slate-100 text-slate-600 hover:bg-slate-200"
-              }`}
-            >
-              {st === "all" ? "All Statuses" : st}
-            </button>
-          ))}
-
-          <span className="ml-auto text-slate-400 font-mono text-[11px]">
-            Showing {filteredBills.length} of {bills.length} bills
-          </span>
-        </div>
-      </Card>
-
-      {/* Main Content Area */}
+      {/* Main Workspace View */}
       {filteredBills.length === 0 ? (
-        <Card className="p-12 text-center text-slate-500 bg-white border border-slate-200">
+        <Card className="p-12 text-center text-slate-500 bg-white border border-slate-200 rounded-2xl">
           <FileCode size={36} className="mx-auto text-slate-300 mb-3" />
           <h3 className="font-serif font-bold text-slate-800 text-base mb-1">No legislative bills match your search</h3>
           <p className="text-xs text-slate-500 mb-4">Try clearing your search query or selecting a different policy domain filter.</p>
           <button
             type="button"
-            onClick={() => {
-              setSearchTerm("");
-              setSelectedDomain("all");
-              setSelectedStatus("all");
-              setActivePreset("all");
-            }}
+            onClick={clearAllFilters}
             className="button secondary text-xs"
           >
-            Reset Filters
+            Clear All Filters
           </button>
         </Card>
       ) : viewMode === "split" ? (
@@ -404,7 +484,7 @@ export function BillsWorkspace({ bills }: BillsWorkspaceProps) {
 
           {/* Right Column: Selected Bill Inspector Pane */}
           <div className="lg:col-span-7 sticky top-4">
-            <Card className="p-6 bg-white border border-slate-200 shadow-sm space-y-6">
+            <Card className="p-6 bg-white border border-slate-200 shadow-sm rounded-2xl space-y-6">
               {/* Header */}
               <div>
                 <div className="flex items-center justify-between gap-3 mb-2">
@@ -443,7 +523,7 @@ export function BillsWorkspace({ bills }: BillsWorkspaceProps) {
                   to="/impact"
                   className="button secondary text-xs flex items-center gap-1.5"
                 >
-                  See Local District Impact
+                  See District Impact
                 </Link>
                 <Link
                   to="/compromise"
@@ -518,7 +598,7 @@ export function BillsWorkspace({ bills }: BillsWorkspaceProps) {
         </div>
       ) : (
         /* Structured Data Table Mode */
-        <Card className="p-4 bg-white border border-slate-200 shadow-xs overflow-x-auto">
+        <Card className="p-4 bg-white border border-slate-200 shadow-xs rounded-2xl overflow-x-auto">
           <table className="w-full text-left border-collapse">
             <thead>
               <tr className="border-b border-slate-200 text-[11px] font-bold uppercase tracking-wider text-slate-400">
@@ -620,6 +700,12 @@ export function BillsWorkspace({ bills }: BillsWorkspaceProps) {
         onClose={() => setIsCompareModalOpen(false)}
         selectedBills={comparedBills}
         onRemoveBill={(id) => setComparedBillIds((prev) => prev.filter((item) => item !== id))}
+      />
+
+      {/* LegiScan API Sync Modal */}
+      <LegiScanDocketSyncModal
+        isOpen={isLegiScanModalOpen}
+        onClose={() => setIsLegiScanModalOpen(false)}
       />
     </div>
   );
