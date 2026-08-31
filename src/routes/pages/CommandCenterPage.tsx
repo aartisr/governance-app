@@ -1,7 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
 import { Link } from "@tanstack/react-router";
-import { ArrowRight, BookOpenText, CircleCheck, GitMerge, Landmark, ShieldCheck, Vote, type LucideIcon } from "lucide-react";
-import { Badge, Card, Meter, PageHeader, StatCard } from "../../components/ui";
+import { useState } from "react";
+import { ArrowRight, BookOpenText, CircleCheck, Download, GitMerge, Landmark, ShieldCheck, Vote, type LucideIcon } from "lucide-react";
+import { Badge, Card, PageHeader, StatCard } from "../../components/ui";
+import { NistSafetyCardModal } from "../../components/NistSafetyCardModal";
+import { ReportExportModal } from "../../components/ReportExportModal";
 import { districts, trustParticipants } from "../../data/governance-data";
 import { getGovernanceSnapshot, getRecommendedCompromise, scoreTrust } from "../../services/governance-engine";
 
@@ -12,6 +15,9 @@ export function CommandCenterPage() {
   const featuredBill = activeBills[0];
   const trustAverage = trustParticipants.reduce((sum, item) => sum + scoreTrust(item), 0) / trustParticipants.length;
 
+  const [isNistModalOpen, setIsNistModalOpen] = useState(false);
+  const [isReportModalOpen, setIsReportModalOpen] = useState(false);
+
   return (
     <div className="page">
       <PageHeader
@@ -20,12 +26,26 @@ export function CommandCenterPage() {
         description="Read the proposal, understand who is affected, and compare a path forward without losing sight of the evidence."
         actions={(
           <>
-            <Link to="/bills" className="button secondary">Browse all bills</Link>
+            <button
+              type="button"
+              onClick={() => setIsNistModalOpen(true)}
+              className="button secondary flex items-center gap-1.5 text-xs"
+            >
+              <ShieldCheck size={15} className="text-teal-600" /> NIST Safety Card
+            </button>
+            <button
+              type="button"
+              onClick={() => setIsReportModalOpen(true)}
+              className="button secondary flex items-center gap-1.5 text-xs"
+            >
+              <Download size={15} className="text-blue-600" /> Export Audit Report
+            </button>
             <Link to="/compromise" className="button primary">Review the recommendation <ArrowRight size={16} /></Link>
           </>
         )}
       />
 
+      {/* Decision Briefing */}
       <section className="decision-brief" aria-labelledby="decision-brief-title">
         <div className="decision-brief-main">
           <div className="decision-brief-heading">
@@ -51,6 +71,7 @@ export function CommandCenterPage() {
         </div>
       </section>
 
+      {/* Navigation Cards */}
       <section className="homepage-grid">
         <Card className="journey-card">
           <div className="section-title">
@@ -93,16 +114,31 @@ export function CommandCenterPage() {
             <li><CircleCheck size={16} /> Local-impact assumptions are visible</li>
             <li><CircleCheck size={16} /> Trust scores show how they are weighted</li>
           </ul>
-          <Link to="/trust" className="brief-text-link">Review source credibility <ArrowRight size={15} /></Link>
+          <div className="flex flex-col gap-2 mt-4">
+            <button
+              type="button"
+              onClick={() => setIsNistModalOpen(true)}
+              className="text-xs font-semibold text-teal-800 hover:text-teal-950 flex items-center gap-1"
+            >
+              Open NIST AI Safety Card <ArrowRight size={14} />
+            </button>
+            <Link to="/trust" className="brief-text-link">Review source credibility <ArrowRight size={15} /></Link>
+          </div>
         </Card>
       </section>
 
+      {/* Stats Line */}
       <section className="stat-grid homepage-stats" aria-label="Current civic workspace context">
         <StatCard label="Bills ready to review" value={snapshot.isPending ? "..." : activeBills.length} detail="across the current briefing" intent="strong" />
         <StatCard label="District perspectives" value={districts.length} detail="available for impact comparison" />
         <StatCard label="Source trust signal" value={`${Math.round(trustAverage * 100)}%`} detail="weighted credibility context" intent="good" />
         <StatCard label="Recommendation status" value="Inspectable" detail="a simulation, never a final decision" intent="warn" />
       </section>
+
+      {/* Modals */}
+      <NistSafetyCardModal isOpen={isNistModalOpen} onClose={() => setIsNistModalOpen(false)} />
+      <ReportExportModal isOpen={isReportModalOpen} onClose={() => setIsReportModalOpen(false)} />
     </div>
   );
 }
+

@@ -168,3 +168,74 @@ export const paretoScenario: ParetoScenario = {
     { id: "amend-sunset", title: "Five-year sunset with renewal vote", description: "Adds a renewal requirement tied to impact evidence and district-level public reporting.", utility: { "growth-caucus": 0.76, "equity-bloc": 0.73, "fiscal-guardians": 0.84 }, risk: 0.18, implementationComplexity: 0.25 },
   ],
 };
+
+export type PublicComment = {
+  id: string;
+  billId: string;
+  districtId: string;
+  author: string;
+  role: string;
+  sentiment: "support" | "oppose" | "condition";
+  theme: "Small Business" | "Travel Time" | "Oversight" | "Budget" | "Equity";
+  quote: string;
+  trustWeight: number;
+};
+
+export const publicComments: PublicComment[] = [
+  {
+    id: "pc-101",
+    billId: "hr-104",
+    districtId: "ca-12",
+    author: "Maria Santos",
+    role: "Local Main Street Merchant",
+    sentiment: "support",
+    theme: "Small Business",
+    quote: "Construction disruption tax credits give us breathing room to keep employees on payroll while public works upgrade the transit corridor.",
+    trustWeight: 0.88,
+  },
+  {
+    id: "pc-102",
+    billId: "hr-104",
+    districtId: "ia-04",
+    author: "David Miller",
+    role: "County Agricultural Supervisor",
+    sentiment: "condition",
+    theme: "Budget",
+    quote: "We support bridge guarantees provided the matching requirements do not over-burden rural counties with low tax bases.",
+    trustWeight: 0.82,
+  },
+  {
+    id: "pc-103",
+    billId: "s-219",
+    districtId: "ia-04",
+    author: "Dr. Sarah Jenkins",
+    role: "Rural Clinic Physician",
+    sentiment: "support",
+    theme: "Travel Time",
+    quote: "Mobile clinic fleets reduce patient travel time from 45 miles to under 10 miles for routine diagnostic screenings.",
+    trustWeight: 0.94,
+  },
+  {
+    id: "pc-104",
+    billId: "hr-332",
+    districtId: "ga-05",
+    author: "Marcus Vance",
+    role: "Civic Data Specialist",
+    sentiment: "support",
+    theme: "Oversight",
+    quote: "Public evidence provenance ensures constituents can inspect baseline claims without proprietary black-box algorithms filtering facts.",
+    trustWeight: 0.91,
+  },
+  {
+    id: "pc-105",
+    billId: "hr-104",
+    districtId: "ga-05",
+    author: "Tanya Robinson",
+    role: "Neighborhood Association Director",
+    sentiment: "condition",
+    theme: "Equity",
+    quote: "The dashboard must require neighborhood-level resolution so low-income census tracts receive equitable allocation of bond guarantees.",
+    trustWeight: 0.85,
+  },
+];
+

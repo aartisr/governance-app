@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Badge, Card, PageHeader } from "../../components/ui";
+import { PublicCommentParser } from "../../components/PublicCommentParser";
 import { factions } from "../../data/governance-data";
 import type { Faction, VoiceAllocation } from "../../domain/types";
 import { calculateQuadraticCost, summarizeVoiceBudget } from "../../services/governance-engine";
@@ -71,6 +72,12 @@ export function FeedbackPage() {
           </div>
         </Card>
       </section>
+
+      {/* Public Comment & Town Hall Parser */}
+      <div className="mt-6">
+        <PublicCommentParser />
+      </div>
     </div>
   );
 }
+
