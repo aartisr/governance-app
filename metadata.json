@@ -1,0 +1,6 @@
+{
+  "name": "Civic Accord Evaluation & Audit Benchmark",
+  "description": "Comprehensive 1 to 10 rating, architectural audit, NIST AI RMF compliance analysis, and interactive simulation benchmark for governanceapp.ai-aarti.com.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
