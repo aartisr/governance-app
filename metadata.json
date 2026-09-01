@@ -1,0 +1,6 @@
+{
+  "name": "Civic Accord - Governance App Video & Demo",
+  "description": "End-to-end interactive video demonstration and live simulation studio for the Civic Accord Pareto Governance Engine.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
