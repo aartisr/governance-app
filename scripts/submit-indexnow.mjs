@@ -1,13 +1,20 @@
 import {
   INDEXNOW_ENDPOINT,
   INDEXNOW_KEY,
-  INDEXNOW_ROUTES,
+  INDEXNOW_APP_ROUTES,
+  INDEXNOW_DOCS_ROUTES,
+  GITHUB_PAGES_URL,
   PUBLIC_SITE_URL,
 } from "./indexnow-config.mjs";
 
 const rawSiteUrl = process.env.PUBLIC_SITE_URL ?? PUBLIC_SITE_URL;
 const canonicalSiteUrl = new URL(rawSiteUrl.startsWith("http") ? rawSiteUrl : `https://${rawSiteUrl}`);
-const sites = [{ label: "canonical app", siteUrl: canonicalSiteUrl, routes: INDEXNOW_ROUTES }];
+const rawDocsUrl = process.env.GITHUB_PAGES_URL ?? GITHUB_PAGES_URL;
+const docsSiteUrl = new URL(rawDocsUrl.startsWith("http") ? rawDocsUrl : `https://${rawDocsUrl}`);
+const sites = [
+  { label: "canonical app", siteUrl: canonicalSiteUrl, routes: INDEXNOW_APP_ROUTES },
+  { label: "GitHub Pages docs", siteUrl: docsSiteUrl, routes: INDEXNOW_DOCS_ROUTES },
+];
 
 let submittedCount = 0;
 for (const { label, siteUrl, routes } of sites) {
