@@ -1,10 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
 import { Link } from "@tanstack/react-router";
 import { useState } from "react";
-import { ArrowRight, BookOpenText, CircleCheck, Download, GitMerge, Landmark, ShieldCheck, Vote, type LucideIcon } from "lucide-react";
+import { ArrowRight, BookOpenText, CircleCheck, Download, GitMerge, Landmark, ShieldCheck, Sparkles, Video, Vote, type LucideIcon } from "lucide-react";
 import { Badge, Card, PageHeader, StatCard } from "../../components/ui";
 import { NistSafetyCardModal } from "../../components/NistSafetyCardModal";
 import { ReportExportModal } from "../../components/ReportExportModal";
+import { AiPolicyInspectorModal } from "../../components/AiPolicyInspectorModal";
 import { districts, trustParticipants } from "../../data/governance-data";
 import { getGovernanceSnapshot, getRecommendedCompromise, scoreTrust } from "../../services/governance-engine";
 
@@ -17,6 +18,7 @@ export function CommandCenterPage() {
 
   const [isNistModalOpen, setIsNistModalOpen] = useState(false);
   const [isReportModalOpen, setIsReportModalOpen] = useState(false);
+  const [isAiModalOpen, setIsAiModalOpen] = useState(false);
 
   return (
     <div className="page">
@@ -26,6 +28,19 @@ export function CommandCenterPage() {
         description="Read the proposal, understand who is affected, and compare a path forward without losing sight of the evidence."
         actions={(
           <>
+            <Link
+              to="/demo"
+              className="button primary flex items-center gap-1.5 text-xs bg-amber-600 hover:bg-amber-700 text-white font-semibold shadow-xs"
+            >
+              <Video size={15} /> Video Demo
+            </Link>
+            <button
+              type="button"
+              onClick={() => setIsAiModalOpen(true)}
+              className="button primary flex items-center gap-1.5 text-xs bg-indigo-600 hover:bg-indigo-700 text-white"
+            >
+              <Sparkles size={15} /> Gemini AI Analysis
+            </button>
             <button
               type="button"
               onClick={() => setIsNistModalOpen(true)}
@@ -40,7 +55,7 @@ export function CommandCenterPage() {
             >
               <Download size={15} className="text-blue-600" /> Export Audit Report
             </button>
-            <Link to="/compromise" className="button primary">Review the recommendation <ArrowRight size={16} /></Link>
+            <Link to="/compromise" className="button secondary">Review recommendation <ArrowRight size={16} /></Link>
           </>
         )}
       />
@@ -136,6 +151,13 @@ export function CommandCenterPage() {
       </section>
 
       {/* Modals */}
+      <AiPolicyInspectorModal
+        isOpen={isAiModalOpen}
+        onClose={() => setIsAiModalOpen(false)}
+        billTitle={featuredBill?.title ?? "Federal AI & Governance Framework"}
+        billSummary={featuredBill?.summary ?? "Comprehensive regulatory guidelines for high-risk AI models and public infrastructure"}
+        topic="Legislative Decision Briefing"
+      />
       <NistSafetyCardModal isOpen={isNistModalOpen} onClose={() => setIsNistModalOpen(false)} />
       <ReportExportModal isOpen={isReportModalOpen} onClose={() => setIsReportModalOpen(false)} />
     </div>

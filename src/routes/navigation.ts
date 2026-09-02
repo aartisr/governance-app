@@ -1,10 +1,10 @@
-import { BarChart3, BookOpenText, GitBranch, Landmark, ShieldCheck, Vote, type LucideIcon } from "lucide-react";
+import { BarChart3, BookOpenText, GitBranch, Landmark, ShieldCheck, Video, Vote, type LucideIcon } from "lucide-react";
 
 export type NavMatchMode = "exact" | "prefix";
 
 export interface NavigationItem {
   id: string;
-  path: "/" | "/bills" | "/feedback" | "/impact" | "/compromise" | "/trust";
+  path: "/" | "/bills" | "/feedback" | "/impact" | "/compromise" | "/trust" | "/demo";
   label: string;
   icon: LucideIcon;
   match: NavMatchMode;
@@ -17,4 +17,5 @@ export const primaryNavigationItems: NavigationItem[] = [
   { id: "impact", path: "/impact", label: "Impact", icon: Landmark, match: "prefix" },
   { id: "compromise", path: "/compromise", label: "Compromise analysis", icon: GitBranch, match: "prefix" },
   { id: "trust", path: "/trust", label: "Stakeholder trust", icon: ShieldCheck, match: "prefix" },
+  { id: "demo", path: "/demo", label: "Video Demo", icon: Video, match: "prefix" },
 ];
