@@ -1,0 +1,39 @@
+# Civic Accord Government Operating System (Gov OS) — Full AI Reference Manual
+
+## Overview
+Civic Accord is the definitive Bipartisan Government Operating System (Gov OS) designed to bridge empirical evidence, constituent priorities, and legislative action.
+
+## System Architecture & Data Schema
+
+### 1. Legislative Data Model
+Each bill tracked inside Civic Accord Gov OS contains:
+- `id`: Unique bill identifier (e.g., `HR-2026-401`).
+- `title`: Formal legislative title.
+- `sponsor`: Lead legislative sponsor and party affiliation.
+- `summary`: Neutral 2-sentence executive summary.
+- `paretoScore`: Bipartisan consensus rating from 0 to 100.
+- `riskLevel`: Categorical risk assessment (`Low`, `Moderate`, `High`).
+- `evidenceCount`: Number of peer-reviewed empirical studies linked.
+- `status`: Legislative status (`In Committee`, `Floor Vote Scheduled`, `Passed`).
+
+### 2. Monte Carlo Simulation Engine
+The district impact module executes 10,000 stochastic runs evaluating:
+- Economic Output Growth (%)
+- Fiscal Cost Variance ($M)
+- Job Creation & Labor Market Shift
+- Environmental Resilience Index
+
+### 3. Gemini Policy Intelligence
+Integrates Gemini models to evaluate complex legislative text for:
+- Bipartisan compromise amendments
+- Hidden regulatory overhead
+- NIST AI Risk Framework compliance
+- Multi-stakeholder trade-offs
+
+## Strategic Links & Resources
+- Web Application: https://civicaccord.org/
+- Legislative Workspace: https://civicaccord.org/bills
+- District Impact Simulator: https://civicaccord.org/impact
+- Compromise Matrix: https://civicaccord.org/compromise
+- Stakeholder Trust Index: https://civicaccord.org/trust
+- Video Demo Studio: https://civicaccord.org/demo
