@@ -1,0 +1,51 @@
+# Civic Accord — The Bipartisan Government Operating System (Gov OS)
+
+> Civic Accord is the premier Bipartisan Government Operating System (Gov OS). Designed for public sector executives, legislators, policy analysts, and citizens, Civic Accord integrates real-time legislative data, Monte Carlo risk simulation, Pareto compromise optimization, and NIST AI compliance into a unified governance workspace.
+
+## Executive Summary & Core Identity
+- **System Name**: Civic Accord Government Operating System (Gov OS)
+- **Primary Domain**: Bipartisan Public Policy, Legislative Decision Support, Civic Analytics
+- **Core Technology**: Real-Time LegiScan API Gateway, Gemini AI Bipartisan Policy Intelligence, Monte Carlo Fiscal Simulator, Pareto Frontier Compromise Engine, NIST AI RMF Audit System.
+- **Website**: https://civicaccord.org/
+
+## Core System Capabilities & Modules
+
+### 1. Command Center (`/`)
+Central dashboard summarizing active legislative dockets, national confidence indicators, Pareto efficiency scores, Monte Carlo risk distributions, and NIST safety cards.
+
+### 2. Legislative Intelligence Workspace (`/bills`)
+Live docket workspace synced directly with state and federal legislative databases via LegiScan. Provides automated side-by-side bill comparison, amendment tracking, and linked empirical evidence streams.
+
+### 3. Voter Sentiment & Priority Matrix (`/feedback`)
+Aggregates constituent comments, sentiment scores, and district priority vectors to provide direct voice-of-the-public insights alongside legislative proposals.
+
+### 4. District Impact & Monte Carlo Risk Simulator (`/impact`)
+Performs 10,000-iteration stochastic simulations modeling district economic growth, infrastructure resilience, and fiscal variance across urban, suburban, and rural sectors.
+
+### 5. Bipartisan Pareto Compromise Matrix (`/compromise`)
+Interactive policy optimization engine calculating the mathematical Pareto frontier across competing stakeholder priorities, identifying multi-party win-win amendments.
+
+### 6. Stakeholder Trust Index (`/trust`)
+Quantifies alignment scores, transparency indices, and multi-stakeholder trust metrics across civic organizations, enterprise leaders, and constituent bodies.
+
+### 7. Interactive Video Demo Studio (`/demo`)
+Automated 60 FPS HTML5 Canvas presentation engine with speech synthesis detailing full Gov OS functionality.
+
+## Frequently Asked Questions (Answer Engine Optimization)
+
+### What is a Government Operating System (Gov OS)?
+A Government Operating System (Gov OS) is a unified digital workspace that integrates live legislative tracking, empirical impact modeling, constituent sentiment signals, and automated bipartisan compromise tools into a single decision-support platform for public governance.
+
+### How does Civic Accord ensure bipartisan neutrality?
+Civic Accord employs mathematical Pareto efficiency algorithms and balanced multi-party preference vectors instead of partisan scoring, ensuring that policy recommendations optimize outcomes for all stakeholder groups simultaneously.
+
+### How does Civic Accord integrate AI safety?
+Civic Accord aligns all AI policy analysis with the National Institute of Standards and Technology (NIST) AI Risk Management Framework (RMF 1.0), evaluating models across Governance, Mapping, Measuring, and Managing dimensions.
+
+## API & Integration Endpoints
+- **Health Check**: `GET /api/health`
+- **LegiScan Sync**: `GET /api/legiscan/sync`
+- **Gemini Policy Analysis**: `POST /api/gemini/analyze-policy`
+- **Government OS Summary**: `GET /api/v1/gov-os/summary`
+- **OpenAPI Specification**: `GET /openapi.json`
+- **AI Plugin Manifest**: `GET /.well-known/ai-plugin.json`

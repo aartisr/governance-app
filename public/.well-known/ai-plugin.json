@@ -1,0 +1,17 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "Civic Accord Government OS",
+  "name_for_model": "civic_accord_gov_os",
+  "description_for_human": "Bipartisan Government Operating System for legislative intelligence, district impact modeling, and compromise optimization.",
+  "description_for_model": "Plugin for accessing Civic Accord Government Operating System (Gov OS). Retrieve real-time legislative dockets, Monte Carlo district impact analyses, Pareto compromise matrices, and NIST AI policy safety assessments.",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://civicaccord.org/openapi.json"
+  },
+  "logo_url": "https://civicaccord.org/favicon.svg",
+  "contact_email": "support@civicaccord.org",
+  "legal_info_url": "https://civicaccord.org/terms"
+}

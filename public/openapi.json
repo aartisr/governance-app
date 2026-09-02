@@ -1,0 +1,63 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Civic Accord Government Operating System (Gov OS) API",
+    "description": "API endpoints for retrieving real-time legislative dockets, district impact forecasts, and bipartisan compromise analyses from Civic Accord Gov OS.",
+    "version": "v1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://civicaccord.org"
+    }
+  ],
+  "paths": {
+    "/api/v1/gov-os/summary": {
+      "get": {
+        "summary": "Get Government OS System Summary",
+        "description": "Returns key metrics, system status, active bills count, average Pareto consensus score, and overall stakeholder trust indices.",
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          }
+        }
+      }
+    },
+    "/api/v1/gov-os/bills": {
+      "get": {
+        "summary": "Get Active Legislative Dockets",
+        "description": "Returns active legislation with linked evidence, risk scores, Pareto consensus ratings, and district impact metrics.",
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          }
+        }
+      }
+    },
+    "/api/gemini/analyze-policy": {
+      "post": {
+        "summary": "Analyze Policy via Gemini AI Decision Support",
+        "description": "Submits a legislative bill title, summary, and optional prompt for instant AI policy inspection, risk modeling, and compromise recommendation.",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "billTitle": { "type": "string" },
+                  "billSummary": { "type": "string" },
+                  "topic": { "type": "string" },
+                  "userPrompt": { "type": "string" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful AI Analysis Response"
+          }
+        }
+      }
+    }
+  }
+}
