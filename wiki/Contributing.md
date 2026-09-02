@@ -1,6 +1,6 @@
 # Contributing
 
-The source repository is available at [github.com/aartisr/governance-app](https://github.com/aartisr/governance-app).
+The source repository is available in the project workspace.
 
 ## Principles
 
@@ -11,7 +11,7 @@ The source repository is available at [github.com/aartisr/governance-app](https:
 
 For a working product reference, use the [live governance workspace](https://governanceapp.ai-aarti.com/).
 
-For the end-user perspective, read [How the Governance App Works](https://aartisr.github.io/governance-app/how-it-works.html).
+For the end-user perspective, read [How the Governance App Works](https://governanceapp.ai-aarti.com/how-it-works.html).
 
 ---
 
