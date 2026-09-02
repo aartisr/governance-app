@@ -88,7 +88,7 @@ Recommendation: ${result.recommendedAmendment}`;
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 overflow-y-auto">
       <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl shadow-2xl max-w-3xl w-full max-h-[90vh] flex flex-col overflow-hidden text-slate-900 dark:text-slate-100">
-        
+
         {/* Header */}
         <div className="flex items-center justify-between p-5 border-b border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/80">
           <div className="flex items-center gap-2.5">
@@ -113,7 +113,7 @@ Recommendation: ${result.recommendedAmendment}`;
 
         {/* Scrollable Content */}
         <div className="p-6 overflow-y-auto flex-1 space-y-5 text-sm">
-          
+
           {/* Target Bill Overview */}
           <div className="p-4 rounded-lg bg-slate-100 dark:bg-slate-800/50 border border-slate-200/60 dark:border-slate-700/50">
             <div className="flex items-center justify-between gap-2 mb-1">
@@ -165,7 +165,7 @@ Recommendation: ${result.recommendedAmendment}`;
             </div>
           ) : result ? (
             <div className="space-y-4">
-              
+
               {/* Executive Summary */}
               <div className="p-4 rounded-lg bg-indigo-50/60 dark:bg-indigo-950/30 border border-indigo-100 dark:border-indigo-900/40">
                 <h4 className="text-xs font-bold uppercase tracking-wider text-indigo-700 dark:text-indigo-300 mb-1 flex items-center gap-1.5">
