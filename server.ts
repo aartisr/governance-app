@@ -19,7 +19,7 @@ async function startServer() {
   });
 
   // Gemini AI Policy Analysis API Route
-  app.post("/api/gemini/analyze-policy", async (req, res) => {
+  app.post(["/api/gemini/analyze-policy", "/api/analyze-policy"], async (req, res) => {
     try {
       const { billTitle, billSummary, topic, userPrompt } = req.body || {};
 
@@ -82,10 +82,13 @@ Respond in clean JSON format with these exact keys:
         },
       });
 
-      const responseText = response.text;
+      let responseText = response.text || "";
       if (!responseText) {
         throw new Error("No response text from Gemini API");
       }
+
+      // Strip markdown wrapping if present
+      responseText = responseText.replace(/```json\n?/g, "").replace(/```\n?/g, "").trim();
 
       const parsedData = JSON.parse(responseText);
       return res.json({
