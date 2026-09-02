@@ -31,6 +31,10 @@ const metadataByPath: Record<string, PageMetadata> = {
     title: `Stakeholder Trust | ${siteName}`,
     description: "Understand stakeholder credibility through transparent accuracy, expertise, consistency, and transparency scores.",
   },
+  "/demo": {
+    title: `Video Demo | ${siteName}`,
+    description: "Automated end-to-end video presentation and interactive workflow demonstration of Governance OS.",
+  },
 };
 
 function getMetadata(pathname: string): PageMetadata {
