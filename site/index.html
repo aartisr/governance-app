@@ -13,6 +13,10 @@
     <meta property="og:url" content="https://aartisr.github.io/governance-app/" />
     <meta name="twitter:card" content="summary_large_image" />
     <link rel="canonical" href="https://aartisr.github.io/governance-app/" />
+    <link rel="manifest" href="manifest.webmanifest" />
+    <meta name="theme-color" content="#164b7c" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
     <link rel="stylesheet" href="styles.css" />
     <title>Civic Accord | Public Documentation</title>
     <script type="application/ld+json">
@@ -134,5 +138,17 @@
         <span>Created with care for community by <a href="https://ai-aarti.com/">Aarti S Ravikumar</a></span>
       </div>
     </footer>
+
+    <aside class="install-banner" id="install-banner" hidden aria-live="polite">
+      <div class="install-banner__copy">
+        <span class="install-banner__eyebrow">Mobile app</span>
+        <strong>Install Civic Accord for a quieter home screen.</strong>
+        <span>Add it to your phone for faster access and a smoother return visit.</span>
+      </div>
+      <button class="install-banner__action" type="button" id="install-button">Install</button>
+      <button class="install-banner__dismiss" type="button" id="install-dismiss" aria-label="Dismiss install suggestion">×</button>
+    </aside>
+
+    <script defer src="pwa.js"></script>
   </body>
 </html>
