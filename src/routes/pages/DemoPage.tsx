@@ -230,6 +230,57 @@ const DEMO_STAGES: DemoStage[] = [
   }
 ];
 
+const NATURAL_VOICE_KEYWORDS = ["natural", "premium", "enhanced", "neural", "google", "samantha", "jenny", "aria", "hazel", "microsoft"];
+
+function getVoiceScore(voice: SpeechSynthesisVoice, preferredLang = "en-US") {
+  const voiceName = voice.name.toLowerCase();
+  const lang = voice.lang.toLowerCase();
+  let score = 0;
+
+  if (lang === preferredLang.toLowerCase()) score += 40;
+  if (lang.startsWith("en")) score += 25;
+  if (voice.default) score += 8;
+  if (voice.localService) score += 5;
+  for (const keyword of NATURAL_VOICE_KEYWORDS) {
+    if (voiceName.includes(keyword)) score += 12;
+  }
+
+  return score;
+}
+
+async function getAvailableVoices() {
+  if (typeof window === "undefined" || !("speechSynthesis" in window)) {
+    return [] as SpeechSynthesisVoice[];
+  }
+
+  const existingVoices = window.speechSynthesis.getVoices();
+  if (existingVoices.length > 0) {
+    return existingVoices;
+  }
+
+  return new Promise<SpeechSynthesisVoice[]>((resolve) => {
+    const handleVoicesChanged = () => {
+      const voices = window.speechSynthesis.getVoices();
+      window.speechSynthesis.removeEventListener("voiceschanged", handleVoicesChanged);
+      resolve(voices);
+    };
+
+    window.speechSynthesis.addEventListener("voiceschanged", handleVoicesChanged, { once: true });
+    window.setTimeout(() => {
+      window.speechSynthesis.removeEventListener("voiceschanged", handleVoicesChanged);
+      resolve(window.speechSynthesis.getVoices());
+    }, 500);
+  });
+}
+
+function pickNaturalVoice(voices: SpeechSynthesisVoice[]) {
+  return [...voices]
+    .filter((voice) => voice.lang.toLowerCase().startsWith("en"))
+    .sort((left, right) => getVoiceScore(right) - getVoiceScore(left))[0]
+    ?? voices.sort((left, right) => getVoiceScore(right) - getVoiceScore(left))[0]
+    ?? null;
+}
+
 export function DemoPage() {
   const [currentStageIdx, setCurrentStageIdx] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -248,8 +299,10 @@ export function DemoPage() {
   useEffect(() => {
     let speechFinished = false;
     let timerFinished = false;
+    let cancelled = false;
 
     const tryAdvance = () => {
+      if (cancelled) return;
       if (speechFinished && timerFinished) {
         if (currentStageIdx < DEMO_STAGES.length - 1) {
           setCurrentStageIdx((prev) => prev + 1);
@@ -262,28 +315,35 @@ export function DemoPage() {
 
     if (isPlaying) {
       if (isAudioEnabled && typeof window !== "undefined" && "speechSynthesis" in window) {
-        window.speechSynthesis.cancel();
-        const utterance = new SpeechSynthesisUtterance(currentStage.scriptText);
-        utterance.rate = 0.98;
-        utterance.pitch = 1.0;
-        const voices = window.speechSynthesis.getVoices();
-        const preferredVoice = voices.find(
-          (v) =>
-            v.lang.startsWith("en") &&
-            (v.name.includes("Natural") || v.name.includes("Google") || v.name.includes("Premium") || v.name.includes("Samantha"))
-        );
-        if (preferredVoice) utterance.voice = preferredVoice;
+        (async () => {
+          window.speechSynthesis.cancel();
 
-        utterance.onend = () => {
-          speechFinished = true;
-          setTimeout(tryAdvance, 800);
-        };
-        utterance.onerror = () => {
-          speechFinished = true;
-          tryAdvance();
-        };
+          const voices = await getAvailableVoices();
+          if (cancelled) return;
 
-        window.speechSynthesis.speak(utterance);
+          const utterance = new SpeechSynthesisUtterance(currentStage.scriptText);
+          utterance.lang = "en-US";
+          utterance.rate = 0.92;
+          utterance.pitch = 0.95;
+          utterance.volume = 1;
+
+          const preferredVoice = pickNaturalVoice(voices);
+          if (preferredVoice) {
+            utterance.voice = preferredVoice;
+            utterance.lang = preferredVoice.lang || utterance.lang;
+          }
+
+          utterance.onend = () => {
+            speechFinished = true;
+            window.setTimeout(tryAdvance, 800);
+          };
+          utterance.onerror = () => {
+            speechFinished = true;
+            tryAdvance();
+          };
+
+          window.speechSynthesis.speak(utterance);
+        })();
       } else {
         speechFinished = true;
       }
@@ -300,7 +360,11 @@ export function DemoPage() {
     }
 
     return () => {
+      cancelled = true;
       if (stageTimerRef.current) clearTimeout(stageTimerRef.current);
+      if (typeof window !== "undefined" && "speechSynthesis" in window) {
+        window.speechSynthesis.cancel();
+      }
     };
   }, [isPlaying, currentStageIdx, isAudioEnabled]);
 
