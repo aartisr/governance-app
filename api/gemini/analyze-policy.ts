@@ -19,5 +19,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     return;
   }
 
-  res.status(200).json(await analyzePolicy(req.body));
+  try {
+    res.status(200).json(await analyzePolicy(req.body));
+  } catch (error) {
+    console.warn("Gemini API route failed; returning fallback analysis.", error);
+    res.status(200).json(await analyzePolicy());
+  }
 }

@@ -20,10 +20,10 @@ async function startServer() {
 
   app.post("/api/gemini/analyze-policy", async (req, res) => {
     try {
-      return res.json(await analyzePolicy(req.body));
+      return res.status(200).json(await analyzePolicy(req.body));
     } catch (error: any) {
-      console.warn("Gemini API call encountered an issue:", error?.message || error);
-      return res.status(500).json({ error: "Unable to analyze this policy." });
+      console.warn("Gemini API call encountered an issue; returning fallback analysis:", error?.message || error);
+      return res.status(200).json(await analyzePolicy());
     }
   });
 

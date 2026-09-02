@@ -5,7 +5,7 @@ interface PolicyRequest {
   userPrompt?: string;
 }
 
-const fallbackAnalysis = (request: PolicyRequest, source: string) => ({
+export const fallbackAnalysis = (request: PolicyRequest, source: string) => ({
   source,
   summary: `AI Analysis for "${request.billTitle || "Policy Proposal"}": Key considerations include economic efficiency, equity impact across urban vs. rural districts, and regulatory compliance timelines.`,
   keyRisks: [
