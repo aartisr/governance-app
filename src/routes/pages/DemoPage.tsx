@@ -239,7 +239,7 @@ export function DemoPage() {
   const [isFullscreen, setIsFullscreen] = useState(false);
 
   const currentStage = DEMO_STAGES[currentStageIdx];
-  const stageTimerRef = useRef<NodeJS.Timeout | null>(null);
+  const stageTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const recordedChunksRef = useRef<Blob[]>([]);
