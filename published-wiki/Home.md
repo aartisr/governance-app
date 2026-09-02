@@ -29,6 +29,6 @@ This workspace is built for that work. [Bring your voice to the main website](ht
 - [[Compromise-Analysis]]
 - [[Contributing]]
 
-The public documentation site is available at [aartisr.github.io/governance-app](https://aartisr.github.io/governance-app/).
+The public documentation site is available at [governanceapp.ai-aarti.com](https://governanceapp.ai-aarti.com/).
 
-Read the complete [plain-language example of how the Governance App works](https://aartisr.github.io/governance-app/how-it-works.html).
+Read the complete [plain-language example of how the Governance App works](https://governanceapp.ai-aarti.com/how-it-works.html).

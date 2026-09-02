@@ -29,7 +29,7 @@ Democracy succeeds when people refuse to surrender their voice or their curiosit
 
 For a non-technical walkthrough, follow one fictional bill from its text through local impact, public priorities, credibility context, and a practical compromise. The guide explains what each workspace does and why it matters in everyday terms.
 
-[Read: How the Governance App Works](docs/how-the-governance-app-works.md) or [open the public guide](https://aartisr.github.io/governance-app/how-it-works.html).
+[Read: How the Governance App Works](docs/how-the-governance-app-works.md) or [open the public guide](https://governanceapp.ai-aarti.com/how-it-works.html).
 
 For the internal decision method, formulas, worked examples, and prototype limitations, read [Pareto Governance Engine: Methods and Mathematics](docs/pareto-governance-engine-and-math.md).
 
@@ -112,7 +112,7 @@ This repository is configured for Vercel static deployment with SPA route fallba
 
 Set `PUBLIC_SITE_URL` to `https://governanceapp.ai-aarti.com`. The build uses it to generate canonical sitemap and AI-discovery URLs. On Vercel, `VERCEL_PROJECT_PRODUCTION_URL` or `VERCEL_URL` is used when `PUBLIC_SITE_URL` is not set.
 
-No additional serverless functions are required for the current app.
+The app exposes a Vercel API route for Gemini policy analysis.
 
 ## Publishing the GitHub Wiki
 

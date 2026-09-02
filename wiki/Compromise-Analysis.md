@@ -2,15 +2,12 @@
 
 Compromise analysis compares amendments using three readable signals:
 
-- **Shared benefit:** overall value across groups.
-- **Minimum support:** whether any group is left behind.
-- **Risk-adjusted score:** value after accounting for delivery complexity.
 
 Open [Compromise analysis](https://governanceapp.ai-aarti.com/compromise) to compare options and inspect the recommended path.
 
 The recommendation is an explainable starting point for deliberation, not a substitute for accountable public decision-making.
-
-Read [Pareto Governance Engine: Methods and Mathematics](https://github.com/aartisr/governance-app/blob/main/docs/pareto-governance-engine-and-math.md) for the exact scoring formulas, a worked example, and the prototype's limits.
+ Read [How the Governance App Works](https://governanceapp.ai-aarti.com/how-it-works.html) for the plain-language overview of the compromise workflow.
+ Read the [plain-language walkthrough](https://governanceapp.ai-aarti.com/how-it-works.html) for a complete bill-to-compromise example.
 
 [Back to the main website](https://governanceapp.ai-aarti.com/).
 

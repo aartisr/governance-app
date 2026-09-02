@@ -1,17 +1,13 @@
 import {
-  GITHUB_PAGES_ROUTES,
-  GITHUB_PAGES_SITE_URL,
   INDEXNOW_ENDPOINT,
   INDEXNOW_KEY,
   INDEXNOW_ROUTES,
+  PUBLIC_SITE_URL,
 } from "./indexnow-config.mjs";
 
-const rawSiteUrl = process.env.PUBLIC_SITE_URL ?? "https://governanceapp.ai-aarti.com";
+const rawSiteUrl = process.env.PUBLIC_SITE_URL ?? PUBLIC_SITE_URL;
 const canonicalSiteUrl = new URL(rawSiteUrl.startsWith("http") ? rawSiteUrl : `https://${rawSiteUrl}`);
-const sites = [
-  { label: "canonical app", siteUrl: canonicalSiteUrl, routes: INDEXNOW_ROUTES },
-  { label: "GitHub Pages", siteUrl: new URL(GITHUB_PAGES_SITE_URL), routes: GITHUB_PAGES_ROUTES },
-];
+const sites = [{ label: "canonical app", siteUrl: canonicalSiteUrl, routes: INDEXNOW_ROUTES }];
 
 let submittedCount = 0;
 for (const { label, siteUrl, routes } of sites) {
@@ -36,4 +32,4 @@ for (const { label, siteUrl, routes } of sites) {
   console.log(`Submitted ${payload.urlList.length} ${label} URLs to IndexNow.`);
 }
 
-console.log(`Submitted ${submittedCount} URLs across both public sites.`);
+console.log(`Submitted ${submittedCount} URLs for the public site.`);
