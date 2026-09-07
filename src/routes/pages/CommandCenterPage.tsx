@@ -30,7 +30,7 @@ export function CommandCenterPage() {
           <>
             <Link
               to="/demo"
-              className="button primary flex items-center gap-1.5 text-xs bg-amber-600 hover:bg-amber-700 text-white font-semibold shadow-xs"
+              className="button flex items-center gap-1.5 text-xs bg-red-600 hover:bg-red-700 text-white font-semibold shadow-xs"
             >
               <Video size={15} /> Video Demo
             </Link>

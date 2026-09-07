@@ -53,8 +53,14 @@ export function AppShell() {
           {primaryNavigationItems.map((item) => {
             const Icon = item.icon;
             const active = item.match === "exact" ? pathname === item.path : pathname.startsWith(item.path);
+            const isDemo = item.id === "demo";
             return (
-              <Link key={item.id} to={item.path} className={active ? "nav-item active" : "nav-item"}>
+              <Link 
+                key={item.id} 
+                to={item.path} 
+                className={active ? "nav-item active" : "nav-item"}
+                style={isDemo ? { color: "#ef4444", fontWeight: "bold" } : undefined}
+              >
                 <Icon size={18} />
                 <span>{item.label}</span>
               </Link>

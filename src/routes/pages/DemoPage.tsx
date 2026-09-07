@@ -611,10 +611,13 @@ export function DemoPage() {
                 <button
                   type="button"
                   onClick={togglePlay}
-                  className="p-2 sm:p-2.5 rounded-full bg-indigo-600 hover:bg-indigo-500 text-white transition shadow-lg flex items-center justify-center shrink-0"
+                  className={`p-2 sm:p-2.5 ${!isPlaying && currentStageIdx === 0 ? 'rounded-full px-4 bg-emerald-600 hover:bg-emerald-500 shadow-[0_0_15px_rgba(16,185,129,0.5)]' : 'rounded-full bg-emerald-600 hover:bg-emerald-500'} text-white transition-all shadow-lg flex items-center justify-center shrink-0 gap-2`}
                   title={isPlaying ? "Pause Demo" : "Play Demo"}
                 >
-                  {isPlaying ? <Pause size={18} /> : <Play size={18} className="ml-0.5" />}
+                  {isPlaying ? <Pause size={18} /> : <Play size={18} className={!isPlaying && currentStageIdx === 0 ? "" : "ml-0.5"} />}
+                  {!isPlaying && currentStageIdx === 0 && (
+                    <span className="text-sm font-semibold pr-1 animate-pulse">Click to play</span>
+                  )}
                 </button>
                 <button
                   type="button"
@@ -636,7 +639,7 @@ export function DemoPage() {
                   {currentStageIdx + 1}/{DEMO_STAGES.length}
                 </span>
               </div>
-
+              
               {/* Progress Stage Tracker */}
               <div className="flex-1 max-w-md hidden sm:flex items-center gap-2 px-3">
                 <span className="text-xs font-mono text-slate-400">
@@ -653,9 +656,9 @@ export function DemoPage() {
                       }}
                       className={`flex-1 h-full rounded-full transition-all ${
                         idx === currentStageIdx
-                          ? "bg-indigo-500 shadow-glow"
+                          ? "bg-emerald-500 shadow-glow"
                           : idx < currentStageIdx
-                          ? "bg-emerald-500/80"
+                          ? "bg-emerald-500/50"
                           : "bg-slate-700"
                       }`}
                       title={s.title}
@@ -665,12 +668,16 @@ export function DemoPage() {
               </div>
 
               {/* Actions */}
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-3">
+                <span className="hidden md:block text-[10px] text-slate-400 uppercase tracking-wider font-semibold text-right leading-tight">
+                  Capture to <br/>video file
+                </span>
                 {!isRecording ? (
                   <button
                     type="button"
                     onClick={startRecording}
                     className="px-3 py-1.5 rounded-lg bg-rose-600 hover:bg-rose-500 text-white text-xs font-semibold flex items-center gap-1.5 shadow-md transition"
+                    title="Save this simulation as a downloadable video file"
                   >
                     <Video size={14} /> Record Demo
                   </button>
