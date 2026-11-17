@@ -54,6 +54,7 @@ export function GuidedWebsiteTour({ stages, siteName, language = "en-US" }: Guid
   const [stageIndex, setStageIndex] = useState(0);
   const [stepIndex, setStepIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
+  const [hasStarted, setHasStarted] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
   const [isScreenReady, setIsScreenReady] = useState(false);
   const [frameSrc, setFrameSrc] = useState(stages[0]?.path ?? "/");
@@ -175,12 +176,16 @@ export function GuidedWebsiteTour({ stages, siteName, language = "en-US" }: Guid
     activateStage(index);
     setStepIndex(0);
     setHasCompleted(false);
+    setHasStarted(true);
     setIsPlaying(true);
   };
   const togglePlayback = () => {
     if (hasCompleted) chooseStage(0);
-    else { setTourError(null); setIsPlaying((playing) => !playing); }
+    else { setTourError(null); setHasStarted(true); setIsPlaying((playing) => !playing); }
   };
+  const playbackStatus = hasCompleted ? "Tour complete" : isPlaying
+    ? isScreenReady ? "Playing · advances automatically" : "Playing · loading next screen"
+    : hasStarted ? "Paused · press Resume to continue" : "Ready to play";
 
   return (
     <section className="tour-shell" aria-label={`${siteName} guided tour`}>
@@ -201,7 +206,7 @@ export function GuidedWebsiteTour({ stages, siteName, language = "en-US" }: Guid
       <div className="tour-bottom">
         <div className="tour-progress" role="progressbar" aria-label="Tour progress" aria-valuemin={1} aria-valuemax={totalSteps} aria-valuenow={completedSteps}><span style={{ width: `${(completedSteps / totalSteps) * 100}%` }} /></div>
         <div className="tour-bottom-content">
-          <div className="tour-caption"><span className="tour-step">Chapter {stageIndex + 1} of {stages.length} · Step {stepIndex + 1} of {stage.steps.length}</span><h1>{stage.title}</h1><p aria-live="polite" aria-atomic="true">{tourError ?? step.narration}</p></div>
+          <div className="tour-caption"><div className="tour-caption-meta"><span className="tour-step">Chapter {stageIndex + 1} of {stages.length} · Step {stepIndex + 1} of {stage.steps.length}</span><span className={`tour-playback-status${isPlaying ? " is-playing" : ""}`} role="status"><span className="tour-playback-dot" aria-hidden="true" />{playbackStatus}</span></div><h1>{stage.title}</h1><p aria-live="polite" aria-atomic="true">{tourError ?? step.narration}</p></div>
           <div className="tour-controls" aria-label="Tour controls"><button type="button" className="button primary" onClick={togglePlayback} aria-label={isPlaying ? "Pause tour" : hasCompleted ? "Replay tour" : "Play tour"}>{isPlaying ? <Pause size={17} aria-hidden="true" /> : <Play size={17} aria-hidden="true" />}{isPlaying ? "Pause" : hasCompleted ? "Replay" : stageIndex === 0 ? "Play tour" : "Resume"}</button><button type="button" className="tour-control-button" onClick={() => setIsMuted((muted) => !muted)} aria-label={isMuted ? "Turn narration on" : "Mute narration"}>{isMuted ? <VolumeX size={17} /> : <Volume2 size={17} />}</button><Link to={stage.path} className="tour-open-page">Open page</Link></div>
         </div>
       </div>

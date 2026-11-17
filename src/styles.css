@@ -1606,7 +1606,14 @@ th {
 .tour-progress span { display: block; height: 100%; background: var(--accent); transition: width 200ms ease; }
 .tour-bottom-content { display: flex; align-items: center; justify-content: space-between; gap: clamp(20px, 4vw, 60px); padding: 18px clamp(16px, 3vw, 34px) 22px; }
 .tour-caption { max-width: 850px; min-width: 0; }
+.tour-caption-meta { display: flex; align-items: center; flex-wrap: wrap; gap: 8px 16px; }
 .tour-step { color: var(--accent-2); font-size: .72rem; font-weight: 800; letter-spacing: .11em; text-transform: uppercase; }
+.tour-playback-status { display: inline-flex; align-items: center; gap: 7px; color: var(--muted); font-size: .76rem; font-weight: 700; }
+.tour-playback-status.is-playing { color: #086454; }
+.tour-playback-dot { width: 8px; height: 8px; flex: 0 0 auto; border-radius: 50%; background: currentColor; }
+.tour-playback-status.is-playing .tour-playback-dot { animation: tour-playback-pulse 1.5s ease-in-out infinite; }
+@keyframes tour-playback-pulse { 50% { opacity: .35; transform: scale(.7); } }
+@media (prefers-reduced-motion: reduce) { .tour-playback-status.is-playing .tour-playback-dot { animation: none; } }
 .tour-caption h1 { margin: 4px 0 6px; font-family: "Merriweather", Georgia, serif; font-size: clamp(1.2rem, 1.8vw, 1.65rem); line-height: 1.25; }
 .tour-caption p { min-height: 2.95em; margin: 0; color: var(--muted); font-size: .92rem; line-height: 1.48; }
 .tour-word-spoken { color: var(--ink); }
