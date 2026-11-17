@@ -26,7 +26,7 @@
     "@tanstack/react-query": "^5.99.2",
     "@tanstack/react-router": "^1.139.12",
     "@tanstack/react-table": "^8.21.3",
-    "@tanstack/react-virtual": "^3.13.12",
+    "@tanstack/react-virtual": "^3.14.26",
     "express": "^4.22.2",
     "lucide-react": "^0.468.0",
     "react": "^19.2.0",
