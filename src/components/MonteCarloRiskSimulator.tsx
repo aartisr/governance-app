@@ -1,12 +1,12 @@
 import { useState } from "react";
 import { Badge, Card } from "./ui";
 import { paretoScenario } from "../data/governance-data";
-import { runMonteCarloSimulation, type MonteCarloResult } from "../services/governance-engine";
+import { getRecommendedCompromise, runMonteCarloSimulation, type MonteCarloResult } from "../services/governance-engine";
 import { Activity, Play, RefreshCw, ShieldAlert } from "lucide-react";
 
 export function MonteCarloRiskSimulator() {
   const [selectedAmendmentId, setSelectedAmendmentId] = useState<string>(
-    paretoScenario.amendments[0].id
+    getRecommendedCompromise().best.amendmentId
   );
 
   const selectedAmendment =
@@ -55,7 +55,7 @@ export function MonteCarloRiskSimulator() {
       </div>
 
       <p className="card-helper">
-        Models implementation shocks, macroeconomic volatility, and district adoption rates across 1,000 stochastic iterations to generate probabilistic percentile distributions.
+        This separate chart starts with the equal-weight leader. Choose any amendment to sample assumed implementation shocks, volatility, and adoption rates 1,000 times. Its percentiles are not measured uncertainty or local impact estimates.
       </p>
 
       {/* Select Amendment to Simulate */}
@@ -89,7 +89,7 @@ export function MonteCarloRiskSimulator() {
           </p>
         </div>
         <div className="bg-emerald-50 border border-emerald-200 rounded-lg p-3 text-center">
-          <span className="text-[11px] font-bold text-emerald-800 uppercase">P50 (Expected)</span>
+          <span className="text-[11px] font-bold text-emerald-800 uppercase">P50 (Median)</span>
           <p className="text-lg font-bold font-mono text-emerald-900 mt-0.5 mb-0">
             {(simResult.p50 * 100).toFixed(1)}%
           </p>
@@ -114,7 +114,7 @@ export function MonteCarloRiskSimulator() {
           <span className="text-xs font-bold uppercase tracking-wider text-slate-500">
             Outcome Frequency Histogram (1,000 Runs)
           </span>
-          <Badge tone="violet">Normal Distribution Fit</Badge>
+          <Badge tone="violet">Assumed inputs</Badge>
         </div>
 
         <div className="h-44 w-full flex items-end gap-1.5 pt-4 pb-2 px-2 bg-slate-50 rounded-lg border border-slate-200">
@@ -150,7 +150,7 @@ export function MonteCarloRiskSimulator() {
         </div>
         <div className="flex justify-between items-center mt-2 text-[11px] text-slate-500 px-1">
           <span>0.0 (Policy Failure)</span>
-          <span>1.0 (Optimal Delivery)</span>
+          <span>1.0 (Highest Model Score)</span>
         </div>
       </div>
     </Card>

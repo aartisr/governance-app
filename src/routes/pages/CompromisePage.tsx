@@ -1,85 +1,65 @@
-import { CheckCircle2, SlidersHorizontal } from "lucide-react";
-import { useState } from "react";
-import { Badge, Card, Meter, PageHeader } from "../../components/ui";
+import { Badge, Meter, PageHeader } from "../../components/ui";
+import { Link } from "@tanstack/react-router";
 import { InteractiveParetoSimulator } from "../../components/InteractiveParetoSimulator";
-import { factions, paretoScenario } from "../../data/governance-data";
-import { computeParetoFrontier, getRecommendedCompromise } from "../../services/governance-engine";
+import { MonteCarloRiskSimulator } from "../../components/MonteCarloRiskSimulator";
+import { bills, paretoScenario } from "../../data/governance-data";
+import { computeParetoFrontier } from "../../services/governance-engine";
 
 export function CompromisePage() {
   const frontier = computeParetoFrontier();
-  const recommendation = getRecommendedCompromise();
-  const [selectedAmendmentId, setSelectedAmendmentId] = useState(recommendation.amendment?.id ?? paretoScenario.amendments[0].id);
-  const selectedAmendment = paretoScenario.amendments.find((amendment) => amendment.id === selectedAmendmentId) ?? paretoScenario.amendments[0];
+  const bill = bills.find((item) => item.id === paretoScenario.billId);
 
   return (
-    <div className="page">
+    <div className="page compromise-page">
       <PageHeader
-        eyebrow="Balanced compromise options"
-        title={paretoScenario.name}
-        description="Compare amendments by shared benefit, minimum stakeholder support, and delivery risk to find options that hold up across groups."
+        eyebrow="Compromise analysis · fictional scenario"
+        title="Find a way forward for HR-104"
+        description={`This fictional bill is marked ${bill?.status ?? "under review"}. Explore what each group needs, then test which amendment holds up when priorities change.`}
       />
 
-      {/* Dynamic Interactive Pareto Simulator */}
-      <div className="mb-6">
+      <section className="compromise-story" aria-labelledby="compromise-story-title">
+        <div className="compromise-story-heading">
+          <p className="eyebrow">The decision behind the score</p>
+          <h2 id="compromise-story-title">One bridge. Three different stakes.</h2>
+        </div>
+        <p>Families need a safer bridge. Shopkeepers need customers during construction. Budget stewards need proof that spending works. HR-104’s four fictional amendments respond in different ways. Change the weights to see which group’s priorities move the modeled leader.</p>
+      </section>
+
+      <div className="compromise-token-link"><strong>Where do voice tokens fit?</strong><span>On Voter feedback, 3 priority points use 9 of 50 voice tokens in a practice exercise. This prototype does not feed those choices into the amendment scores below.</span><Link to="/feedback">Try voice tokens →</Link></div>
+
+      <div data-tour="pareto-simulator">
         <InteractiveParetoSimulator />
       </div>
 
-      <section className="dashboard-grid">
-        <Card className="span-2">
-          <div className="section-title">
-            <h2>Frontier map overview</h2>
-            <Badge tone="green">{frontier.filter((point) => point.isParetoEfficient).length} strongest options</Badge>
-          </div>
-          <p className="card-helper">Green options deliver the strongest combined outcome. Higher is better: shared benefit reflects overall value, minimum support shows whether any group is left behind, and the final score accounts for delivery risk.</p>
-          <div className="frontier">
-            {frontier.map((point) => (
-              <article key={point.amendmentId} className={point.isParetoEfficient ? "frontier-point efficient" : "frontier-point subdued"}>
-                {point.isParetoEfficient ? <Badge tone="green">Strong option</Badge> : null}
-                <strong>{point.label}</strong>
-                <Meter value={point.totalUtility} label="Shared benefit" />
-                <Meter value={point.minimumFactionUtility} label="Minimum support" color="#7c3aed" />
-                <Meter value={point.riskAdjustedScore} label="Risk-adjusted score" color="#0f766e" />
-              </article>
-            ))}
-          </div>
-        </Card>
+      <details className="quiet-details" data-tour="pareto-method">
+        <summary>How does the Pareto engine work?</summary>
+        <p>Each amendment has a preset utility from 0 to 1 for each group. An option is Pareto efficient when no other sample option scores at least as well for every group and better for one. Among those options, the displayed score is average group utility × (1 − 0.62 × risk) × (1 − 0.28 × complexity). The sliders change the ranking, not Pareto status. Feedback tokens, local impact estimates, and trust scores do not enter this ranking. These are illustrative inputs, not evidence of a real policy outcome.</p>
+      </details>
 
-        <Card>
-          <p className="eyebrow">Recommended compromise</p>
-          <h2>{recommendation.amendment?.title}</h2>
-          <p>{recommendation.amendment?.description}</p>
-          <div className="recommendation-score">
-            <CheckCircle2 size={28} />
-            <strong>{recommendation.best.riskAdjustedScore.toFixed(3)}</strong>
-            <span>risk-adjusted score</span>
-          </div>
-        </Card>
-      </section>
+      <details className="quiet-details" data-tour="pareto-scores">
+        <summary>Compare scores for all four options</summary>
+        <p>Green options are not outperformed for every group by another sample option.</p>
+        <div className="frontier">
+          {frontier.map((point) => (
+            <article key={point.amendmentId} className={point.isParetoEfficient ? "frontier-point efficient" : "frontier-point subdued"}>
+              <strong>{point.label}</strong>
+              {point.isParetoEfficient && <Badge tone="green">Non-dominated</Badge>}
+              <Meter value={point.totalUtility} label="Average utility" />
+              <Meter value={point.minimumFactionUtility} label="Lowest group utility" color="#7c3aed" />
+              <Meter value={point.riskAdjustedScore} label="Risk-adjusted score" color="#0f766e" />
+            </article>
+          ))}
+        </div>
+      </details>
 
-      <Card>
-        <div className="section-title">
-          <div><h2>How one option serves each group</h2><p>Choose an amendment to compare the outcome across stakeholder groups.</p></div>
-          <SlidersHorizontal size={20} />
-        </div>
-        <label className="matrix-selector">
-          Amendment
-          <select value={selectedAmendmentId} onChange={(event) => setSelectedAmendmentId(event.target.value)}>
-            {paretoScenario.amendments.map((amendment) => <option key={amendment.id} value={amendment.id}>{amendment.title}</option>)}
-          </select>
-        </label>
-        <div className="matrix">
-          <article>
-            <strong>{selectedAmendment.title}</strong>
-            {factions.map((faction) => (
-              <div key={faction.id} className="matrix-row">
-                <span>{faction.name}</span>
-                <Meter value={selectedAmendment.utility[faction.id]} color={faction.color} />
-              </div>
-            ))}
-          </article>
-        </div>
-      </Card>
+      <details className="quiet-details" data-tour="pareto-risk">
+        <summary>Explore assumed delivery risk</summary>
+        <p>This separate simulation varies preset amendment scores. It does not predict real outcomes or validate the local impact estimates.</p>
+        <MonteCarloRiskSimulator />
+      </details>
+
+      <div className="journey-choice"><Link to="/trust" className="button secondary journey-next">Next: inspect sample trust scores →</Link><Link to="/decision-brief" className="brief-inline-link">Skip to what we learned →</Link></div>
+
     </div>
   );
 }
-

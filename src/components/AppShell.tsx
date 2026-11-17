@@ -3,9 +3,12 @@ import { Info, Menu, Scale, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import { primaryNavigationItems } from "../routes/navigation";
 import { updatePageMetadata } from "../seo";
+import { siteIdentity } from "../site-metadata";
+import { JourneyMap } from "./JourneyMap";
 
 export function AppShell() {
   const pathname = useRouterState({ select: (state) => state.location.pathname });
+  const isTour = pathname === "/demo";
   const [isNavOpen, setIsNavOpen] = useState(false);
 
   useEffect(() => {
@@ -17,7 +20,7 @@ export function AppShell() {
   }, [pathname]);
 
   return (
-    <div className={`app-shell${isNavOpen ? " nav-open" : ""}`}>
+    <div className={`app-shell${isNavOpen ? " nav-open" : ""}${isTour ? " tour-mode" : ""}`}>
       <button
         type="button"
         className="mobile-nav-toggle"
@@ -45,7 +48,7 @@ export function AppShell() {
           </div>
           <div>
             <strong>Civic Accord</strong>
-            <span>Powered by Pareto Governance Engine</span>
+            <span>Explore policy tradeoffs</span>
           </div>
         </div>
 
@@ -53,13 +56,11 @@ export function AppShell() {
           {primaryNavigationItems.map((item) => {
             const Icon = item.icon;
             const active = item.match === "exact" ? pathname === item.path : pathname.startsWith(item.path);
-            const isDemo = item.id === "demo";
             return (
               <Link 
                 key={item.id} 
                 to={item.path} 
                 className={active ? "nav-item active" : "nav-item"}
-                style={isDemo ? { color: "#ef4444", fontWeight: "bold" } : undefined}
               >
                 <Icon size={18} />
                 <span>{item.label}</span>
@@ -68,20 +69,19 @@ export function AppShell() {
           })}
         </nav>
 
-        <div className="sidebar-note">
-          <strong>System thesis</strong>
-          <span>Governance becomes measurable: preference intensity, evidence quality, trust, and Pareto gain.</span>
-        </div>
       </aside>
 
       <main className="workspace">
         <aside className="prototype-notice" aria-label="Prototype data notice">
           <Info size={17} aria-hidden="true" />
-          <p><strong>Prototype demonstration.</strong> All bills, districts, sources, scores, and recommendations in this version are illustrative mock data and deterministic simulations. Verify primary sources before using any result in a real decision.</p>
+          <p><strong>Prototype.</strong> Bills, scores, and recommendations are fictional examples. Verify primary sources before making real decisions.</p>
         </aside>
+        {!isTour && <JourneyMap pathname={pathname} />}
         <Outlet />
         <footer className="app-credit">
-          Created with care for community by <a href="https://ai-aarti.com/">Aarti S Ravikumar</a>
+          Created with care for community by <a href={siteIdentity.author.url} rel="author">{siteIdentity.author.name}</a>
+          {" · "}
+          <a href={siteIdentity.school.url}>{siteIdentity.school.name}</a>
         </footer>
       </main>
     </div>

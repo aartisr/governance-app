@@ -23,11 +23,11 @@ export function PublicCommentParser() {
           </div>
           <h2>Town Hall & Testimony Parser</h2>
         </div>
-        <Badge tone="violet">{publicComments.length} Audited Submissions</Badge>
+        <Badge tone="violet">{publicComments.length} sample comments</Badge>
       </div>
 
       <p className="card-helper">
-        Real-time constituent commentary extracted from public hearings and digital feedback portals, weighted by source credibility and local relevance.
+        Filter fictional comments by theme and sentiment. The displayed weights are illustrative inputs, not verification results.
       </p>
 
       {/* Filters */}
@@ -101,7 +101,7 @@ export function PublicCommentParser() {
               </div>
 
               <div className="mt-2 text-[11px] text-slate-400 flex justify-between items-center">
-                <span>Verification Weight: {(c.trustWeight * 100).toFixed(0)}%</span>
+                <span>Assumed weight: {(c.trustWeight * 100).toFixed(0)}%</span>
                 <span className="font-mono">Record #{c.id}</span>
               </div>
             </div>

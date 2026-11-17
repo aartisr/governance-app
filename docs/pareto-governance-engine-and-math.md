@@ -48,14 +48,14 @@ where:
 - $c(a)$ is the declared implementation complexity, from $0$ to $1$.
 - $0.62$ and $0.28$ are prototype penalty weights, not empirically calibrated policy constants.
 
-The engine computes a Pareto frontier using $\bar{U}(a)$, $U_{\min}(a)$, and $R(a)$. It then presents the frontier and selects the frontier option with the highest $R(a)$ as the current recommendation.
+The engine computes a Pareto frontier from each group's utility $U_g(a)$. The fixed recommendation card selects the highest $R(a)$ among non-dominated preset candidates. The separate interactive simulator can change the weighted ranking, but does not change Pareto status or update that card.
 
 ## 1. Voice tokens: measuring priority intensity
 
 The feedback workflow uses a quadratic budget. A participant can assign an integer number of votes $v_i$ to issue $i$, but the cost rises quadratically:
 
 $$
-C_i = \max(0, v_i)^2
+C_i = v_i^2, \qquad v_i \in \{0,1,2,\ldots\}
 $$
 
 For a set of allocations $I$ and weekly budget $B$, the total cost is:
@@ -64,7 +64,7 @@ $$
 C_{\text{total}} = \sum_{i \in I} C_i
 $$
 
-The allocation is over budget when:
+The allocation is marked over budget when:
 
 $$
 C_{\text{total}} > B
@@ -82,7 +82,7 @@ With a linear cost, assigning five votes would cost five tokens. With a quadrati
 | 4 | 16 |
 | 5 | 25 |
 
-This makes intensity visible while making it increasingly expensive to place maximum emphasis on every issue. It does **not** decide whether a priority is ethically correct, and the current prototype does not feed these allocations directly into amendment utilities. They are displayed as an accountable input for deliberation.
+This makes intensity visible while making it increasingly expensive to place maximum emphasis on every issue. The UI does not enforce the budget: a user can move sliders beyond 50 tokens. It does **not** decide whether a priority is ethically correct, and the current prototype does not feed these allocations into amendment utilities. Changes are not saved or submitted.
 
 ### Important limitations
 
@@ -90,7 +90,7 @@ Quadratic voting has meaningful design questions in a real civic setting: identi
 
 ## 2. Stakeholder trust: a visible weighted score
 
-The Trust workspace calculates a trust score for each participant or source from four normalized inputs, each in $[0,1]$:
+The Trust workspace calculates a trust score for each sample participant from four stored, normalized inputs, each in $[0,1]$:
 
 - accuracy: $A$
 - expertise: $E$
@@ -119,7 +119,7 @@ or approximately $89\%$.
 
 ### What the trust score means, and what it does not
 
-The score is an explanation aid. It makes the model's weighting assumptions inspectable. It should not be interpreted as a measure of a person's civic worth, a license to silence a new voice, or a replacement for evidence review. In the current prototype, trust scores are shown as context; they do not directly modify the compromise utility calculation.
+The score is an explanation aid. Its inputs are illustrative; they are not measured histories of participant accuracy. It should not be interpreted as a measure of a person's civic worth, a license to silence a new voice, or a replacement for evidence review. In the current prototype, trust scores are shown as context; they do not modify the compromise utility calculation.
 
 A production system would need clear definitions, provenance for every input, appeal and correction processes, group-fairness evaluation, versioned scoring rules, and strict safeguards against feedback loops that permanently disadvantage less-resourced participants.
 
@@ -161,7 +161,7 @@ $$
 The displayed local exposure estimate is:
 
 $$
-D = \operatorname{round}_{0.1}\left(\frac{P M_r M_s}{N_m}\right)
+D = \operatorname{round}_{0.1}\left(\min\left(100,\max\left(0,\frac{P M_r M_s}{N_m}\right)\right)\right)
 $$
 
 The impact confidence is separately calculated from the section confidence $C_s$ and district trust baseline $C_d$:
@@ -192,7 +192,7 @@ $$
 
 The app therefore displays a $33.3\%$ illustrative exposure estimate with $51\%$ confidence for that section-district pair.
 
-These percentages do not predict individual outcomes or estimate causal effects. They are deterministic demonstrations of how explicitly declared local context can affect an estimate.
+These percentages do not predict individual outcomes or estimate causal effects. They are deterministic demonstrations of how explicitly declared local context can affect an estimate. The cap only prevents an impossible display value; it does not validate the assumed exposure. For the sample outcome dashboard in IA-04, the raw formula gives 132.4%, which the interface displays as 100% and explicitly identifies as capped. This is a concrete example of why the formula cannot be treated as a measured share of residents.
 
 ## 4. Amendment utilities: comparing possible designs
 
@@ -240,35 +240,31 @@ The app rounds this to $0.642$. Higher is better **only under the declared utili
 
 ## 6. Pareto frontier: eliminating clearly weaker options
 
-Each amendment is represented by a vector of the three model objectives:
+Each amendment is represented by a vector of its declared group utilities:
 
 $$
-\mathbf{x}(a) = \bigl(\bar{U}(a), U_{\min}(a), R(a)\bigr)
+\mathbf{x}(a) = \bigl(U_g(a)\bigr)_{g \in G}
 $$
 
 Amendment $a$ dominates amendment $b$ when:
 
 $$
-\bar{U}(a) \geq \bar{U}(b)
+U_g(a) \geq U_g(b) \quad \text{for every group } g \in G
 $$
 
 $$
-U_{\min}(a) \geq U_{\min}(b)
+U_h(a) > U_h(b) \quad \text{for at least one group } h \in G
 $$
 
-$$
-R(a) \geq R(b)
-$$
+The **Pareto frontier** contains every amendment that is not dominated by another candidate. Risk and complexity affect the separate ranking score, not stakeholder Pareto status.
 
-and at least one of these inequalities is strict. The **Pareto frontier** contains every amendment that is not dominated by another candidate.
-
-This is deliberately weaker than saying “the frontier option is the correct answer.” Frontier options can represent real, transparent trade-offs. One may deliver higher average benefit, while another protects the least-served group more strongly. The current prototype takes one additional step and ranks frontier options by $R(a)$ for a clear starting recommendation. That ranking is a convenience choice, not a democratic mandate.
+This is deliberately weaker than saying “the frontier option is the correct answer.” Frontier options expose trade-offs among the assumed numbers. The current prototype takes one additional step and displays the highest risk-adjusted score as a starting recommendation. The listed group hard boundaries are **not** tested or enforced by the scoring code. The ranking is a convenience choice, not a democratic mandate.
 
 ## From calculation to accountable deliberation
 
 The engine is useful only when users can see and challenge its inputs. A responsible workflow is:
 
-1. Read the bill text and the evidence linked to each section.
+1. For a real decision, obtain the bill text and evidence from authoritative sources. The prototype contains summaries and sample source excerpts, not verified primary documents.
 2. Inspect the district factors and confidence values behind local estimates.
 3. State priorities and hard boundaries openly.
 4. Review each amendment's group utilities, risk, and complexity assumptions.

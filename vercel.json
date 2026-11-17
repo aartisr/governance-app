@@ -1,15 +1,17 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "framework": "vite",
+  "installCommand": "npm ci --include=dev --include=optional",
   "buildCommand": "npm run build",
   "outputDirectory": "dist",
-  "routes": [
-    {
-      "handle": "filesystem"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "/index.html"
-    }
+  "rewrites": [
+    { "source": "/bills", "destination": "/bills/index.html" },
+    { "source": "/feedback", "destination": "/feedback/index.html" },
+    { "source": "/impact", "destination": "/impact/index.html" },
+    { "source": "/compromise", "destination": "/compromise/index.html" },
+    { "source": "/trust", "destination": "/trust/index.html" },
+    { "source": "/demo", "destination": "/demo/index.html" },
+    { "source": "/bills/:billId", "destination": "/index.html" },
+    { "source": "/:path*", "destination": "/index.html" }
   ]
 }

@@ -1,106 +1,37 @@
-# How Civic Accord Works: A Plain-Language Example
+# How Civic Accord Works
 
-This guide uses a fictional bill to show, step by step, how Civic Accord helps a person understand legislation and take part in public life.
+This guide follows one **fictional** bill through the current prototype. The app's records and outputs are examples. They do not describe legislation before Congress or predict real outcomes.
 
-## The Question
+## Start with a sample bill
 
-Imagine Congress is considering the **Community Resilience and Enterprise Act**. The bill proposes funding to strengthen local infrastructure, prepare communities for disasters, and help small businesses recover after a crisis.
+Open [Bills](https://governanceapp.ai-aarti.com/bills) and select **Community Resilience and Enterprise Act**. The sample record has three sections: an infrastructure bond guarantee, a small-business continuity credit, and an outcome reporting requirement. Its sponsor, status, dates, budget figures, and summaries are written into the app's [sample dataset](../src/data/governance-data.ts).
 
-A resident, elected official, journalist, or community organization has a reasonable question:
+The bill page shows source cards with titles and excerpts. These are also sample records. There are no links to the actual text of a real bill, and the displayed source scores have not been independently verified. Use them to understand the interface, not as citations in a real debate.
 
-> What does this bill actually do, what could it mean where I live, and is there a version more people could support?
+## Compare district profiles
 
-Civic Accord is built to make answering that question easier.
+Open [Impact](https://governanceapp.ai-aarti.com/impact), choose the bill, and switch between the three sample districts. For every section, the app starts with a stored affected-population percentage and adjusts it using the district's rural share, small-business share for tax sections, and median income. It displays the result as an **exposure equivalent**.
 
-## 1. Review the Bill Before the Argument
+For the infrastructure section in Bay Civic District, the stored base is 42%. The formula produces 33.3%; the displayed confidence is 51%, calculated from two stored values. Neither number has been calibrated against observed policy outcomes. A value above 100% is mathematically possible, another reason not to read this as a literal share of residents.
 
-Start in the [Bills workspace](https://governanceapp.ai-aarti.com/bills). It provides a searchable list of bills with the sponsor, policy domain, status, and number of sections.
+## Explore priority costs
 
-Select the Community Resilience and Enterprise Act. The app turns a long legislative document into readable sections while keeping the original purpose intact.
+Open [Voter feedback](https://governanceapp.ai-aarti.com/feedback). Choose a preset group and move an issue slider. Each issue's token cost is the square of its vote count: three votes cost nine tokens and five cost 25. The page shows a 50-token budget and flags overspending. It does not block an over-budget choice, verify a voter, save input, or send it to a public body. Slider choices do not change the compromise recommendation.
 
-| Section | Plain-language meaning |
-| --- | --- |
-| Resilient infrastructure grants | Helps communities repair or strengthen roads, utilities, and public facilities for future disruptions. |
-| Small-business continuity fund | Helps local businesses remain open after a disaster or economic shock. |
-| Reporting and renewal requirements | Requires public results before the program can continue indefinitely. |
+The comment panel filters fictional testimony by theme and sentiment. It is not receiving public submissions.
 
-The bill page also keeps linked evidence alongside the summary. This lets people ask where a claim came from instead of accepting a summary on trust alone.
+## Compare assumed amendments
 
-## 2. Understand Local Impact
+Open [Compromise analysis](https://governanceapp.ai-aarti.com/compromise). The page compares four preset amendments, each with assumed utilities for three groups plus risk and complexity values. The app calculates average utility, lowest group utility, and a risk-adjusted score. It marks options that are not dominated across the three groups' utilities and shows the highest risk-adjusted score among those options as a discussion starting point.
 
-Next, open [Impact analysis](https://governanceapp.ai-aarti.com/impact). Choose the bill and a district profile, such as a rural community, a dense urban district, or a coastal region.
+The group's listed hard boundaries are **not** encoded as constraints in this calculation. The interactive simulator lets you change weights for a separate comparison; it does not amend the fixed recommendation card. The numbers express assumptions in a toy model, not negotiated consent.
 
-For a coastal district, the app may show estimates like these:
+## Read trust scores in context
 
-| Area | Possible result | Why it matters |
-| --- | --- | --- |
-| Infrastructure | More residents covered by resilience projects | Flood-prone roads, utilities, and public buildings may be strengthened. |
-| Small businesses | More access to recovery support | Shops and employers may have more help staying open after a disruption. |
-| Public spending | A projected budget change | Benefits involve a real cost that residents can inspect. |
+Open [Stakeholder trust](https://governanceapp.ai-aarti.com/trust). The app combines four stored attributes—accuracy, expertise, consistency, and transparency—into a score for each sample participant. No real track record has been measured, and these scores do not weight the amendment calculation.
 
-Each estimate includes an explanation and a confidence signal. The app does not promise a future. It presents the current estimate, its assumptions, and how certain the model is.
+## What to take away
 
-## 3. Show What Matters Most
+Civic Accord makes a possible review sequence visible: inspect a claim, compare assumptions, state priorities, and discuss alternatives. A real civic decision would require authoritative bill text, attributable evidence, validated impact methods, consent from affected communities, and accountable public processes.
 
-Open [Voter feedback](https://governanceapp.ai-aarti.com/feedback). Instead of only asking whether someone supports or opposes a bill, the app asks how strongly they care about different parts of it.
-
-Each participant has a limited weekly budget of voice tokens. Putting more tokens behind an issue costs progressively more, so people can show priorities without claiming that everything is equally urgent.
-
-| Priority | Tokens assigned | What it communicates |
-| --- | ---: | --- |
-| Keep small businesses open | 5 | This is my strongest concern. |
-| Build resilient public infrastructure | 4 | This is very important. |
-| Control long-term federal spending | 3 | I want meaningful safeguards. |
-| Add stronger environmental review | 2 | I care about this, though it is not my top concern. |
-
-This does not make one person more valuable than another. It gives everyone a clearer way to express the intensity of their priorities.
-
-## 4. Put Trust in Context
-
-Open [Stakeholder trust](https://governanceapp.ai-aarti.com/trust). The app separates preference from credibility.
-
-- **Preference** is what a person or community wants.
-- **Credibility** is how dependable a source has been in a particular area.
-
-A resident may know essential facts about a neighborhood. A public-health researcher may offer relevant health expertise. A budget analyst may understand financial assumptions. The app makes credibility dimensions visible: accuracy, expertise, consistency, and transparency.
-
-The purpose is not to silence public input. It is to put reliable context beside it.
-
-## 5. Look for Common Ground
-
-Finally, open [Compromise analysis](https://governanceapp.ai-aarti.com/compromise). Imagine three groups respond to the bill:
-
-- One wants immediate resilience investment.
-- One supports the goal but worries about unlimited cost.
-- One wants proof that the program works before it continues.
-
-The app compares possible amendments. One option might add a five-year sunset clause, public reporting, and a renewal vote. That can preserve investment while answering concerns about accountability and long-term spending.
-
-Each option is measured with three plain-language signals:
-
-| Signal | Question it answers |
-| --- | --- |
-| Shared benefit | Does this option create value across groups? |
-| Minimum support | Does it leave any major group behind? |
-| Risk-adjusted score | Is the benefit still worthwhile after considering delivery difficulty and uncertainty? |
-
-Compromise does not mean every person gets everything they want. It means searching honestly for an option where more people can see their core concern respected.
-
-## What Changes
-
-Without a shared process, debate can collapse into: “Are you for the bill or against it?”
-
-With this app, the questions become: What does the bill say? Who may be affected? What evidence supports this estimate? What concerns are legitimate? What change could protect more shared value?
-
-The app does not replace voting, elected representatives, public hearings, journalism, organizing, or disagreement. It gives those democratic practices a clearer shared workspace.
-
-## A Simple Way to Take Part
-
-1. Read the bill, not only the headline.
-2. Check the evidence and assumptions.
-3. Consider local effects, including people unlike yourself.
-4. State what matters most.
-5. Compare compromise options honestly.
-6. Return as new evidence and outcomes emerge.
-
-Democracy becomes stronger when people can see their own concerns and the concerns of others without losing either. [Open the live Governance App](https://governanceapp.ai-aarti.com/) to explore the process.
+For the exact equations, see [Methods and Mathematics](pareto-governance-engine-and-math.md).

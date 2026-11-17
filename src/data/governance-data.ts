@@ -118,7 +118,7 @@ export const factions: Faction[] = [
     tokenAllocations: [
       { issueId: "hr-104-s2", label: "Small-business continuity", votes: 5, sentiment: "support" },
       { issueId: "hr-104-s1", label: "Bond guarantee", votes: 3, sentiment: "condition" },
-      { issueId: "s-219-s1", label: "Mobile clinic grants", votes: 1, sentiment: "oppose" },
+      { issueId: "hr-104-s3", label: "Public progress reporting", votes: 1, sentiment: "oppose" },
     ],
   },
   {
@@ -130,7 +130,7 @@ export const factions: Faction[] = [
     negotiables: ["Funding mix", "Reporting burden", "Implementation sequence"],
     tokenAllocations: [
       { issueId: "hr-104-s3", label: "Transparency dashboard", votes: 5, sentiment: "support" },
-      { issueId: "s-219-s1", label: "Mobile clinic grants", votes: 4, sentiment: "support" },
+      { issueId: "hr-104-s1", label: "Bond guarantee", votes: 4, sentiment: "condition" },
       { issueId: "hr-104-s2", label: "Small-business continuity", votes: 2, sentiment: "condition" },
     ],
   },
@@ -160,7 +160,7 @@ export const trustParticipants: TrustParticipant[] = [
 export const paretoScenario: ParetoScenario = {
   id: "scenario-hr-104",
   billId: "hr-104",
-  name: "HR-104 Stalled Bill Compromise",
+  name: "HR-104 compromise options",
   amendments: [
     { id: "amend-audit", title: "Automatic audit trigger", description: "Adds independent audits when spending variance exceeds 8% or impact targets miss two quarters.", utility: { "growth-caucus": 0.58, "equity-bloc": 0.66, "fiscal-guardians": 0.88 }, risk: 0.22, implementationComplexity: 0.28 },
     { id: "amend-credit", title: "Targeted continuity credit", description: "Narrows credits to construction-affected corridors and adds a rural access carveout.", utility: { "growth-caucus": 0.89, "equity-bloc": 0.61, "fiscal-guardians": 0.72 }, risk: 0.31, implementationComplexity: 0.42 },

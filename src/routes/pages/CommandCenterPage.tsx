@@ -1,166 +1,80 @@
-import { useQuery } from "@tanstack/react-query";
 import { Link } from "@tanstack/react-router";
 import { useState } from "react";
-import { ArrowRight, BookOpenText, CircleCheck, Download, GitMerge, Landmark, ShieldCheck, Sparkles, Video, Vote, type LucideIcon } from "lucide-react";
-import { Badge, Card, PageHeader, StatCard } from "../../components/ui";
-import { NistSafetyCardModal } from "../../components/NistSafetyCardModal";
-import { ReportExportModal } from "../../components/ReportExportModal";
+import { ArrowRight, Download, FileText, Landmark, Play, Sparkles, Vote } from "lucide-react";
 import { AiPolicyInspectorModal } from "../../components/AiPolicyInspectorModal";
-import { districts, trustParticipants } from "../../data/governance-data";
-import { getGovernanceSnapshot, getRecommendedCompromise, scoreTrust } from "../../services/governance-engine";
+import { Badge, Card, PageHeader } from "../../components/ui";
+import { bills } from "../../data/governance-data";
+import { getRecommendedCompromise } from "../../services/governance-engine";
 
 export function CommandCenterPage() {
-  const snapshot = useQuery({ queryKey: ["governance-snapshot"], queryFn: getGovernanceSnapshot });
+  const featuredBill = bills[0];
   const recommendation = getRecommendedCompromise();
-  const activeBills = snapshot.data?.bills ?? [];
-  const featuredBill = activeBills[0];
-  const trustAverage = trustParticipants.reduce((sum, item) => sum + scoreTrust(item), 0) / trustParticipants.length;
-
-  const [isNistModalOpen, setIsNistModalOpen] = useState(false);
-  const [isReportModalOpen, setIsReportModalOpen] = useState(false);
   const [isAiModalOpen, setIsAiModalOpen] = useState(false);
 
   return (
-    <div className="page">
+    <div className="page home-page">
       <PageHeader
-        eyebrow="Your civic briefing"
-        title="Start with the decision that needs your attention"
-        description="Read the proposal, understand who is affected, and compare a path forward without losing sight of the evidence."
-        actions={(
-          <>
-            <Link
-              to="/demo"
-              className="button flex items-center gap-1.5 text-xs bg-red-600 hover:bg-red-700 text-white font-semibold shadow-xs"
-            >
-              <Video size={15} /> Video Demo
-            </Link>
-            <button
-              type="button"
-              onClick={() => setIsAiModalOpen(true)}
-              className="button primary flex items-center gap-1.5 text-xs bg-indigo-600 hover:bg-indigo-700 text-white"
-            >
-              <Sparkles size={15} /> Gemini AI Analysis
-            </button>
-            <button
-              type="button"
-              onClick={() => setIsNistModalOpen(true)}
-              className="button secondary flex items-center gap-1.5 text-xs"
-            >
-              <ShieldCheck size={15} className="text-teal-600" /> NIST Safety Card
-            </button>
-            <button
-              type="button"
-              onClick={() => setIsReportModalOpen(true)}
-              className="button secondary flex items-center gap-1.5 text-xs"
-            >
-              <Download size={15} className="text-blue-600" /> Export Audit Report
-            </button>
-            <Link to="/compromise" className="button secondary">Review recommendation <ArrowRight size={16} /></Link>
-          </>
-        )}
+        eyebrow="Civic Accord"
+        title="See what it takes to move a public decision forward"
+        description="Follow a fictional bill from its text to local effects and possible compromises. See who benefits, what remains uncertain, and which assumptions change the answer."
+        actions={<Link to="/demo" target="_top" className="button demo-cta"><Play size={16} aria-hidden="true" /> Watch Demo</Link>}
       />
 
-      {/* Decision Briefing */}
       <section className="decision-brief" aria-labelledby="decision-brief-title">
         <div className="decision-brief-main">
-          <div className="decision-brief-heading">
-            <p className="eyebrow">Ready to examine</p>
-            <Badge tone="amber">Negotiating</Badge>
-          </div>
-          <h2 id="decision-brief-title">{featuredBill?.title ?? "Loading current bill"}</h2>
-          <p>{featuredBill?.summary ?? "Preparing the current legislative briefing."}</p>
-          <div className="decision-brief-actions">
-            <Link to="/bills" className="button primary">Read the bill <ArrowRight size={16} /></Link>
-            <Link to="/impact" className="brief-text-link">See local impact</Link>
-          </div>
+          <p className="eyebrow">Start with the bill</p>
+          <h2 id="decision-brief-title">{featuredBill.title}</h2>
+          <p>{featuredBill.summary}</p>
+          <Link to="/bills" className="button primary">Read sample bills <ArrowRight size={16} aria-hidden="true" /></Link>
         </div>
         <div className="recommendation-brief">
-          <div className="recommendation-brief-label"><CircleCheck size={18} /><span>Model’s strongest option</span></div>
+          <Badge tone="amber">Illustrative result</Badge>
           <h3>{recommendation.amendment?.title}</h3>
           <p>{recommendation.amendment?.description}</p>
-          <div className="recommendation-scoreline">
-            <span>Risk-adjusted score</span>
-            <strong>{recommendation.best.riskAdjustedScore.toFixed(2)}</strong>
-          </div>
-          <Link to="/compromise" className="brief-text-link">Inspect the trade-offs <ArrowRight size={15} /></Link>
+          <Link to="/compromise" className="brief-text-link">See why this option ranks first <ArrowRight size={15} aria-hidden="true" /></Link>
         </div>
       </section>
 
-      {/* Navigation Cards */}
-      <section className="homepage-grid">
-        <Card className="journey-card">
-          <div className="section-title">
-            <div>
-              <p className="eyebrow">A clear path forward</p>
-              <h2>Four steps to a more informed position</h2>
-            </div>
-            <Badge tone="green">Start anywhere</Badge>
-          </div>
-          <div className="journey-grid">
-            {([
-              ["Read the proposal", "See the plain-language sections and linked sources.", BookOpenText, "/bills"],
-              ["Bring it home", "Compare likely outcomes for a district profile.", Landmark, "/impact"],
-              ["Make priorities clear", "Show what matters most with a limited voice budget.", Vote, "/feedback"],
-              ["Find common ground", "Inspect options, benefits, and risks side by side.", GitMerge, "/compromise"],
-            ] satisfies Array<[string, string, LucideIcon, "/bills" | "/feedback" | "/impact" | "/compromise"]>).map(([title, body, IconComponent, path], index) => {
-              return (
-                <Link key={title} to={path} className="journey-step">
-                  <span className="journey-step-number">0{index + 1}</span>
-                  <IconComponent size={21} />
-                  <strong>{title}</strong>
-                  <p>{body}</p>
-                  <span className="journey-step-link">Open <ArrowRight size={14} /></span>
-                </Link>
-              );
-            })}
-          </div>
-        </Card>
-
-        <Card className="transparency-card" tone="subtle">
-          <div className="section-title">
-            <div>
-              <p className="eyebrow">Keep the system honest</p>
-              <h2>What you can inspect</h2>
-            </div>
-            <ShieldCheck size={22} aria-hidden="true" />
-          </div>
-          <ul className="transparency-list">
-            <li><CircleCheck size={16} /> Evidence stays connected to claims</li>
-            <li><CircleCheck size={16} /> Local-impact assumptions are visible</li>
-            <li><CircleCheck size={16} /> Trust scores show how they are weighted</li>
-          </ul>
-          <div className="flex flex-col gap-2 mt-4">
-            <button
-              type="button"
-              onClick={() => setIsNistModalOpen(true)}
-              className="text-xs font-semibold text-teal-800 hover:text-teal-950 flex items-center gap-1"
-            >
-              Open NIST AI Safety Card <ArrowRight size={14} />
-            </button>
-            <Link to="/trust" className="brief-text-link">Review source credibility <ArrowRight size={15} /></Link>
-          </div>
-        </Card>
+      <section className="home-next" aria-label="Explore the workflow">
+        <h2>Explore the next steps</h2>
+        <div className="home-next-grid">
+          <Link to="/impact" search={{ billId: featuredBill.id }} className="home-next-link"><Landmark size={20} aria-hidden="true" /><span>See local impact</span><ArrowRight size={16} aria-hidden="true" /></Link>
+          <Link to="/feedback" className="home-next-link"><Vote size={20} aria-hidden="true" /><span>Set priorities</span><ArrowRight size={16} aria-hidden="true" /></Link>
+        </div>
       </section>
 
-      {/* Stats Line */}
-      <section className="stat-grid homepage-stats" aria-label="Current civic workspace context">
-        <StatCard label="Bills ready to review" value={snapshot.isPending ? "..." : activeBills.length} detail="across the current briefing" intent="strong" />
-        <StatCard label="District perspectives" value={districts.length} detail="available for impact comparison" />
-        <StatCard label="Source trust signal" value={`${Math.round(trustAverage * 100)}%`} detail="weighted credibility context" intent="good" />
-        <StatCard label="Recommendation status" value="Inspectable" detail="a simulation, never a final decision" intent="warn" />
+      <section className="home-destination" aria-labelledby="home-destination-title">
+        <div><p className="eyebrow">Where the journey leads</p><h2 id="home-destination-title">Leave with a clearer question.</h2><p>The sample decision brief gathers what we learned about HR-104, four amendment options, and what to check next.</p></div>
+        <Link to="/decision-brief" className="brief-inline-link">Preview the decision brief <ArrowRight size={16} aria-hidden="true" /></Link>
       </section>
 
-      {/* Modals */}
+      <section className="research-paper-card" aria-labelledby="research-paper-title">
+        <div>
+          <p className="eyebrow">Research behind the prototype</p>
+          <h2 id="research-paper-title">From Voice to Verifiable Compromise</h2>
+          <p>Read the mathematics, worked examples, and limits of the live website. The paper also explains what the full civic vision would require when funding is available.</p>
+          <span className="research-paper-byline">Aarti S Ravikumar · Pioneer Charter School of Science II</span>
+        </div>
+        <div className="research-paper-downloads" aria-label="Download the research paper">
+          <a className="button primary" href="/papers/From_Voice_to_Verifiable_Compromise_Aarti_S_Ravikumar.pdf" download><Download size={16} aria-hidden="true" /> Download paper (PDF)</a>
+          <a href="/papers/From_Voice_to_Verifiable_Compromise_Aarti_S_Ravikumar.docx" download><FileText size={16} aria-hidden="true" /> Word</a>
+          <a href="/papers/From_Voice_to_Verifiable_Compromise_Aarti_S_Ravikumar.md" download><FileText size={16} aria-hidden="true" /> Markdown</a>
+        </div>
+      </section>
+
+      <details className="quiet-details">
+        <summary><Sparkles size={16} aria-hidden="true" /> Optional AI text analysis</summary>
+        <p>This generates a draft for inspection. It may be simulated or inaccurate.</p>
+        <button type="button" className="button secondary" onClick={() => setIsAiModalOpen(true)}>Open AI inspector</button>
+      </details>
+
       <AiPolicyInspectorModal
         isOpen={isAiModalOpen}
         onClose={() => setIsAiModalOpen(false)}
-        billTitle={featuredBill?.title ?? "Federal AI & Governance Framework"}
-        billSummary={featuredBill?.summary ?? "Comprehensive regulatory guidelines for high-risk AI models and public infrastructure"}
-        topic="Legislative Decision Briefing"
+        billTitle={featuredBill.title}
+        billSummary={featuredBill.summary}
+        topic="Sample legislative briefing"
       />
-      <NistSafetyCardModal isOpen={isNistModalOpen} onClose={() => setIsNistModalOpen(false)} />
-      <ReportExportModal isOpen={isReportModalOpen} onClose={() => setIsReportModalOpen(false)} />
     </div>
   );
 }
-

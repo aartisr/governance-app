@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { Badge, Card, Meter } from "./ui";
 import { factions, paretoScenario } from "../data/governance-data";
-import { computeParetoFrontierWithWeights } from "../services/governance-engine";
-import { RotateCcw, Sliders, Sparkles, Trophy } from "lucide-react";
+import { computeParetoFrontierWithWeights, getRecommendedCompromise } from "../services/governance-engine";
+import { RotateCcw, Sparkles, Trophy } from "lucide-react";
 
 export function InteractiveParetoSimulator() {
   const [weights, setWeights] = useState<Record<string, number>>({
@@ -12,12 +12,12 @@ export function InteractiveParetoSimulator() {
   });
 
   const [selectedAmendmentId, setSelectedAmendmentId] = useState<string>(
-    paretoScenario.amendments[0].id
+    getRecommendedCompromise().best.amendmentId
   );
 
   const frontier = computeParetoFrontierWithWeights(weights);
 
-  const bestOption = [...frontier].sort(
+  const bestOption = frontier.filter((point) => point.isParetoEfficient).sort(
     (a, b) => b.riskAdjustedScore - a.riskAdjustedScore
   )[0];
 
@@ -26,7 +26,12 @@ export function InteractiveParetoSimulator() {
     paretoScenario.amendments[0];
 
   const handleWeightChange = (factionId: string, val: number) => {
-    setWeights((prev) => ({ ...prev, [factionId]: val }));
+    const nextWeights = { ...weights, [factionId]: val };
+    setWeights(nextWeights);
+    const nextLeader = computeParetoFrontierWithWeights(nextWeights)
+      .filter((point) => point.isParetoEfficient)
+      .sort((a, b) => b.riskAdjustedScore - a.riskAdjustedScore)[0];
+    setSelectedAmendmentId(nextLeader.amendmentId);
   };
 
   const handleReset = () => {
@@ -35,6 +40,7 @@ export function InteractiveParetoSimulator() {
       "equity-bloc": 1.0,
       "fiscal-guardians": 1.0,
     });
+    setSelectedAmendmentId(getRecommendedCompromise().best.amendmentId);
   };
 
   return (
@@ -45,7 +51,7 @@ export function InteractiveParetoSimulator() {
             <Sparkles size={18} className="text-amber-600" />
             <p className="eyebrow mb-0">Interactive Pareto Frontier</p>
           </div>
-          <h2>Dynamic Weight & Compromise Simulator</h2>
+          <h2>See how priorities change the compromise</h2>
         </div>
         <button
           type="button"
@@ -56,12 +62,10 @@ export function InteractiveParetoSimulator() {
         </button>
       </div>
 
-      <p className="card-helper">
-        Adjust stakeholder weights to see how changing governance priorities shifts the optimal Pareto frontier and recommended compromise amendment.
-      </p>
+      <p className="card-helper">At 1×, groups count equally. Raise a weight to give that group more influence; watch the leading option change.</p>
 
       {/* Faction Weight Sliders */}
-      <div className="control-grid mb-6 bg-slate-50 p-4 rounded-xl border border-slate-200">
+      <div className="control-grid mb-5 bg-slate-50 p-4 rounded-xl border border-slate-200">
         {factions.map((faction) => (
           <div key={faction.id} className="flex flex-col gap-1">
             <div className="flex justify-between text-xs font-semibold">
@@ -70,6 +74,7 @@ export function InteractiveParetoSimulator() {
             </div>
             <input
               type="range"
+              aria-label={`${faction.name} weight`}
               min="0.2"
               max="2.5"
               step="0.1"
@@ -81,16 +86,20 @@ export function InteractiveParetoSimulator() {
         ))}
       </div>
 
+      <p className="simulator-leader" role="status">
+        Leading option under these weights: <strong>{bestOption.label}</strong> (modeled score {bestOption.riskAdjustedScore}).
+      </p>
+
       {/* Scatter Plot & Frontier Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Frontier Visualizer */}
         <div className="lg:col-span-2 border border-slate-200 rounded-xl p-4 bg-white shadow-xs">
           <div className="flex justify-between items-center mb-3">
             <span className="text-xs font-bold uppercase tracking-wider text-slate-500">
-              Pareto Frontier Scatter (Min Support vs Total Utility)
+              Trade-off map (lowest group vs average utility)
             </span>
             <Badge tone="green">
-              {frontier.filter((p) => p.isParetoEfficient).length} Efficient Points
+              {frontier.filter((p) => p.isParetoEfficient).length} non-dominated options
             </Badge>
           </div>
 
@@ -150,10 +159,10 @@ export function InteractiveParetoSimulator() {
 
             {/* Axes Labels */}
             <div className="absolute top-2 left-4 text-[10px] text-slate-400 font-bold uppercase">
-              High Total Utility (0.9+)
+              Higher average utility ↑
             </div>
             <div className="absolute bottom-2 right-4 text-[10px] text-slate-400 font-bold uppercase">
-              High Min Support (0.9+) →
+              Higher lowest-group utility →
             </div>
           </div>
 
@@ -201,7 +210,7 @@ export function InteractiveParetoSimulator() {
                 <div className="flex items-center gap-1">
                   <Badge tone="green">
                     <span className="inline-flex items-center gap-1">
-                      <Trophy size={12} /> Optimal Choice
+                      <Trophy size={12} /> Highest modeled score
                     </span>
                   </Badge>
                 </div>
@@ -217,7 +226,7 @@ export function InteractiveParetoSimulator() {
 
             {/* Utility Breakdown */}
             <div className="space-y-3 mb-4">
-              <div className="text-xs font-semibold text-slate-700">Faction Support Under Current Weights:</div>
+              <div className="text-xs font-semibold text-slate-700">Assumed utility for each group:</div>
               {factions.map((f) => {
                 const util = selectedAmendment.utility[f.id] ?? 0;
                 return (

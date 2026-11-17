@@ -41,23 +41,23 @@ export function AiPolicyInspectorModal({
     setError(null);
     const fallbackResult: AnalysisResult = {
       source: "simulated_ai_fallback",
-      summary: `Policy analysis for "${billTitle || "Legislative Proposal"}": Key considerations include economic efficiency, equity impact across urban vs. rural districts, and regulatory compliance timelines.`,
+      summary: `Simulated example for "${billTitle || "Legislative Proposal"}". No policy text was independently analyzed or verified.`,
       keyRisks: [
-        "Implementation latency due to multi-agency coordination requirements.",
-        "Fiscal variance dependent on federal grant allocation timing.",
-        "Unintended compliance overhead for small enterprise stakeholders."
+        "Example question: What agencies would implement this proposal?",
+        "Example question: What budget assumptions need verification?",
+        "Example question: Which communities might face new burdens?"
       ],
       opportunities: [
-        "Enhanced transparency and real-time auditability of fund dispersion.",
-        "High Pareto improvement score when coupled with targeted tax credits.",
-        "Cross-jurisdictional alignment with federal NIST governance frameworks."
+        "Publish primary bill text and a traceable source list.",
+        "Invite affected groups to review assumptions and missing impacts.",
+        "Compare amendment options using explicitly stated criteria."
       ],
       stakeholderImpact: {
-        consumers: "Low-to-moderate direct cost impact with long-term quality assurance gains.",
-        enterprises: "Initial transition cost offset by streamlined reporting channels.",
-        governanceBody: "High audit readiness and clear key performance indicators."
+        consumers: "Impact has not been assessed.",
+        enterprises: "Impact has not been assessed.",
+        governanceBody: "Implementation impact has not been assessed."
       },
-      recommendedAmendment: "Introduce a 90-day phased rollout for compliance benchmarks with dedicated technical assistance for small organizations."
+      recommendedAmendment: "No amendment is recommended by this simulated example. Verify sources and consult affected groups first."
     };
 
     try {
@@ -114,21 +114,22 @@ Recommendation: ${result.recommendedAmendment}`;
 
         {/* Header */}
         <div className="flex items-center justify-between p-5 border-b border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/80">
-          <div className="flex items-center gap-2.5">
+          <div className="flex min-w-0 items-center gap-2.5">
             <div className="p-2 rounded-lg bg-indigo-100 dark:bg-indigo-950/60 text-indigo-600 dark:text-indigo-400">
               <Sparkles size={20} />
             </div>
-            <div>
+            <div className="min-w-0">
               <h2 className="text-lg font-bold leading-snug">Gemini Policy Intelligence</h2>
               <p className="text-xs text-slate-500 dark:text-slate-400">
-                Real-time risk, Pareto compliance, and stakeholder impact evaluation
+                Optional generated text about risks and stakeholders; verify before use
               </p>
             </div>
           </div>
           <button
             type="button"
             onClick={onClose}
-            className="p-1.5 rounded-lg text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition"
+            aria-label="Close AI inspector"
+            className="flex min-h-11 min-w-11 shrink-0 items-center justify-center rounded-lg text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition"
           >
             <X size={18} />
           </button>
@@ -143,7 +144,7 @@ Recommendation: ${result.recommendedAmendment}`;
               <span className="text-xs font-bold uppercase tracking-wider text-indigo-600 dark:text-indigo-400">Analyzing Proposal</span>
               {result && (
                 <Badge tone={result.source === "gemini_api" ? "violet" : "neutral"}>
-                  {result.source === "gemini_api" ? "Gemini 3.6 Flash Live (Free Tier)" : "Simulated Free Tier Engine"}
+                  {result.source === "gemini_api" ? "Gemini model response" : "Simulated example"}
                 </Badge>
               )}
             </div>
@@ -152,20 +153,21 @@ Recommendation: ${result.recommendedAmendment}`;
           </div>
 
           {/* Interactive Question Input */}
-          <div className="flex gap-2">
+          <div className="flex flex-col gap-2 sm:flex-row">
             <input
               type="text"
+              aria-label="Ask a custom policy question"
               value={userQuery}
               onChange={(e) => setUserQuery(e.target.value)}
               placeholder="Ask custom question (e.g., 'What is the compliance burden on healthcare providers?')"
-              className="flex-1 px-3.5 py-2 text-xs rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-950 text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              className="min-w-0 w-full flex-1 px-3.5 py-2 text-xs rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-950 text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-indigo-500"
               onKeyDown={(e) => e.key === "Enter" && fetchAnalysis()}
             />
             <button
               type="button"
               onClick={() => fetchAnalysis()}
               disabled={loading}
-              className="px-4 py-2 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white font-medium text-xs flex items-center gap-1.5 transition disabled:opacity-50"
+              className="min-h-10 justify-center px-4 py-2 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white font-medium text-xs flex items-center gap-1.5 transition disabled:opacity-50"
             >
               {loading ? <RefreshCw size={14} className="animate-spin" /> : <Sparkles size={14} />}
               <span>Analyze</span>

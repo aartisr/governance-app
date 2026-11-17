@@ -1,18 +1,5 @@
 # Contributing
 
-The source repository is available in the project workspace.
+See the repository's [contribution guide](https://github.com/aartisr/governance-app/blob/main/CONTRIBUTING.md) for setup and checks.
 
-## Principles
-
-- Keep domain types explicit and computation out of view components.
-- Preserve visible evidence provenance beside interpretations.
-- Prefer plain language over unexplained governance terminology.
-- Validate both desktop and mobile workflows before publishing.
-
-For a working product reference, use the [live governance workspace](https://governanceapp.ai-aarti.com/).
-
-For the end-user perspective, read [How the Governance App Works](https://governanceapp.ai-aarti.com/how-it-works.html).
-
----
-
-[Open the main website](https://governanceapp.ai-aarti.com/) · Created with care for community by [Aarti S Ravikumar](https://ai-aarti.com/)
+Keep public claims tied to implemented behavior or verifiable sources. Label mock data, assumptions, and proposed features clearly. Update the relevant guide when behavior changes.

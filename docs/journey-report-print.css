@@ -1,0 +1,16 @@
+@page { size: Letter; margin: .68in .72in; }
+body { color: #11213e; font: 11pt/1.43 Georgia, serif; }
+h1 { margin: 0 0 5px; font-size: 26pt; line-height: 1.15; color: #0a3161; }
+h2 { margin: 18px 0 7px; padding-top: 7px; border-top: 1px solid #d7d2c4; color: #0a3161; font: bold 13pt/1.2 Arial, sans-serif; }
+p { margin: 0 0 9px; }
+ul, ol { margin: 6px 0 11px; padding-left: 22px; }
+li { margin: 0 0 5px; }
+table { width: 100%; border-collapse: collapse; margin: 8px 0 13px; font: 9pt/1.3 Arial, sans-serif; }
+th { color: #0a3161; text-align: left; border-bottom: 2px solid #0a3161; padding: 6px; }
+td { vertical-align: top; border-bottom: 1px solid #d7d2c4; padding: 6px; }
+tr { break-inside: avoid; }
+strong { color: #0a3161; }
+.subtitle { color: #4b5c76; font: 12pt Arial, sans-serif; }
+.author, .date { color: #4b5c76; font: 9pt Arial, sans-serif; }
+.report-label { margin: 0 0 14px; color: #a41c3a; font: bold 8pt Arial, sans-serif; letter-spacing: .13em; }
+a { color: #0a3161; }

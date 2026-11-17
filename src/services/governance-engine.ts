@@ -18,7 +18,7 @@ import type {
   VoiceAllocation,
 } from "../domain/types";
 
-const delay = (ms = 140) => new Promise((resolve) => window.setTimeout(resolve, ms));
+const delay = (ms = 140) => new Promise((resolve) => globalThis.setTimeout(resolve, ms));
 
 export async function listBills() {
   await delay();
@@ -27,7 +27,7 @@ export async function listBills() {
 
 export async function getBill(billId: string) {
   await delay();
-  return bills.find((bill) => bill.id === billId) ?? bills[0];
+  return bills.find((bill) => bill.id === billId) ?? null;
 }
 
 export async function getGovernanceSnapshot() {
@@ -36,15 +36,21 @@ export async function getGovernanceSnapshot() {
 }
 
 export function calculateQuadraticCost(votes: number) {
-  return Math.max(0, votes) ** 2;
+  if (!Number.isSafeInteger(votes) || votes < 0) throw new RangeError("Votes must be a non-negative integer.");
+  return votes ** 2;
 }
 
 export function summarizeVoiceBudget(allocations: VoiceAllocation[], weeklyBudget: number) {
+  if (!Number.isFinite(weeklyBudget) || weeklyBudget < 0) throw new RangeError("Token budget must be finite and non-negative.");
   const spent = allocations.reduce((total, allocation) => total + calculateQuadraticCost(allocation.votes), 0);
   return { spent, remaining: Math.max(0, weeklyBudget - spent), overBudget: spent > weeklyBudget };
 }
 
 export function scoreTrust(participant: TrustParticipant) {
+  if ([participant.accuracy, participant.expertise, participant.consistency, participant.transparency]
+    .some((value) => !Number.isFinite(value) || value < 0 || value > 1)) {
+    throw new RangeError("Trust inputs must be finite values between 0 and 1.");
+  }
   return participant.accuracy * 0.36 + participant.expertise * 0.28 + participant.consistency * 0.22 + participant.transparency * 0.14;
 }
 
@@ -55,10 +61,17 @@ export function getEvidenceForBill(bill: Bill) {
 }
 
 export function assessImpact(section: BillSection, district: District): ImpactAssessment {
+  if (!Number.isFinite(section.affectedPopulationPercent) || section.affectedPopulationPercent < 0 || section.affectedPopulationPercent > 100 ||
+    !Number.isFinite(section.confidence) || section.confidence < 0 || section.confidence > 1 ||
+    !Number.isFinite(district.medianIncome) || district.medianIncome <= 0 ||
+    [district.ruralShare, district.smallBusinessShare, district.trustBaseline].some((value) => !Number.isFinite(value) || value < 0 || value > 1)) {
+    throw new RangeError("Impact inputs must use valid percentages, shares, and positive income.");
+  }
   const ruralMultiplier = section.domain === "health" || section.domain === "infrastructure" ? 1 + district.ruralShare * 0.35 : 1;
   const businessMultiplier = section.domain === "tax" ? 1 + district.smallBusinessShare * 0.7 : 1;
   const incomeNormalizer = Math.max(0.72, Math.min(1.28, district.medianIncome / 85000));
-  const delta = Number(((section.affectedPopulationPercent * ruralMultiplier * businessMultiplier) / incomeNormalizer).toFixed(1));
+  const rawExposure = (section.affectedPopulationPercent * ruralMultiplier * businessMultiplier) / incomeNormalizer;
+  const delta = Number(Math.min(100, Math.max(0, rawExposure)).toFixed(1));
 
   return {
     sectionId: section.id,
@@ -67,7 +80,7 @@ export function assessImpact(section: BillSection, district: District): ImpactAs
     delta,
     unit: "% exposed population equivalent",
     confidence: Number((section.confidence * district.trustBaseline).toFixed(2)),
-    explanation: `${district.name} receives a ${delta}% localized exposure estimate after adjusting for rurality, small-business density, and income sensitivity.`,
+    explanation: `Illustrative calculation: ${section.affectedPopulationPercent}% assumed base exposure × ${ruralMultiplier.toFixed(2)} rural factor × ${businessMultiplier.toFixed(2)} business factor ÷ ${incomeNormalizer.toFixed(2)} income factor = ${rawExposure.toFixed(1)}% before bounding to 0–100%. Result: ${delta}%. This is not a measured share of residents.`,
     evidenceIds: section.domain === "tax" ? ["ev-census-smb", "ev-bill-104"] : ["ev-bill-104", "ev-cbo-bridge"],
   };
 }
@@ -76,16 +89,36 @@ export function getLocalizedImpacts(bill: Bill, district: District) {
   return bill.sections.map((section) => assessImpact(section, district));
 }
 
-function dominates(a: ParetoPoint, b: ParetoPoint) {
-  return (
-    a.totalUtility >= b.totalUtility &&
-    a.minimumFactionUtility >= b.minimumFactionUtility &&
-    a.riskAdjustedScore >= b.riskAdjustedScore &&
-    (a.totalUtility > b.totalUtility || a.minimumFactionUtility > b.minimumFactionUtility || a.riskAdjustedScore > b.riskAdjustedScore)
-  );
+function dominates(a: CompromiseAmendment, b: CompromiseAmendment) {
+  const groups = Object.keys(b.utility);
+  return groups.length > 0 && groups.every((group) =>
+    a.utility[group] !== undefined && a.utility[group] >= b.utility[group]
+  ) && groups.some((group) => a.utility[group] > b.utility[group]);
+}
+
+function validateAmendment(amendment: CompromiseAmendment) {
+  const utilities = Object.values(amendment.utility);
+  if (utilities.length === 0 || utilities.some((value) => !Number.isFinite(value) || value < 0 || value > 1)) {
+    throw new RangeError("Amendments need finite group utilities between 0 and 1.");
+  }
+  if (![amendment.risk, amendment.implementationComplexity].every((value) => Number.isFinite(value) && value >= 0 && value <= 1)) {
+    throw new RangeError("Risk and complexity must be finite values between 0 and 1.");
+  }
+}
+
+function validateComparableAmendments(amendments: CompromiseAmendment[]) {
+  if (amendments.length === 0) return;
+  const groups = Object.keys(amendments[0].utility).sort().join("\u0000");
+  for (const amendment of amendments) {
+    validateAmendment(amendment);
+    if (Object.keys(amendment.utility).sort().join("\u0000") !== groups) {
+      throw new RangeError("Every amendment must score the same stakeholder groups.");
+    }
+  }
 }
 
 export function scoreAmendment(amendment: CompromiseAmendment): ParetoPoint {
+  validateAmendment(amendment);
   const utilities = Object.values(amendment.utility);
   const totalUtility = utilities.reduce((sum, value) => sum + value, 0) / utilities.length;
   const minimumFactionUtility = Math.min(...utilities);
@@ -105,7 +138,12 @@ export function scoreAmendmentWithWeights(
   amendment: CompromiseAmendment,
   weights: Record<string, number> = { "growth-caucus": 1, "equity-bloc": 1, "fiscal-guardians": 1 }
 ): ParetoPoint {
-  const totalWeight = Object.values(weights).reduce((sum, w) => sum + Math.max(0.1, w), 0);
+  validateAmendment(amendment);
+  if (Object.values(weights).some((weight) => !Number.isFinite(weight) || weight < 0)) {
+    throw new RangeError("Stakeholder weights must be finite and non-negative.");
+  }
+  const totalWeight = Object.keys(amendment.utility).reduce((sum, factionId) =>
+    sum + Math.max(0.1, weights[factionId] ?? 1), 0);
   const weightedSum = Object.entries(amendment.utility).reduce((sum, [factionId, util]) => {
     const w = Math.max(0.1, weights[factionId] ?? 1);
     return sum + util * w;
@@ -129,10 +167,11 @@ export function computeParetoFrontierWithWeights(
   weights: Record<string, number>,
   amendments = paretoScenario.amendments
 ) {
+  validateComparableAmendments(amendments);
   const points = amendments.map((a) => scoreAmendmentWithWeights(a, weights));
-  return points.map((point) => ({
+  return points.map((point, index) => ({
     ...point,
-    isParetoEfficient: !points.some((candidate) => candidate.amendmentId !== point.amendmentId && dominates(candidate, point)),
+    isParetoEfficient: !amendments.some((candidate, candidateIndex) => candidateIndex !== index && dominates(candidate, amendments[index])),
   }));
 }
 
@@ -150,6 +189,10 @@ export function runMonteCarloSimulation(
   amendment: CompromiseAmendment,
   iterations = 1000
 ): MonteCarloResult {
+  validateAmendment(amendment);
+  if (!Number.isSafeInteger(iterations) || iterations < 1 || iterations > 100000) {
+    throw new RangeError("Iterations must be an integer from 1 to 100,000.");
+  }
   const scores: number[] = [];
   const baseUtility = Object.values(amendment.utility).reduce((a, b) => a + b, 0) / Object.values(amendment.utility).length;
 
@@ -195,16 +238,18 @@ export function runMonteCarloSimulation(
 }
 
 export function computeParetoFrontier(amendments = paretoScenario.amendments) {
+  validateComparableAmendments(amendments);
   const points = amendments.map(scoreAmendment);
-  return points.map((point) => ({
+  return points.map((point, index) => ({
     ...point,
-    isParetoEfficient: !points.some((candidate) => candidate.amendmentId !== point.amendmentId && dominates(candidate, point)),
+    isParetoEfficient: !amendments.some((candidate, candidateIndex) => candidateIndex !== index && dominates(candidate, amendments[index])),
   }));
 }
 
 export function getRecommendedCompromise() {
   const frontier = computeParetoFrontier();
-  const best = [...frontier].sort((a, b) => b.riskAdjustedScore - a.riskAdjustedScore)[0];
+  const best = frontier.filter((point) => point.isParetoEfficient)
+    .sort((a, b) => b.riskAdjustedScore - a.riskAdjustedScore)[0];
   const amendment = paretoScenario.amendments.find((item) => item.id === best.amendmentId);
   return { best, amendment, frontier };
 }

@@ -1,4 +1,4 @@
-const CACHE_NAME = "civic-accord-pwa-v1";
+const CACHE_NAME = "civic-accord-pwa-v2";
 const APP_SHELL = [
   "/governance-app/",
   "/governance-app/index.html",

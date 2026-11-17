@@ -30,7 +30,7 @@ export function NistSafetyCardModal({ isOpen, onClose }: NistSafetyCardModalProp
               Civic Accord Policy Decision Model Card
             </h2>
             <p className="text-xs text-slate-300 mt-1 mb-0">
-              Standardized Model Auditing, Bias Mitigation & Human-in-the-Loop Safeguards
+              Intended safeguards and limitations of this prototype
             </p>
           </div>
           <button
@@ -89,13 +89,13 @@ export function NistSafetyCardModal({ isOpen, onClose }: NistSafetyCardModalProp
             <div className="space-y-3">
               <h4 className="font-bold text-slate-900 text-sm">Quadratic Preference Constraints & Faction Balance</h4>
               <p>
-                To prevent loud minority factions or high-resource interest groups from dominating policy recommendations, Civic Accord enforces quadratic voice token pricing:
+                The feedback exercise displays quadratic token costs. It does not enforce a budget or feed allocations into recommendations:
               </p>
               <div className="bg-slate-50 p-3 rounded-lg border border-slate-200 font-mono text-[11px] text-slate-800">
                 Cost(Votes) = Votes² (e.g., 1 vote = 1 token, 7 votes = 49 tokens)
               </div>
               <p>
-                This mathematical friction forces participants to reveal true intensity across multiple issues rather than concentrating influence on a single clause.
+                This pricing illustrates a way to express preference intensity. It does not establish fair or representative participation.
               </p>
             </div>
           )}
@@ -104,7 +104,7 @@ export function NistSafetyCardModal({ isOpen, onClose }: NistSafetyCardModalProp
             <div className="space-y-3">
               <h4 className="font-bold text-slate-900 text-sm">Verifiable Evidence Lineage & Recency</h4>
               <p>
-                Every impact score and section confidence estimate links directly to primary sources (Congressional Clerk legislative text, Census Bureau demographic surveys, and CBO budgetary models).
+                Evidence cards are fictional examples without links to primary documents. Their trust and recency scores are assumed values.
               </p>
               <div className="space-y-2">
                 <div className="p-2.5 bg-slate-50 border border-slate-200 rounded-lg flex justify-between items-center">
@@ -127,7 +127,7 @@ export function NistSafetyCardModal({ isOpen, onClose }: NistSafetyCardModalProp
               </p>
               <div className="p-3 bg-emerald-50 border border-emerald-200 rounded-lg text-emerald-950 flex items-center gap-2">
                 <CheckCircle2 className="text-emerald-700" size={18} />
-                <span>Audited for Compliance with NIST AI RMF 1.0 (GOVERN & MAP Functions)</span>
+                <span>Human review is required; this prototype has not undergone a NIST compliance audit.</span>
               </div>
             </div>
           )}

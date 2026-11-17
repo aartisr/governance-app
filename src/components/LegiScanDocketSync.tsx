@@ -22,15 +22,15 @@ export function LegiScanDocketSync() {
         <div>
           <div className="flex items-center gap-2">
             <FileCode size={18} className="text-blue-600" />
-            <p className="eyebrow mb-0">LegiScan & Docket Connector</p>
+            <p className="eyebrow mb-0">Sample docket</p>
           </div>
           <h2>Legislative Docket Search & Evidence Provenance</h2>
         </div>
-        <Badge tone="green">Docket Sync Active</Badge>
+        <Badge tone="amber">Local examples</Badge>
       </div>
 
       <p className="card-helper">
-        Inspect live legislative text, statutory sections, budget impact deltas, and linked primary evidence source files.
+        Inspect fictional bills, assumed budgets, and sample evidence cards. No external docket is connected.
       </p>
 
       {/* Search Input */}
@@ -103,7 +103,7 @@ export function LegiScanDocketSync() {
                     <span className="text-emerald-700 font-bold">
                       {sec.budgetDeltaMillions > 0 ? `+$${sec.budgetDeltaMillions}M` : `$${sec.budgetDeltaMillions}M`}
                     </span>
-                    <Badge tone="green">{(sec.confidence * 100).toFixed(0)}% Confidence</Badge>
+                    <Badge tone="amber">{(sec.confidence * 100).toFixed(0)}% assumed score</Badge>
                   </div>
                 </div>
               ))}
