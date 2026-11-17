@@ -15,22 +15,22 @@ export function ReportExportModal({ isOpen, onClose }: ReportExportModalProps) {
 
   if (!isOpen) return null;
 
-  const reportMarkdown = `# Civic Accord Governance Audit Report
+  const reportMarkdown = `# Civic Accord Sample Decision Report
 **Bill ID:** ${paretoScenario.billId} (${paretoScenario.name})  
 **Date Generated:** ${new Date().toISOString().split("T")[0]}  
-**System Engine:** Pareto Trade-Off Optimization Engine v2026.4  
+**Method:** Illustrative stakeholder utility comparison
 
 ---
 
 ## Executive Summary
-This report presents a structured evaluation of legislative amendments under multi-stakeholder preference constraints.
+This report compares fictional amendments using preset group utilities and assumed risk factors. Stated group boundaries are not enforced.
 
 ### Top Recommended Compromise
 - **Amendment:** ${recommendation.amendment?.title}
 - **Description:** ${recommendation.amendment?.description}
 - **Risk-Adjusted Score:** ${recommendation.best.riskAdjustedScore.toFixed(3)}
-- **Minimum Support Threshold:** ${recommendation.best.minimumFactionUtility.toFixed(3)}
-- **Pareto Efficiency:** ${recommendation.best.isParetoEfficient ? "EFFICIENT (Optimal)" : "Sub-optimal"}
+- **Minimum Group Utility:** ${recommendation.best.minimumFactionUtility.toFixed(3)}
+- **Stakeholder Pareto Status:** ${recommendation.best.isParetoEfficient ? "Non-dominated among sample options" : "Dominated among sample options"}
 
 ---
 
@@ -39,11 +39,11 @@ ${districts.map((d) => `- **${d.name} (${d.state}):** Pop ${d.population.toLocal
 
 ---
 
-## Primary Evidence Sources
+## Sample Evidence Cards
 ${evidenceSources.map((e) => `- **[${e.publisher}]** ${e.title} (Trust Score: ${(e.trustScore * 100).toFixed(0)}%)`).join("\n")}
 
 ---
-*Notice: This report is a deterministic model simulation for civic decision intelligence. Verify primary statutory sources before enactment.*
+*Notice: This report is a prototype output, not an audit or a policy recommendation. Verify primary statutory sources before any real use.*
 `;
 
   const handleCopy = () => {
@@ -57,7 +57,7 @@ ${evidenceSources.map((e) => `- **[${e.publisher}]** ${e.title} (Trust Score: ${
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
-    a.download = `Civic_Accord_Audit_${paretoScenario.billId}.md`;
+    a.download = `Civic_Accord_Sample_Report_${paretoScenario.billId}.md`;
     a.click();
     URL.revokeObjectURL(url);
   };
@@ -71,7 +71,7 @@ ${evidenceSources.map((e) => `- **[${e.publisher}]** ${e.title} (Trust Score: ${
             <div className="flex items-center gap-2 mb-1">
               <FileText className="text-teal-400" size={20} />
               <span className="text-xs font-bold text-teal-400 uppercase tracking-widest">
-                Governance Audit Report Builder
+                Sample Decision Report
               </span>
             </div>
             <h2 className="text-lg font-serif font-bold text-white mb-0">

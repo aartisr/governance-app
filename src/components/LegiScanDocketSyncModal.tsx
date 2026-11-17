@@ -41,15 +41,15 @@ export function LegiScanDocketSyncModal({ isOpen, onClose }: LegiScanDocketSyncM
             <div className="flex items-center gap-2 mb-1">
               <Radio size={16} className="text-emerald-400 animate-pulse" />
               <span className="text-xs font-bold text-emerald-400 uppercase tracking-widest">
-                LegiScan API & State Legislative Docket Feed
+                Sample legislative docket
               </span>
-              <Badge tone="green">Sync Active</Badge>
+              <Badge tone="amber">Local examples</Badge>
             </div>
             <h2 className="text-xl font-serif font-bold text-white mb-0">
-              Live State Legislative Corpus & Evidence Sync
+              Explore sample bills and evidence
             </h2>
             <p className="text-xs text-slate-300 mt-1 mb-0">
-              Real-time synchronization with state legislative dockets, statutory section changes, and primary evidence sources.
+              Search the fictional bills stored in this prototype. No external docket is connected.
             </p>
           </div>
           <div className="flex items-center gap-2">
@@ -58,7 +58,7 @@ export function LegiScanDocketSyncModal({ isOpen, onClose }: LegiScanDocketSyncM
               onClick={handleRefresh}
               className="text-slate-300 hover:text-white p-2 rounded-lg bg-slate-800 hover:bg-slate-700 transition-colors text-xs flex items-center gap-1.5 font-medium"
             >
-              <RefreshCw size={14} className={isRefreshing ? "animate-spin" : ""} /> Sync Feed
+              <RefreshCw size={14} className={isRefreshing ? "animate-spin" : ""} /> Refresh examples
             </button>
             <button
               type="button"
@@ -89,7 +89,7 @@ export function LegiScanDocketSyncModal({ isOpen, onClose }: LegiScanDocketSyncM
           {/* Bill Docket List */}
           <div className="space-y-2">
             <span className="text-[11px] font-bold uppercase tracking-wider text-slate-400 block mb-2">
-              Synced Legislative Dockets ({filteredBills.length})
+              Sample bills ({filteredBills.length})
             </span>
             {filteredBills.map((b) => (
               <button
@@ -146,7 +146,7 @@ export function LegiScanDocketSyncModal({ isOpen, onClose }: LegiScanDocketSyncM
                       <span className="text-emerald-700 font-bold">
                         {sec.budgetDeltaMillions > 0 ? `+$${sec.budgetDeltaMillions}M` : `$${sec.budgetDeltaMillions}M`}
                       </span>
-                      <Badge tone="green">{(sec.confidence * 100).toFixed(0)}% Confidence</Badge>
+                      <Badge tone="amber">{(sec.confidence * 100).toFixed(0)}% assumed score</Badge>
                     </div>
                   </div>
                 ))}
@@ -180,7 +180,7 @@ export function LegiScanDocketSyncModal({ isOpen, onClose }: LegiScanDocketSyncM
 
         {/* Footer */}
         <div className="bg-slate-50 p-4 border-t border-slate-200 flex justify-between items-center text-xs text-slate-500">
-          <span>LegiScan API Gateway v2.4 · Auto-syncing every 15 minutes</span>
+          <span>Local demonstration data · No LegiScan connection</span>
           <button type="button" onClick={onClose} className="button secondary text-xs">
             Close Docket Window
           </button>

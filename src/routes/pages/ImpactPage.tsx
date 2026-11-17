@@ -18,7 +18,7 @@ export function ImpactPage() {
       <PageHeader
         eyebrow="Local policy impact"
         title="See what this could mean where you live"
-        description="Choose a bill and district profile to review section-level estimates, their assumptions, and the confidence behind them."
+        description="Choose fictional bill and district profiles to explore a formula-based exposure equivalent. These values are not outcome forecasts."
       />
 
       <Card>
@@ -36,7 +36,7 @@ export function ImpactPage() {
             </select>
           </label>
         </div>
-        <p className="control-helper">Estimates show the share of residents affected after accounting for local demographics, business density, and rural or urban context.</p>
+        <p className="control-helper">The percentage is a model exercise based on assumed section and district values. It is not a measured share of residents affected.</p>
       </Card>
 
       <section className="impact-grid">
@@ -44,7 +44,7 @@ export function ImpactPage() {
           <Card key={impact.sectionId}>
             <div className="section-title">
               <h2>{impact.label}</h2>
-              <Badge tone="green">{Math.round(impact.confidence * 100)}% confidence</Badge>
+              <Badge tone="amber">{Math.round(impact.confidence * 100)}% assumption score</Badge>
             </div>
             <strong className="impact-number">{impact.delta}%</strong>
             <p>{impact.explanation}</p>

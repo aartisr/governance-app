@@ -3,6 +3,7 @@ import { Info, Menu, Scale, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import { primaryNavigationItems } from "../routes/navigation";
 import { updatePageMetadata } from "../seo";
+import { siteIdentity } from "../site-metadata";
 
 export function AppShell() {
   const pathname = useRouterState({ select: (state) => state.location.pathname });
@@ -81,7 +82,9 @@ export function AppShell() {
         </aside>
         <Outlet />
         <footer className="app-credit">
-          Created with care for community by <a href="https://ai-aarti.com/">Aarti S Ravikumar</a>
+          Created with care for community by <a href={siteIdentity.author.url} rel="author">{siteIdentity.author.name}</a>
+          {" · "}
+          <a href={siteIdentity.school.url}>{siteIdentity.school.name}</a>
         </footer>
       </main>
     </div>

@@ -18,7 +18,7 @@ import type {
   VoiceAllocation,
 } from "../domain/types";
 
-const delay = (ms = 140) => new Promise((resolve) => window.setTimeout(resolve, ms));
+const delay = (ms = 140) => new Promise((resolve) => globalThis.setTimeout(resolve, ms));
 
 export async function listBills() {
   await delay();
@@ -27,7 +27,7 @@ export async function listBills() {
 
 export async function getBill(billId: string) {
   await delay();
-  return bills.find((bill) => bill.id === billId) ?? bills[0];
+  return bills.find((bill) => bill.id === billId) ?? null;
 }
 
 export async function getGovernanceSnapshot() {
@@ -76,13 +76,11 @@ export function getLocalizedImpacts(bill: Bill, district: District) {
   return bill.sections.map((section) => assessImpact(section, district));
 }
 
-function dominates(a: ParetoPoint, b: ParetoPoint) {
-  return (
-    a.totalUtility >= b.totalUtility &&
-    a.minimumFactionUtility >= b.minimumFactionUtility &&
-    a.riskAdjustedScore >= b.riskAdjustedScore &&
-    (a.totalUtility > b.totalUtility || a.minimumFactionUtility > b.minimumFactionUtility || a.riskAdjustedScore > b.riskAdjustedScore)
-  );
+function dominates(a: CompromiseAmendment, b: CompromiseAmendment) {
+  const groups = Object.keys(b.utility);
+  return groups.length > 0 && groups.every((group) =>
+    a.utility[group] !== undefined && a.utility[group] >= b.utility[group]
+  ) && groups.some((group) => a.utility[group] > b.utility[group]);
 }
 
 export function scoreAmendment(amendment: CompromiseAmendment): ParetoPoint {
@@ -105,7 +103,8 @@ export function scoreAmendmentWithWeights(
   amendment: CompromiseAmendment,
   weights: Record<string, number> = { "growth-caucus": 1, "equity-bloc": 1, "fiscal-guardians": 1 }
 ): ParetoPoint {
-  const totalWeight = Object.values(weights).reduce((sum, w) => sum + Math.max(0.1, w), 0);
+  const totalWeight = Object.keys(amendment.utility).reduce((sum, factionId) =>
+    sum + Math.max(0.1, weights[factionId] ?? 1), 0);
   const weightedSum = Object.entries(amendment.utility).reduce((sum, [factionId, util]) => {
     const w = Math.max(0.1, weights[factionId] ?? 1);
     return sum + util * w;
@@ -130,9 +129,9 @@ export function computeParetoFrontierWithWeights(
   amendments = paretoScenario.amendments
 ) {
   const points = amendments.map((a) => scoreAmendmentWithWeights(a, weights));
-  return points.map((point) => ({
+  return points.map((point, index) => ({
     ...point,
-    isParetoEfficient: !points.some((candidate) => candidate.amendmentId !== point.amendmentId && dominates(candidate, point)),
+    isParetoEfficient: !amendments.some((candidate, candidateIndex) => candidateIndex !== index && dominates(candidate, amendments[index])),
   }));
 }
 
@@ -196,15 +195,16 @@ export function runMonteCarloSimulation(
 
 export function computeParetoFrontier(amendments = paretoScenario.amendments) {
   const points = amendments.map(scoreAmendment);
-  return points.map((point) => ({
+  return points.map((point, index) => ({
     ...point,
-    isParetoEfficient: !points.some((candidate) => candidate.amendmentId !== point.amendmentId && dominates(candidate, point)),
+    isParetoEfficient: !amendments.some((candidate, candidateIndex) => candidateIndex !== index && dominates(candidate, amendments[index])),
   }));
 }
 
 export function getRecommendedCompromise() {
   const frontier = computeParetoFrontier();
-  const best = [...frontier].sort((a, b) => b.riskAdjustedScore - a.riskAdjustedScore)[0];
+  const best = frontier.filter((point) => point.isParetoEfficient)
+    .sort((a, b) => b.riskAdjustedScore - a.riskAdjustedScore)[0];
   const amendment = paretoScenario.amendments.find((item) => item.id === best.amendmentId);
   return { best, amendment, frontier };
 }

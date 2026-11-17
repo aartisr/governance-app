@@ -42,190 +42,190 @@ const DEMO_STAGES: DemoStage[] = [
   {
     id: 1,
     title: "1. The Governance Imperative",
-    subtitle: "Solving Policy Polarization with Pareto Efficiency",
+    subtitle: "Exploring policy tradeoffs in a prototype",
     routePath: "/",
     icon: Award,
     durationSec: 18,
     scriptText:
-      "Welcome to Governance OS, an evidence-based civic decision engine designed to eliminate partisan gridlock. By replacing intuition with Pareto efficiency and stochastic simulation, Governance OS crafts optimal policies backed by data.",
+      "Welcome to Civic Accord, an interactive prototype for exploring policy tradeoffs. All bills, sources, scores, and recommendations in this tour are fictional examples.",
     captionText:
-      "Governance OS replaces partisan intuition with mathematical Pareto efficiency and stochastic risk modeling.",
+      "A guided tour of fictional bills, assumed stakeholder utilities, and transparent formulas.",
     keyPoints: [
-      "Evidence-based decision support system",
-      "Mathematically grounded Pareto trade-off curves",
-      "Real-time civic data integration"
+      "Fictional data for demonstration",
+      "Inspectable stakeholder tradeoffs",
+      "No real-time civic data connection"
     ],
     metrics: [
-      { label: "Engine Status", value: "Active / Optimal", color: "emerald" },
-      { label: "Target Efficiency", value: "94.2% Pareto", color: "indigo" }
+      { label: "Status", value: "Prototype", color: "emerald" },
+      { label: "Bills", value: "3 Examples", color: "indigo" }
     ]
   },
   {
     id: 2,
-    title: "2. Real-Time Command Center",
-    subtitle: "Executive Governance Metrics & Health Scores",
+    title: "2. Sample Command Center",
+    subtitle: "A guided view of model inputs",
     routePath: "/",
     icon: BarChart3,
     durationSec: 18,
     scriptText:
-      "The Command Center provides a real-time pulse of legislative velocity, public trust scores, and high-impact policy metrics. Executives gain immediate clarity on policy readiness, risk distributions, and district sentiment.",
+      "The Command Center summarizes the sample bill, an illustrative recommendation, and paths to inspect the underlying assumptions.",
     captionText:
-      "Executive Dashboard monitoring legislative velocity, trust index (87.4%), and recommendation readiness.",
+      "A starting point for reviewing the fictional decision scenario.",
     keyPoints: [
-      "Real-time governance health score (87.4/100)",
-      "Automated bill velocity and active docket tracking",
-      "Executive decision briefing cards"
+      "Sample bill briefing",
+      "Links to impact, feedback, and compromise views",
+      "Visible prototype limitations"
     ],
     metrics: [
-      { label: "Trust Score", value: "87.4 / 100", color: "indigo" },
-      { label: "Active Bills", value: "24 Monitored", color: "blue" }
+      { label: "Data", value: "Illustrative", color: "indigo" },
+      { label: "Bills", value: "3 Samples", color: "blue" }
     ]
   },
   {
     id: 3,
-    title: "3. Legislative Workspace & LegiScan",
-    subtitle: "Multi-Bill Comparison & Live Docket Sync",
+    title: "3. Sample Legislative Workspace",
+    subtitle: "Search and compare fictional bills",
     routePath: "/bills",
     icon: BookOpenText,
     durationSec: 18,
     scriptText:
-      "In the Bills Workspace, policymakers explore active legislation across AI, healthcare, and energy domains. Side-by-side bill comparison matrices and live LegiScan API docket syncing bring state and federal legislation into unified view.",
+      "The Bills Workspace filters and compares three fictional proposals. The docket panel searches local examples; it does not connect to LegiScan.",
     captionText:
-      "Bills Workspace featuring domain filters, side-by-side bill matrix comparison, and LegiScan docket sync.",
+      "Search, filters, comparison, and sample evidence cards.",
     keyPoints: [
       "Cross-domain legislative categorization",
       "Side-by-side multi-bill clause comparison",
-      "Live LegiScan API docket synchronization"
+      "Local sample docket search"
     ],
     metrics: [
-      { label: "Sync Status", value: "LegiScan API Live", color: "emerald" },
-      { label: "Tracked Clauses", value: "184 Sections", color: "violet" }
+      { label: "Feed", value: "No Live Sync", color: "emerald" },
+      { label: "Bills", value: "3 Samples", color: "violet" }
     ]
   },
   {
     id: 4,
-    title: "4. Gemini 3.6 AI Policy Intelligence",
-    subtitle: "Deep Multi-Dimensional Risk & Stakeholder Matrix",
+    title: "4. Optional AI Policy Inspector",
+    subtitle: "Generated text with a labeled fallback",
     routePath: "/bills",
     icon: Sparkles,
     durationSec: 20,
     scriptText:
-      "Powered by Gemini 3.6 Flash, the AI Policy Inspector evaluates complex legislative text in real time. It generates executive summaries, highlights key operational risks, builds stakeholder impact matrices, and suggests actionable compromise amendments.",
+      "The optional policy inspector can request model-generated text when a server key is configured. Otherwise it returns a labeled simulated example. Its output requires verification.",
     captionText:
-      "Gemini 3.6 Flash AI evaluating policy risks, enterprise impacts, and proposing balanced amendments.",
+      "A sample generated summary, risks, stakeholder impacts, and amendment suggestion.",
     keyPoints: [
-      "Instant AI text evaluation via Gemini 3.6 Flash",
+      "Optional model-generated text",
       "3-tier stakeholder impact matrix (Citizens, Business, Oversight)",
       "Actionable compromise amendment generation"
     ],
     metrics: [
-      { label: "AI Latency", value: "< 1.2s Real-Time", color: "indigo" },
-      { label: "Model", value: "Gemini 3.6 Flash", color: "teal" }
+      { label: "Output", value: "Needs Review", color: "indigo" },
+      { label: "Fallback", value: "Labeled", color: "teal" }
     ]
   },
   {
     id: 5,
     title: "5. Monte Carlo & Pareto Risk Simulators",
-    subtitle: "1,000-Run Stochastic Variance & Trade-Off Modeling",
+    subtitle: "Assumption-driven scenario exploration",
     routePath: "/bills",
     icon: Sliders,
     durationSec: 20,
     scriptText:
-      "Governance OS runs 1,000 stochastic Monte Carlo simulations to model fiscal variance, implementation latency, and regulatory tail-risk. Simultaneously, the Interactive Pareto Simulator maps multi-objective trade-off frontiers for optimal policy balance.",
+      "The Monte Carlo panel samples 1,000 outcomes from assumed distributions. The Pareto panel compares preset utilities for each stakeholder group; neither is a validated forecast.",
     captionText:
-      "Monte Carlo simulator running 1,000 iterations alongside interactive Pareto efficiency curve modeling.",
+      "Explore how assumptions change sample risk scores and stakeholder rankings.",
     keyPoints: [
       "1,000 stochastic Monte Carlo iterations",
-      "Confidence intervals and variance forecasting",
+      "Assumed outcome ranges, not confidence intervals",
       "Interactive multi-objective Pareto trade-off curve"
     ],
     metrics: [
       { label: "Simulations", value: "1,000 Iterations", color: "emerald" },
-      { label: "Confidence", value: "95% Interval", color: "indigo" }
+      { label: "Inputs", value: "Assumed", color: "indigo" }
     ]
   },
   {
     id: 6,
     title: "6. District Impact & Economic Mapping",
-    subtitle: "Granular Urban vs. Rural Preference Intensity",
+    subtitle: "Formula-based exposure examples",
     routePath: "/impact",
     icon: Landmark,
     durationSec: 18,
     scriptText:
-      "The Impact module analyzes legislative outcomes across diverse economic sectors and regional districts. It measures preference intensity to ensure policies do not disproportionately burden rural agricultural or urban high-density populations.",
+      "The Impact page applies a simple formula to three fictional district profiles. Its percentages are exposure equivalents, not measured benefits or forecasts.",
     captionText:
-      "District impact analysis evaluating economic sector shift and preference intensity across regional cohorts.",
+      "Compare how assumed district factors alter the sample calculation.",
     keyPoints: [
-      "Regional district economic forecasting",
-      "Preference intensity weighting",
-      "Equitable burden distribution analysis"
+      "Three fictional district profiles",
+      "Visible formula assumptions",
+      "No measured outcome data"
     ],
     metrics: [
-      { label: "Districts Mapped", value: "12 Cohorts", color: "blue" },
-      { label: "Net Gain", value: "+$14.2M Est.", color: "emerald" }
+      { label: "Districts", value: "3 Samples", color: "blue" },
+      { label: "Output", value: "Exposure Only", color: "emerald" }
     ]
   },
   {
     id: 7,
     title: "7. Public Feedback & Sentiment Parsing",
-    subtitle: "NLP Topic Clustering & Verified Evidence Verification",
+    subtitle: "Local preference and comment exercises",
     routePath: "/feedback",
     icon: Vote,
     durationSec: 18,
     scriptText:
-      "Public feedback parser uses natural language processing to categorize thousands of citizen comments. It matches public input with verified empirical evidence, grounding civic participation in peer-reviewed facts rather than rhetoric.",
+      "The feedback page shows quadratic token costs for preset groups and lets visitors filter five fictional comments. It does not collect submissions or verify sources.",
     captionText:
-      "Public comment parser clustering voter sentiment and anchoring feedback to verified empirical sources.",
+      "A local exercise in expressing priorities and browsing sample testimony.",
     keyPoints: [
-      "NLP sentiment and topic clustering",
-      "Empirical evidence verification matching",
-      "Transparent civic engagement metrics"
+      "Quadratic token costs",
+      "Five fictional comments",
+      "No submission or persistence"
     ],
     metrics: [
-      { label: "Public Input", value: "3,420 Comments", color: "indigo" },
-      { label: "Evidence Link", value: "92% Grounded", color: "emerald" }
+      { label: "Comments", value: "5 Samples", color: "indigo" },
+      { label: "Submissions", value: "None Stored", color: "emerald" }
     ]
   },
   {
     id: 8,
-    title: "8. Consensus Engine & NIST Compliance",
-    subtitle: "Data-Backed Compromise & Audit Export",
+    title: "8. Compromise Comparison",
+    subtitle: "Preset utilities and sample report export",
     routePath: "/compromise",
     icon: GitBranch,
     durationSec: 18,
     scriptText:
-      "The Consensus Engine synthesizes stakeholder inputs to generate win-win policy compromise proposals. Integrated NIST AI Safety Cards ensure regulatory compliance, while full audit reports export with a single click.",
+      "The compromise view ranks four preset amendments using assumed group utilities and risk factors. The safety card describes intended limits; the Markdown export is a sample report, not an audit.",
     captionText:
-      "Consensus Engine generating data-backed compromise policies with NIST AI Safety Card verification.",
+      "Inspect a risk-adjusted ranking and the utility assigned to each group.",
     keyPoints: [
-      "Automated win-win policy compromise generator",
-      "Integrated NIST AI Safety Card compliance modal",
-      "Instant PDF & JSON governance audit exports"
+      "Four preset amendment options",
+      "Informational safety card",
+      "Markdown sample report"
     ],
     metrics: [
-      { label: "Win-Win Score", value: "91.8 Pareto", color: "emerald" },
-      { label: "NIST Audit", value: "Passed / Certified", color: "teal" }
+      { label: "Options", value: "4 Samples", color: "emerald" },
+      { label: "Audit", value: "Not Conducted", color: "teal" }
     ]
   },
   {
     id: 9,
-    title: "9. Epilogue: Interactive Governance OS Paradigm",
-    subtitle: "A New Standard for Data-Driven Modern Democracy",
+    title: "9. What Comes Next",
+    subtitle: "From prototype to a trusted civic tool",
     routePath: "/trust",
     icon: Award,
     durationSec: 18,
     scriptText:
-      "Governance OS transforms public policy from an era of partisan friction into an era of verifiable proof, transparent trust, and Pareto efficiency. This is the future of governance.",
+      "Civic Accord demonstrates a possible workflow. Real use would require verified bill sources, calibrated models, representative community testing, privacy safeguards, and public correction paths.",
     captionText:
-      "Governance OS delivers verifiable proof, transparent stakeholder trust, and zero-gridlock public policy.",
+      "The next milestone is a small, independently reviewed pilot with real users and traceable sources.",
     keyPoints: [
-      "Verifiable empirical proof in legislation",
-      "Zero-gridlock consensus building",
-      "A transformative paradigm for global governance"
+      "Verified source integration",
+      "Community usability testing",
+      "Measured outcomes and corrections"
     ],
     metrics: [
-      { label: "Overall Rating", value: "Verified Active", color: "amber" },
-      { label: "Deployment", value: "Production Ready", color: "emerald" }
+      { label: "Status", value: "Prototype", color: "amber" },
+      { label: "Next Step", value: "Pilot", color: "emerald" }
     ]
   }
 ];
@@ -576,14 +576,14 @@ export function DemoPage() {
     <div className="page space-y-6 max-w-7xl mx-auto px-4 py-6">
       <PageHeader
         title="Video Demo Studio"
-        description="Automated end-to-end demonstration tour showcasing real-time data visualization, Gemini 3.6 AI intelligence, and Pareto policy tracking."
+        description="A narrated tour of Civic Accord's fictional scenario, implemented features, assumptions, and limits."
         actions={
           <div className="flex items-center gap-2">
             <Link
               to={currentStage.routePath}
               className="button secondary text-xs flex items-center gap-1.5"
             >
-              <Tv size={14} /> Open Live Screen
+              <Tv size={14} /> Open App Screen
             </Link>
             <Link to="/" className="button primary text-xs flex items-center gap-1.5">
               Back to Overview <ArrowRight size={14} />
@@ -729,7 +729,7 @@ export function DemoPage() {
                 to={currentStage.routePath}
                 className="text-xs font-medium text-indigo-600 hover:text-indigo-700 dark:text-indigo-400 flex items-center gap-1"
               >
-                Jump to Live Route <ChevronRight size={14} />
+                Open App Screen <ChevronRight size={14} />
               </Link>
             </div>
 

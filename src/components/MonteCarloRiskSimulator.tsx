@@ -150,7 +150,7 @@ export function MonteCarloRiskSimulator() {
         </div>
         <div className="flex justify-between items-center mt-2 text-[11px] text-slate-500 px-1">
           <span>0.0 (Policy Failure)</span>
-          <span>1.0 (Optimal Delivery)</span>
+          <span>1.0 (Highest Model Score)</span>
         </div>
       </div>
     </Card>

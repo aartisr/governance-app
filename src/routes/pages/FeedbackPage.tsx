@@ -36,7 +36,7 @@ export function FeedbackPage() {
           </div>
           <div className="boundary-box">
             <strong>What {selectedFaction.name} will not trade away</strong>
-            <small>These constraints remain protected when compromise options are compared.</small>
+            <small>These are stated preferences. The current recommendation does not enforce them.</small>
             {selectedFaction.hardBoundaries.map((boundary) => <span key={boundary}>{boundary}</span>)}
           </div>
         </Card>
@@ -49,6 +49,7 @@ export function FeedbackPage() {
             </div>
             <Badge tone={budget.overBudget ? "red" : "green"}>{budget.remaining} remaining</Badge>
           </div>
+          {budget.overBudget && <p role="status">This example exceeds the 50-token budget by {budget.spent - 50} tokens. Adjust the sliders to compare an in-budget allocation.</p>}
           <div className="allocation-list">
             {allocations.map((allocation, index) => (
               <label key={allocation.issueId} className="allocation-row">

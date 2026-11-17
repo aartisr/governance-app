@@ -20,7 +20,7 @@ export function BillsPage() {
       <PageHeader
         eyebrow="Legislative Intelligence Corpus"
         title="Explore Legislative Bills & Statutory Provenance"
-        description="Search across legislative proposals, inspect section-by-section budget deltas, audit evidence lineage, and run side-by-side bill comparisons."
+        description="Search fictional proposals, inspect assumed section budgets and sample evidence cards, and compare bills side by side."
       />
 
       {billsQuery.data ? (

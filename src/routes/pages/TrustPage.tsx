@@ -16,7 +16,7 @@ export function TrustPage() {
       <PageHeader
         eyebrow="Stakeholder trust"
         title="Understand source credibility"
-        description="Scores range from 0 to 100. Accuracy carries the most weight, followed by expertise, consistency, and transparency. They add context to public input; they do not replace it."
+        description="These scores apply a fixed formula to assumed attributes of fictional participants. They do not measure actual credibility or affect the recommendation."
         actions={(
           <>
             <button
@@ -31,7 +31,7 @@ export function TrustPage() {
               onClick={() => setIsReportModalOpen(true)}
               className="button secondary flex items-center gap-1.5 text-xs"
             >
-              <Download size={15} /> Export Audit Report
+              <Download size={15} /> Export Sample Report
             </button>
           </>
         )}

@@ -1,473 +1,86 @@
 # Civic Accord
 
-Civic Accord is a civic decision-support prototype that transforms legislative debate into a measurable, transparent, and explainable workflow. Its internal decision methodology is the Pareto Governance Engine.
+Civic Accord is an interactive prototype for exploring how people might review legislation, compare illustrative local effects, express priorities, and discuss amendments. Its bills, districts, sources, comments, and scores are examples defined in [`src/data/governance-data.ts`](src/data/governance-data.ts). They are fictional, not official records or measured outcomes.
 
-> **Prototype status:** This repository currently uses illustrative mock bills, districts, evidence sources, trust scores, and deterministic simulations. It is not connected to official legislative data and must not be used as policy, legal, financial, or civic decision advice without independently verifying primary sources.
+**Use the app to explore a method, not to make a real policy decision.** Verify any real bill against primary legislative sources. The app does not establish legal validity, public support, fairness, or compliance with a standard.
 
-The platform combines:
-- Preference intensity modeling (quadratic voice-token feedback)
-- Evidence-grounded policy interpretation
-- District-localized impact simulation
-- Trust-weighted participant scoring
-- Pareto compromise recommendation for stalled bills
+## Try the prototype
 
-It is designed to show how democracy can move from zero-sum rhetoric toward structured, high-utility compromise.
+1. Open **Bills** and choose a sample bill. Its detail page shows stored section summaries, budget figures, and source cards. The source cards contain sample excerpts, not links to verified documents.
+2. Open **Impact**. Choose a bill and one of three sample district profiles. The displayed percentage is a formula-based *exposure equivalent*, not a forecast of residents who will benefit or a causal impact estimate.
+3. Open **Voter feedback**. Move the issue sliders to see quadratic token costs. The 50-token budget is displayed, but the interface does not prevent over-budget allocations. Changes are local to the page and are not submitted or saved.
+4. Open **Compromise analysis**. Compare four preset amendments and their assumed group utilities. The recommendation uses a risk-adjusted score. The interactive simulator has separate weighting controls; these do not alter the fixed recommendation card.
+5. Open **Stakeholder trust** to inspect four weighted score dimensions for sample participants. These scores do not change the amendment recommendation.
 
-## An Invitation To Participate
+The [plain-language walkthrough](docs/how-the-governance-app-works.md) follows the sample Community Resilience and Enterprise Act. The [methods guide](docs/pareto-governance-engine-and-math.md) gives the implemented formulas and their limits.
 
-Democracy is not a performance delivered to the public. It is work we do with one another.
+## What is implemented
 
-Every bill carries the shape of ordinary life: the safety of a neighborhood, the cost of care, the chances available to a child, the health of a local business, and the future handed forward. When people stay close to that work, public decisions become harder to ignore, easier to question, and more worthy of trust.
+| Area | Current behavior | Important limit |
+| --- | --- | --- |
+| Bills | Search, filter, compare, and inspect three locally defined bills | No official legislative feed or full statutory text |
+| Evidence | Display source titles, excerpts, and assigned scores | No live retrieval or independent source verification |
+| Impact | Calculate section-level exposure equivalents from sample district factors | No calibration, uncertainty study, or outcome tracking |
+| Feedback | Show quadratic costs and a remaining budget for preset groups | No account, submission, persistence, or binding vote |
+| Compromise | Score preset amendments and identify non-dominated options | Utilities and risks are assumptions; group boundaries are displayed but not enforced |
+| Trust | Calculate a weighted score from four preset attributes | No observed accuracy history or effect on the recommendation |
+| AI inspector | Request optional Gemini analysis through a server endpoint | Without a working key, or when a request fails, the endpoint returns a labeled simulated response |
 
-Participation does not require perfect expertise, endless time, or agreement with everyone in the room. It begins with a simple civic practice: read with care, ask what the evidence shows, share what your community knows, and remain open to a solution that protects what matters to more people. Disagreement is not democracy's failure. It is the raw material of democratic life when we meet it with honesty and attention.
+The app also includes a sample comment filter, a Monte Carlo demonstration driven by assumed distributions, a theme switcher, and a Markdown report download. A panel labeled as a LegiScan connector searches the local sample bills; it does not call LegiScan. The safety card is an informational UI, not an audit or certification. The demo page uses scripted presentation content and is not evidence that its claims have been validated.
 
-Civic Accord is an invitation to make that practice easier. Use it to [review a bill](https://governanceapp.ai-aarti.com/bills), [understand local impact](https://governanceapp.ai-aarti.com/impact), [express priorities](https://governanceapp.ai-aarti.com/feedback), and [compare compromise options](https://governanceapp.ai-aarti.com/compromise). Bring your questions, your experience, and your conviction that this country can become more responsive when more of us help shape its choices.
+## Run locally
 
-Democracy succeeds when people refuse to surrender their voice or their curiosity. Join the work.
-
-## See It in Action
-
-For a non-technical walkthrough, follow one fictional bill from its text through local impact, public priorities, credibility context, and a practical compromise. The guide explains what each workspace does and why it matters in everyday terms.
-
-[Read: How the Governance App Works](docs/how-the-governance-app-works.md) or [open the public guide](https://governanceapp.ai-aarti.com/how-it-works.html).
-
-For the internal decision method, formulas, worked examples, and prototype limitations, read [Pareto Governance Engine: Methods and Mathematics](docs/pareto-governance-engine-and-math.md).
-
-## Table Of Contents
-
-- An Invitation To Participate
-- See It in Action
-- Executive Summary For Judges And Investors
-- 10-Minute Contributor Onboarding
-- Product Vision
-- What The App Does
-- End-To-End User Flow
-- Feature Modules
-- Architecture
-- Technology Stack
-- Project Structure
-- Local Development
-- Scripts
-- How To Extend The System
-- Data Contracts And Domain Model
-- Performance And UX Notes
-- Documentation In This Repository
-- Contribution Guidelines
-- Current Scope And Limitations
-
-## Executive Summary For Judges And Investors
-
-### Problem
-Democratic systems often fail at preference fidelity, evidence transparency, and compromise quality.
-
-### Solution
-Civic Accord turns legislative deliberation into a transparent optimization loop with:
-- Intensity-aware constituent input (quadratic token budgeting)
-- Evidence-linked and locally contextualized policy interpretation
-- Trust-weighted participant influence
-- Pareto-efficient compromise recommendation under hard constraints
-
-### Why It Is Differentiated
-- Captures preference intensity, not only preference direction
-- Makes recommendation provenance inspectable
-- Moves gridlock from rhetoric to measurable trade-off surfaces
-- Preserves human decision authority while improving decision quality
-
-### Demonstrated Product Surface
-- Fully working multi-workspace application with:
-	- command center
-	- bill intelligence
-	- token allocation
-	- district impact simulation
-	- compromise frontier exploration
-	- trust network scoring
-
-### Impact Thesis
-If institutions can repeatedly choose higher-utility, constraint-respecting compromises with clear provenance, democratic legitimacy and policy quality can improve together.
-
-## 10-Minute Contributor Onboarding
-
-### 0. Prerequisites
-- Node.js 20+
-- npm 10+
-
-## Deploying On Vercel
-
-This repository is configured for Vercel static deployment with SPA route fallback.
-
-### Why This Works
-- Vercel builds the app with `npm run build`
-- Output is served from `dist`
-- Files in `dist` are served first
-- Any unmatched route rewrites to `index.html` so client-side routes like `/bills`, `/impact`, and `/trust` do not 404
-
-### Configuration Source
-- `vercel.json`
-
-### Recommended Vercel Project Settings
-- Framework Preset: `Vite`
-- Build Command: `npm run build`
-- Output Directory: `dist`
-- Install Command: `npm install`
-
-Set `PUBLIC_SITE_URL` to `https://governanceapp.ai-aarti.com`. The build uses it to generate canonical sitemap and AI-discovery URLs. On Vercel, `VERCEL_PROJECT_PRODUCTION_URL` or `VERCEL_URL` is used when `PUBLIC_SITE_URL` is not set.
-
-The app exposes a Vercel API route for Gemini policy analysis.
-
-## Publishing the GitHub Wiki
-
-GitHub Wikis are a separate Git repository, so the built-in Actions token cannot publish these files reliably. To publish the Markdown in [wiki](wiki):
-
-1. Enable **Wikis** under the repository's **Settings → General → Features**.
-2. Create a new **classic** GitHub personal access token with the `repo` scope. Do not reuse an existing exposed token.
-3. Add it as the `WIKI_PUSH_TOKEN` Actions secret under **Settings → Secrets and variables → Actions**.
-4. Run the **Publish Wiki** workflow, or push a change under [wiki](wiki).
-
-The token is used only by [.github/workflows/publish-wiki.yml](.github/workflows/publish-wiki.yml) to write to `governance-app.wiki.git`. Do not manually push the `wiki/` source directory to `governance-app-wiki.git`; it is not the GitHub Wiki repository. The workflow publishes it automatically.
-
-## IndexNow
-
-Each production build publishes a stable IndexNow verification key at the canonical site root. The same key is published with the GitHub Pages documentation site. After both deploys complete, submit all canonical-app and GitHub Pages URLs with:
-
-```bash
-npm run indexnow:submit
-```
-
-The command submits separate host-verified URL batches to `api.indexnow.org`. It requires the verification-key file on both deployments to be publicly reachable before it is run.
-
-### 1. Install and Run (2 minutes)
+Requirements: Node.js 22.12 or newer within the 22.x line, and npm 10 or newer. Vercel uses the latest available 22.x release because `package.json` selects that major version.
 
 ```bash
 npm install
 npm run dev
 ```
 
-Open: http://127.0.0.1:5180
-
-### 2. Learn The Product Surface (3 minutes)
-- Navigate these pages in order:
-	1. Command
-	2. Bills
-	3. Voice Tokens
-	4. Impact
-	5. Compromise Analysis
-	6. Trust Network
-
-### 3. Learn The Code Surface (3 minutes)
-- Start with these files:
-	1. src/main.tsx
-	2. src/services/governance-engine.ts
-	3. src/domain/types.ts
-	4. src/data/governance-data.ts
-	5. src/components/ui.tsx
-
-### 4. Make A Safe First Change (2 minutes)
-- Add one field to a mock dataset in src/data/governance-data.ts.
-- Thread it through types in src/domain/types.ts.
-- Render it in one page card.
-- Run:
+Open <http://localhost:3000>. The Express development server serves the app and `/api/health`. The policy-analysis endpoint at `/api/gemini/analyze-policy` returns a simulated response unless `GEMINI_API_KEY` is configured and the upstream request succeeds. Keep the key in a local environment file or deployment secret; do not commit it.
 
 ```bash
 npm run typecheck
+npm test
 npm run build
 ```
 
-### New Contributor Rules Of Thumb
-- Keep domain types explicit before UI changes.
-- Keep computation in services, not JSX components.
-- Prefer reusable primitives from src/components/ui.tsx.
-- Preserve responsive behavior by using existing grid/card classes.
+`npm run build` type-checks the app, builds the Vite client, and runs the discovery-file generator. `npm run preview` previews the static Vite output. Vercel deploys the API handler in `api/` separately; the Express server is for local development.
 
-## Product Vision
+## Code map
 
-Traditional legislative tools typically answer only: "support" or "oppose".
+- [`src/routes/router.tsx`](src/routes/router.tsx): app routes; page components are in `src/routes/pages/`.
+- [`src/data/governance-data.ts`](src/data/governance-data.ts): sample bills, districts, evidence, groups, comments, and amendments.
+- [`src/domain/types.ts`](src/domain/types.ts): shared data shapes.
+- [`src/services/governance-engine.ts`](src/services/governance-engine.ts): token, trust, impact, and amendment calculations.
+- [`server.ts`](server.ts) and [`api/gemini/analyze-policy.ts`](api/gemini/analyze-policy.ts): local and Vercel policy-analysis handlers.
+- [`src/site-metadata.ts`](src/site-metadata.ts): page titles, descriptions, and origin selection.
 
-This project introduces a richer model:
-- How strongly people care
-- Why a conclusion is being recommended
-- What district-level impact is expected
-- Which compromises improve shared outcomes without violating non-negotiables
+The calculation paths currently use local data. For example, adjusting a feedback slider does not feed the result into the compromise score. See the [workflow map](docs/end-to-end-workflow.md) for what is connected today.
 
-The core optimization framing is:
+## Deployment and discovery files
 
-$$
-\max_x \sum_i U_i(x) \quad \text{subject to} \quad C_j(x) \ge \text{threshold}_j
-$$
+[`vercel.json`](vercel.json) configures a Vite build, `dist` output, and client route fallback. The repository also contains a Vercel API handler for policy analysis. Set `GEMINI_API_KEY` as a server-side deployment secret only if you want to try upstream analysis; responses may still fail or be inaccurate.
 
-Where:
-- $U_i(x)$ is utility for stakeholder group $i$
-- $C_j(x)$ represents hard constraints (fiscal, legal, or faction boundaries)
+The build generator writes static route HTML and discovery files such as `sitemap.xml`, `robots.txt`, and `llms.txt`. Give it the public origin with `PUBLIC_SITE_URL=https://your-domain.example` when building for a custom host. Without a deployment hostname, generated URLs fall back to `http://localhost:3000`. A deployed hostname and crawlable files do not guarantee indexing.
 
-## What The App Does
+The GitHub Wiki source is in [`wiki/`](wiki/). The [Publish Wiki workflow](.github/workflows/publish-wiki.yml) requires Wikis to be enabled and a `WIKI_PUSH_TOKEN` repository secret with write access. [`published-wiki/`](published-wiki/) is a local copy, not the source used by that workflow. IndexNow submission is available through `npm run indexnow:submit` after the relevant public sites and verification key files are deployed; see [`scripts/submit-indexnow.mjs`](scripts/submit-indexnow.mjs) for the exact behavior.
 
-The application provides six operational workspaces:
+## Documentation
 
-1. Command Center
-- Real-time governance snapshot
-- Current recommendation and trust overview
+- [Plain-language walkthrough](docs/how-the-governance-app-works.md)
+- [Citizen journey](docs/citizen-journey.md)
+- [Current workflow and proposed extensions](docs/end-to-end-workflow.md)
+- [Methods and mathematics](docs/pareto-governance-engine-and-math.md)
+- [Design system](docs/design-system.md)
+- [Quality roadmap and evidence criteria](docs/quality-roadmap.md)
+- [Documentation map and archive note](docs/README.md)
+- [Contributing](CONTRIBUTING.md), [support](SUPPORT.md), and [security reporting](SECURITY.md)
 
-2. Bills Workspace
-- Sortable and filterable bill corpus
-- Drill-down into section-level bill intelligence
+Longer narrative and proposal material in this repository describes a possible future system. Read those documents as concepts unless a capability is confirmed in the current implementation.
 
-3. Voice Tokens Workspace
-- Weekly budgeted quadratic preference allocation
-- Faction boundaries and negotiable zones
+## Contribute
 
-4. Impact Workspace
-- Localized district impact estimates per bill section
-- Evidence-linked explanations and confidence context
+Start with [CONTRIBUTING.md](CONTRIBUTING.md). Keep new claims traceable to code or a verifiable source, label assumptions, and preserve the distinction between sample data and real evidence. For security issues, use the private reporting path in [SECURITY.md](SECURITY.md).
 
-5. Compromise Analysis Workspace
-- Amendment scoring
-- Pareto frontier identification
-- Risk-adjusted compromise recommendation
-
-6. Trust Network Workspace
-- Credibility profiles based on accuracy, expertise, consistency, and transparency
-
-## End-To-End User Flow
-
-1. Select a bill from the corpus.
-2. Review section-level summaries with visible evidence provenance.
-3. Simulate district-specific impact deltas.
-4. Allocate voice tokens to express preference intensity.
-5. Compare compromise options from Pareto frontier results.
-6. Inspect trust-weighted influence signals.
-7. Take informed civic action and revisit as outcomes evolve.
-
-For full narrative and diagrammed flow, see:
-- docs/end-to-end-workflow.md
-- docs/citizen-journey.md
-
-## System Workflow Diagram
-
-```mermaid
-flowchart TD
-	A[Bill Introduced] --> B[Section Parsing and Structuring]
-	B --> C[Evidence Ingestion and Scoring]
-	C --> D[District Impact Simulation]
-	D --> E[Constituent Voice Tokens Allocation]
-	E --> F[Quadratic Preference Costing]
-	F --> G[Faction Model: Hard Boundaries and Negotiables]
-	G --> H[Trust Network Scoring]
-	H --> I[Pareto Amendment Generation]
-	I --> J[Pareto Frontier Filtering]
-	J --> K[Risk Adjusted Recommendation]
-	K --> L[Congressional Review and Amendment Selection]
-	L --> M[Policy Implementation]
-	M --> N[Outcome and KPI Measurement]
-	N --> O[Trust and Model Parameter Update]
-	O --> P[Public Transparency Dashboard]
-	P --> E
-	P --> C
-
-	C -.provenance and confidence.-> K
-	D -.localized deltas.-> K
-	H -.influence weighting.-> K
-```
-
-## Citizen Journey Diagram
-
-```mermaid
-flowchart TD
-	A[Open App] --> B[Command: Understand Current Situation]
-	B --> C[Bills: Pick a Bill You Care About]
-	C --> D[Bill Detail: Read Sections and Evidence]
-	D --> E[Impact: Check Your District Effects]
-	E --> F[Voice Tokens: Express Priority Intensity]
-	F --> G[Compromise Analysis: Compare Options]
-	G --> H[Trust Network: Verify Credibility Weights]
-	H --> I[Make Informed Civic Action]
-	I --> J[Track Outcomes and Return Next Week]
-	J --> B
-
-	D -. evidence trail .-> G
-	E -. local impact data .-> G
-	H -. credibility context .-> G
-```
-
-## Feature Modules
-
-### Quadratic Constituent Feedback
-- Voice allocations are constrained by a weekly token budget.
-- Cost function:
-
-$$
-	ext{cost} = (\text{votes})^2
-$$
-
-- This reveals intensity while discouraging low-cost flooding.
-
-### Evidence And Policy Intelligence
-- Bill evidence can include text, census inputs, budget models, expert analysis, and public comments.
-- Evidence cards include trust and recency indicators.
-
-### Localized Impact Mapping
-- Section impact estimation adapts to district profile factors such as rural share, small business density, and income normalization.
-
-### Trust Network Scoring
-- Participant trust score blends:
-  - Accuracy
-  - Expertise
-  - Consistency
-  - Transparency
-
-### Pareto Compromise Engine
-- Candidate amendments are scored by:
-  - Total utility
-  - Minimum faction utility
-  - Risk-adjusted score
-- Non-dominated points form the Pareto frontier.
-
-## Architecture
-
-The codebase uses a modular, replaceable design:
-
-- UI layer: React + route-based workspaces
-- Domain layer: typed contracts for bills, districts, factions, trust participants, evidence, impacts, amendments
-- Service layer: deterministic computation and mock async data access
-- Data layer: local mock datasets with stable interfaces
-
-This keeps implementation plug-and-play:
-- Replace data providers without changing component contracts
-- Keep domain contracts stable while iterating on algorithms
-- Add new pages using shared UI primitives and grid system
-
-## Technology Stack
-
-- React 19
-- TypeScript
-- Vite
-- TanStack Router
-- TanStack Query
-- TanStack Table
-- TanStack Virtual
-- TanStack Form (included for future production forms)
-- Lucide React
-
-## Project Structure
-
-```text
-src/
-	components/
-		AppShell.tsx        # Navigation shell and responsive layout container
-		BillTable.tsx       # Table workspace for bills
-		EvidenceList.tsx    # Virtualized evidence list
-		ui.tsx              # Reusable UI primitives (Card, Badge, Meter, etc.)
-	data/
-		governance-data.ts  # Mock datasets for bills, factions, trust, scenario data
-	domain/
-		types.ts            # Domain contracts and shared types
-	services/
-		governance-engine.ts # Core calculations, impact logic, trust scoring, Pareto scoring
-	main.tsx              # Route definitions and all page workspaces
-	styles.css            # Global style system and responsive breakpoints
-```
-
-## Local Development
-
-Prerequisites:
-- Node.js 20+
-- npm 10+
-
-Install dependencies:
-
-```bash
-npm install
-```
-
-Start development server:
-
-```bash
-npm run dev
-```
-
-Application URL:
-- http://127.0.0.1:5180
-
-## Scripts
-
-```bash
-npm run dev        # Start local development server
-npm run build      # Type-check and produce production build
-npm run preview    # Preview production build locally
-npm run typecheck  # Run TypeScript checks
-```
-
-## How To Extend The System
-
-### Replace Mock Data With Live APIs
-
-You can incrementally swap the mock service layer:
-- Replace listBills() with legislative API integrations.
-- Replace getLocalizedImpacts() with calibrated econometric or census pipelines.
-- Replace evidence datasets with retrieval results from a production RAG service.
-- Replace static amendment scenarios with generated multi-agent negotiation outputs.
-
-### Add A New Workspace Page
-
-1. Create a page component in main.tsx (or extract into a dedicated file).
-2. Register a new route with TanStack Router.
-3. Add navigation entry in AppShell.
-4. Use shared primitives in components/ui.tsx for visual consistency.
-5. Reuse grid and card classes from styles.css for responsive behavior.
-
-### Keep It Generic
-
-When introducing new logic:
-- Add domain types first in src/domain/types.ts.
-- Keep service functions pure and deterministic where possible.
-- Keep UI components presentation-focused and data-agnostic.
-
-## Data Contracts And Domain Model
-
-Key model groups:
-- Legislative artifacts: Bill, BillSection
-- Geography and context: District
-- Participation and preference: VoiceAllocation, Faction
-- Evidence and trust: EvidenceSource, TrustParticipant
-- Optimization: CompromiseAmendment, ParetoScenario, ParetoPoint
-
-These contracts make integrations predictable and reduce coupling between UI and data source.
-
-## Performance And UX Notes
-
-- Evidence list is virtualized for scalability.
-- Query caching and stale-time defaults reduce unnecessary reloads.
-- Responsive shell and grid behavior support desktop, tablet, and mobile use.
-- Dense operations-first layout is intentional for civic analysis workflows.
-
-## Documentation In This Repository
-
-- docs/requirements-traceability.md
-- docs/congressional_app.txt
-- docs/end-to-end-workflow.md
-- docs/citizen-journey.md
-
-## Contribution Guidelines
-
-Recommended workflow:
-
-1. Create a focused branch.
-2. Keep changes small and bounded by module.
-3. Run type-check and build locally before pushing.
-4. Update docs when behavior or architecture changes.
-
-Quality checklist before merge:
-- Type safety preserved
-- Responsive behavior verified
-- New behavior documented
-- No hard-coded data assumptions in reusable components
-
-## Current Scope And Limitations
-
-- This is a prototype with mock datasets, not a production legislative authority.
-- Impact estimates are illustrative and do not claim real-world forecasting accuracy.
-- Trust and compromise outputs are decision-support signals, not final policy decisions.
-
-The repository is intentionally structured so production services can replace mock components without a full rewrite.
-
----
-
-Created with care for community by [Aarti S Ravikumar](https://ai-aarti.com/)
+Created by [Aarti S Ravikumar](https://ai-aarti.com/) at [Pioneer Charter School of Science II](https://saugus.pioneercss.org). Licensed under [MIT](LICENSE).

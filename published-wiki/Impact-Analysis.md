@@ -1,16 +1,7 @@
 # Impact Analysis
 
-Impact analysis translates a bill into district-specific estimates. Choose a bill and district profile to review section-level deltas, explanations, and confidence.
+On [Impact](https://governanceapp.ai-aarti.com/impact), choose a sample bill and district. The app adjusts a stored affected-population value using district rural share, small-business share for tax sections, and income. It displays a formula-based exposure equivalent and a confidence value derived from stored inputs.
 
-Open [Local policy impact](https://governanceapp.ai-aarti.com/impact).
+These numbers are not calibrated forecasts or causal estimates. The exposure formula can exceed 100%, so it should not be read as a literal share of residents. Compare profiles to understand the model's assumptions, then verify real-world claims outside the app.
 
-## Use the results well
-
-- Compare more than one district before generalizing an outcome.
-- Read the explanation with the numeric estimate.
-- Treat confidence as uncertainty context, not a guarantee.
-- Return to the [bill record](https://governanceapp.ai-aarti.com/bills) for supporting evidence.
-
-[Back to the main website](https://governanceapp.ai-aarti.com/).
-
-Read the [plain-language walkthrough](https://aartisr.github.io/governance-app/how-it-works.html) for a complete bill-to-compromise example.
+The [methods guide](https://github.com/aartisr/governance-app/blob/main/docs/pareto-governance-engine-and-math.md) explains the formula.

@@ -1,18 +1,5 @@
 # Compromise Analysis
 
-Compromise analysis compares amendments using three readable signals:
+[Compromise analysis](https://governanceapp.ai-aarti.com/compromise) compares four preset amendments using assumed utilities for three groups, plus risk and implementation complexity. It displays average utility, the lowest group utility, a risk-adjusted score, and which options are non-dominated on those measures.
 
-
-Open [Compromise analysis](https://governanceapp.ai-aarti.com/compromise) to compare options and inspect the recommended path.
-
-The recommendation is an explainable starting point for deliberation, not a substitute for accountable public decision-making.
- Read [How the Governance App Works](https://governanceapp.ai-aarti.com/how-it-works.html) for the plain-language overview of the compromise workflow.
- Read the [plain-language walkthrough](https://governanceapp.ai-aarti.com/how-it-works.html) for a complete bill-to-compromise example.
-
-[Back to the main website](https://governanceapp.ai-aarti.com/).
-
-Read the [plain-language walkthrough](https://aartisr.github.io/governance-app/how-it-works.html) for a complete bill-to-compromise example.
-
----
-
-[Open the main website](https://governanceapp.ai-aarti.com/) · Created with care for community by [Aarti S Ravikumar](https://ai-aarti.com/)
+The recommendation is the option with the highest risk-adjusted score under those assumptions. The listed group boundaries are not enforced by the calculation. Separate simulator sliders change a weighted comparison, not the fixed recommendation card. No result establishes legal feasibility, consent, or a best real-world policy.

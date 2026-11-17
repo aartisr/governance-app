@@ -41,23 +41,23 @@ export function AiPolicyInspectorModal({
     setError(null);
     const fallbackResult: AnalysisResult = {
       source: "simulated_ai_fallback",
-      summary: `Policy analysis for "${billTitle || "Legislative Proposal"}": Key considerations include economic efficiency, equity impact across urban vs. rural districts, and regulatory compliance timelines.`,
+      summary: `Simulated example for "${billTitle || "Legislative Proposal"}". No policy text was independently analyzed or verified.`,
       keyRisks: [
-        "Implementation latency due to multi-agency coordination requirements.",
-        "Fiscal variance dependent on federal grant allocation timing.",
-        "Unintended compliance overhead for small enterprise stakeholders."
+        "Example question: What agencies would implement this proposal?",
+        "Example question: What budget assumptions need verification?",
+        "Example question: Which communities might face new burdens?"
       ],
       opportunities: [
-        "Enhanced transparency and real-time auditability of fund dispersion.",
-        "High Pareto improvement score when coupled with targeted tax credits.",
-        "Cross-jurisdictional alignment with federal NIST governance frameworks."
+        "Publish primary bill text and a traceable source list.",
+        "Invite affected groups to review assumptions and missing impacts.",
+        "Compare amendment options using explicitly stated criteria."
       ],
       stakeholderImpact: {
-        consumers: "Low-to-moderate direct cost impact with long-term quality assurance gains.",
-        enterprises: "Initial transition cost offset by streamlined reporting channels.",
-        governanceBody: "High audit readiness and clear key performance indicators."
+        consumers: "Impact has not been assessed.",
+        enterprises: "Impact has not been assessed.",
+        governanceBody: "Implementation impact has not been assessed."
       },
-      recommendedAmendment: "Introduce a 90-day phased rollout for compliance benchmarks with dedicated technical assistance for small organizations."
+      recommendedAmendment: "No amendment is recommended by this simulated example. Verify sources and consult affected groups first."
     };
 
     try {
@@ -121,7 +121,7 @@ Recommendation: ${result.recommendedAmendment}`;
             <div>
               <h2 className="text-lg font-bold leading-snug">Gemini Policy Intelligence</h2>
               <p className="text-xs text-slate-500 dark:text-slate-400">
-                Real-time risk, Pareto compliance, and stakeholder impact evaluation
+                Optional generated text about risks and stakeholders; verify before use
               </p>
             </div>
           </div>
@@ -143,7 +143,7 @@ Recommendation: ${result.recommendedAmendment}`;
               <span className="text-xs font-bold uppercase tracking-wider text-indigo-600 dark:text-indigo-400">Analyzing Proposal</span>
               {result && (
                 <Badge tone={result.source === "gemini_api" ? "violet" : "neutral"}>
-                  {result.source === "gemini_api" ? "Gemini 3.6 Flash Live (Free Tier)" : "Simulated Free Tier Engine"}
+                  {result.source === "gemini_api" ? "Gemini model response" : "Simulated example"}
                 </Badge>
               )}
             </div>

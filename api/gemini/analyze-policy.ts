@@ -24,6 +24,7 @@ function isPolicyRequest(body: unknown): body is PolicyRequest {
 }
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
+  res.setHeader("Cache-Control", "no-store");
   if (req.method !== "POST") {
     res.setHeader("Allow", "POST");
     res.status(405).end();

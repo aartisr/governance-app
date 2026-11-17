@@ -30,7 +30,7 @@ export function CompromisePage() {
             <h2>Frontier map overview</h2>
             <Badge tone="green">{frontier.filter((point) => point.isParetoEfficient).length} strongest options</Badge>
           </div>
-          <p className="card-helper">Green options deliver the strongest combined outcome. Higher is better: shared benefit reflects overall value, minimum support shows whether any group is left behind, and the final score accounts for delivery risk.</p>
+          <p className="card-helper">Green options are not outperformed for every group by another sample option. Shared benefit is average assumed utility; minimum support is the lowest group utility; the separate ranking score applies assumed risk and complexity penalties.</p>
           <div className="frontier">
             {frontier.map((point) => (
               <article key={point.amendmentId} className={point.isParetoEfficient ? "frontier-point efficient" : "frontier-point subdued"}>

@@ -57,7 +57,7 @@ export function InteractiveParetoSimulator() {
       </div>
 
       <p className="card-helper">
-        Adjust stakeholder weights to see how changing governance priorities shifts the optimal Pareto frontier and recommended compromise amendment.
+        Adjust stakeholder weights to see how the illustrative risk-adjusted ranking changes. Pareto status compares each group's preset utility and does not change with weights.
       </p>
 
       {/* Faction Weight Sliders */}
@@ -201,7 +201,7 @@ export function InteractiveParetoSimulator() {
                 <div className="flex items-center gap-1">
                   <Badge tone="green">
                     <span className="inline-flex items-center gap-1">
-                      <Trophy size={12} /> Optimal Choice
+                      <Trophy size={12} /> Highest modeled score
                     </span>
                   </Badge>
                 </div>

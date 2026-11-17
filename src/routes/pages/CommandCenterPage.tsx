@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { Link } from "@tanstack/react-router";
 import { useState } from "react";
-import { ArrowRight, BookOpenText, CircleCheck, Download, GitMerge, Landmark, ShieldCheck, Sparkles, Video, Vote, type LucideIcon } from "lucide-react";
+import { ArrowRight, BookOpenText, CircleCheck, Download, GitMerge, Landmark, Play, ShieldCheck, Sparkles, Video, Vote, type LucideIcon } from "lucide-react";
 import { Badge, Card, PageHeader, StatCard } from "../../components/ui";
 import { NistSafetyCardModal } from "../../components/NistSafetyCardModal";
 import { ReportExportModal } from "../../components/ReportExportModal";
@@ -22,6 +22,22 @@ export function CommandCenterPage() {
 
   return (
     <div className="page">
+      <section className="demo-spotlight" aria-labelledby="demo-spotlight-title">
+        <div className="demo-spotlight-copy">
+          <p className="demo-spotlight-eyebrow">Start here · See it in action</p>
+          <h2 id="demo-spotlight-title">Video Demo</h2>
+          <p className="demo-spotlight-description">
+            See the civic workflow come together. Take a narrated tour through bills,
+            local impact, public priorities, and compromise.
+          </p>
+          <p className="demo-spotlight-detail">Interactive presentation · 9 chapters · Explore at your own pace</p>
+        </div>
+        <Link to="/demo" className="demo-spotlight-link">
+          <span className="demo-spotlight-play"><Play size={30} fill="currentColor" aria-hidden="true" /></span>
+          <span>Watch the Video Demo <ArrowRight size={20} aria-hidden="true" /></span>
+        </Link>
+      </section>
+
       <PageHeader
         eyebrow="Your civic briefing"
         title="Start with the decision that needs your attention"
@@ -53,7 +69,7 @@ export function CommandCenterPage() {
               onClick={() => setIsReportModalOpen(true)}
               className="button secondary flex items-center gap-1.5 text-xs"
             >
-              <Download size={15} className="text-blue-600" /> Export Audit Report
+              <Download size={15} className="text-blue-600" /> Export Sample Report
             </button>
             <Link to="/compromise" className="button secondary">Review recommendation <ArrowRight size={16} /></Link>
           </>

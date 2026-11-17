@@ -10,9 +10,9 @@ function confidenceTone(score: number) {
 }
 
 function confidenceLabel(score: number) {
-  if (score >= 0.85) return "High confidence";
-  if (score >= 0.7) return "Moderate confidence";
-  return "Review carefully";
+  if (score >= 0.85) return "High assumed score";
+  if (score >= 0.7) return "Medium assumed score";
+  return "Low assumed score";
 }
 
 export function EvidenceList({ evidence }: { evidence: EvidenceSource[] }) {

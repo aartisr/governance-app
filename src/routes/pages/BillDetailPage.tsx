@@ -9,8 +9,12 @@ export function BillDetailPage() {
   const billQuery = useQuery({ queryKey: ["bill", billId], queryFn: () => getBill(billId) });
   const bill = billQuery.data;
 
-  if (!bill) {
+  if (billQuery.isPending) {
     return <EmptyState title="Loading bill" description="Retrieving the selected legislative record." />;
+  }
+
+  if (!bill) {
+    return <EmptyState title="Sample bill not found" description="This prototype has no bill with that identifier." />;
   }
 
   const evidence = getEvidenceForBill(bill);
@@ -44,8 +48,8 @@ export function BillDetailPage() {
                 </div>
                 <div className="section-metrics">
                   <Badge>{section.domain}</Badge>
-                  <span>{section.affectedPopulationPercent}% locally affected</span>
-                  <span>${section.budgetDeltaMillions}M estimated change</span>
+                  <span>{section.affectedPopulationPercent}% assumed exposure input</span>
+                  <span>${section.budgetDeltaMillions}M assumed budget change</span>
                 </div>
               </article>
             ))}
@@ -55,12 +59,12 @@ export function BillDetailPage() {
         <Card>
           <h2>How to read this</h2>
           <p>
-            The summary separates bill text from claims about it. Check the linked sources below before treating any estimate as settled.
+            This is a fictional summary. The source cards below are examples, not links to verified documents.
           </p>
           <div className="stack">
-            <Meter value={0.84} label="Clarity of bill summary" />
-            <Meter value={0.79} label="Supporting evidence coverage" color="#0f766e" />
-            <Meter value={0.72} label="Ready for impact analysis" color="#b45309" />
+            <Meter value={0.84} label="Sample clarity score" />
+            <Meter value={0.79} label="Sample evidence coverage score" color="#0f766e" />
+            <Meter value={0.72} label="Sample analysis readiness score" color="#b45309" />
           </div>
         </Card>
       </section>

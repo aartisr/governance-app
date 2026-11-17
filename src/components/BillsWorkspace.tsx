@@ -147,7 +147,7 @@ export function BillsWorkspace({ bills }: BillsWorkspaceProps) {
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
         <div className="bg-white border border-slate-200 rounded-xl p-4 shadow-xs">
           <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider block mb-1">
-            Active Legislative Corpus
+            Sample Bill Collection
           </span>
           <div className="flex items-baseline justify-between">
             <span className="text-2xl font-serif font-bold text-slate-900">{bills.length}</span>
@@ -155,7 +155,7 @@ export function BillsWorkspace({ bills }: BillsWorkspaceProps) {
               {bills.filter((b) => b.status === "ready").length} Ready
             </span>
           </div>
-          <span className="text-[11px] text-slate-500 mt-1 block">Indexed legislative bills</span>
+          <span className="text-[11px] text-slate-500 mt-1 block">Fictional proposals</span>
         </div>
 
         <div className="bg-white border border-slate-200 rounded-xl p-4 shadow-xs">
@@ -173,7 +173,7 @@ export function BillsWorkspace({ bills }: BillsWorkspaceProps) {
 
         <div className="bg-white border border-slate-200 rounded-xl p-4 shadow-xs">
           <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider block mb-1">
-            Mean Source Provenance
+            Mean Assumed Section Score
           </span>
           <div className="flex items-baseline justify-between">
             <span className="text-2xl font-serif font-bold text-teal-900">
@@ -181,7 +181,7 @@ export function BillsWorkspace({ bills }: BillsWorkspaceProps) {
             </span>
             <ShieldCheck size={16} className="text-teal-600" />
           </div>
-          <span className="text-[11px] text-slate-500 mt-1 block">Audited evidence confidence</span>
+          <span className="text-[11px] text-slate-500 mt-1 block">Unvalidated model input</span>
         </div>
 
         <div className="bg-white border border-slate-200 rounded-xl p-4 shadow-xs">
@@ -296,7 +296,7 @@ export function BillsWorkspace({ bills }: BillsWorkspaceProps) {
               >
                 <option value="all">All Proposals</option>
                 <option value="high-impact">High Impact ($200M+)</option>
-                <option value="high-confidence">High Confidence (85%+)</option>
+                <option value="high-confidence">High Assumed Score (85%+)</option>
                 <option value="needs-compromise">Needs Compromise</option>
               </select>
             </div>
@@ -309,7 +309,7 @@ export function BillsWorkspace({ bills }: BillsWorkspaceProps) {
               onClick={() => setIsLegiScanModalOpen(true)}
               className="bg-emerald-50 text-emerald-900 hover:bg-emerald-100 border border-emerald-200 rounded-lg px-3 py-1.5 font-semibold text-xs flex items-center gap-1.5 transition-colors"
             >
-              <Radio size={13} className="text-emerald-600 animate-pulse" /> LegiScan Live Feed
+              <Radio size={13} className="text-emerald-600" /> Sample docket
             </button>
 
             {/* View Mode Segmented Control */}
@@ -565,7 +565,7 @@ export function BillsWorkspace({ bills }: BillsWorkspaceProps) {
                       <p className="text-[11px] text-slate-600 mb-0 leading-relaxed">{sec.summary}</p>
                       <div className="flex items-center justify-between text-[11px] text-slate-500 pt-2 border-t border-slate-200/60">
                         <span>{sec.affectedPopulationPercent}% local population affected</span>
-                        <Badge tone="green">{(sec.confidence * 100).toFixed(0)}% Confidence</Badge>
+                        <Badge tone="amber">{(sec.confidence * 100).toFixed(0)}% assumed score</Badge>
                       </div>
                     </div>
                   ))}

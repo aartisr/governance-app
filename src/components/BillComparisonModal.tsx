@@ -138,7 +138,7 @@ export function BillComparisonModal({
 
                 {/* Mean Section Confidence */}
                 <tr>
-                  <td className="p-3 font-semibold text-slate-500 bg-slate-50/60">Mean Section Confidence</td>
+                  <td className="p-3 font-semibold text-slate-500 bg-slate-50/60">Mean Assumed Section Score</td>
                   {selectedBills.map((bill) => {
                     const avgConf =
                       bill.sections.reduce((sum, s) => sum + s.confidence, 0) / (bill.sections.length || 1);

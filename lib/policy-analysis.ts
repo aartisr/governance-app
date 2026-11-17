@@ -5,28 +5,42 @@ interface PolicyRequest {
   userPrompt?: string;
 }
 
+function normalizeRequest(value: unknown): PolicyRequest {
+  if (typeof value !== "object" || value === null || Array.isArray(value)) return {};
+  const input = value as Record<string, unknown>;
+  const read = (key: keyof PolicyRequest, limit: number) =>
+    typeof input[key] === "string" ? input[key].trim().slice(0, limit) : undefined;
+  return {
+    billTitle: read("billTitle", 200),
+    billSummary: read("billSummary", 4000),
+    topic: read("topic", 100),
+    userPrompt: read("userPrompt", 1000),
+  };
+}
+
 export const fallbackAnalysis = (request: PolicyRequest, source: string) => ({
   source,
-  summary: `AI Analysis for "${request.billTitle || "Policy Proposal"}": Key considerations include economic efficiency, equity impact across urban vs. rural districts, and regulatory compliance timelines.`,
+  summary: `Simulated example for "${request.billTitle || "Policy Proposal"}". No policy text was independently analyzed or verified.`,
   keyRisks: [
-    "Implementation latency due to multi-agency coordination requirements.",
-    "Fiscal variance dependent on federal grant allocation timing.",
-    "Unintended compliance overhead for small enterprise stakeholders.",
+    "Example question: What agencies would implement this proposal?",
+    "Example question: What budget assumptions need verification?",
+    "Example question: Which communities might face new burdens?",
   ],
   opportunities: [
-    "Enhanced transparency and real-time auditability of fund dispersion.",
-    "High Pareto improvement score when coupled with targeted tax credits.",
-    "Cross-jurisdictional alignment with federal NIST governance frameworks.",
+    "Publish primary bill text and a traceable source list.",
+    "Invite affected groups to review assumptions and missing impacts.",
+    "Compare several amendment options using explicitly stated criteria.",
   ],
   stakeholderImpact: {
-    consumers: "Low-to-moderate direct cost impact with long-term quality assurance gains.",
-    enterprises: "Initial transition cost offset by streamlined reporting channels.",
-    governanceBody: "High audit readiness and clear key performance indicators.",
+    consumers: "Impact has not been assessed.",
+    enterprises: "Impact has not been assessed.",
+    governanceBody: "Implementation impact has not been assessed.",
   },
-  recommendedAmendment: "Introduce a 90-day phased rollout for compliance benchmarks with dedicated technical assistance for small organizations.",
+  recommendedAmendment: "No amendment is recommended by this simulated example. Verify sources and consult affected groups first.",
 });
 
-export async function analyzePolicy(request: PolicyRequest = {}) {
+export async function analyzePolicy(input: unknown = {}) {
+  const request = normalizeRequest(input);
   const apiKey = process.env.GEMINI_API_KEY;
   if (!apiKey || apiKey === "MY_GEMINI_API_KEY") {
     return fallbackAnalysis(request, "simulated_ai");
@@ -37,6 +51,7 @@ export async function analyzePolicy(request: PolicyRequest = {}) {
       `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${encodeURIComponent(apiKey)}`,
       {
         method: "POST",
+        signal: AbortSignal.timeout(10_000),
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           contents: [
@@ -72,7 +87,21 @@ export async function analyzePolicy(request: PolicyRequest = {}) {
       throw new Error("Gemini returned no content");
     }
 
-    return { source: "gemini_api", ...JSON.parse(responseText) };
+    const parsed = JSON.parse(responseText) as Record<string, unknown>;
+    const impact = parsed.stakeholderImpact as Record<string, unknown> | null;
+    if (
+      typeof parsed.summary !== "string" ||
+      !Array.isArray(parsed.keyRisks) || !parsed.keyRisks.every((risk) => typeof risk === "string") ||
+      !Array.isArray(parsed.opportunities) || !parsed.opportunities.every((opportunity) => typeof opportunity === "string") ||
+      typeof parsed.recommendedAmendment !== "string" ||
+      typeof impact !== "object" || impact === null || Array.isArray(impact) ||
+      typeof impact.consumers !== "string" ||
+      typeof impact.enterprises !== "string" ||
+      typeof impact.governanceBody !== "string"
+    ) {
+      throw new Error("Gemini returned an unexpected response shape");
+    }
+    return { ...parsed, source: "gemini_api" };
   } catch (error) {
     console.warn("Gemini API call failed; returning simulated analysis.", error);
     return fallbackAnalysis(request, "simulated_ai_fallback");
