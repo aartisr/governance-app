@@ -4,6 +4,43 @@ Civic Accord is an interactive prototype for exploring how people might review l
 
 **Use the app to explore a method, not to make a real policy decision.** Verify any real bill against primary legislative sources. The app does not establish legal validity, public support, fairness, or compliance with a standard.
 
+## Run locally
+
+**Requirements:** Node.js **22.12 or newer in the 22.x line** and npm **10 or newer**. Check with `node --version` and `npm --version`. Vite does not support Node 22.6, even if some commands appear to work with it.
+
+From a terminal:
+
+```bash
+git clone https://github.com/aartisr/governance-app.git
+cd governance-app
+npm ci --include=dev --include=optional
+npm run dev
+```
+
+If the repository is already cloned, change into its root and run the last two commands. Open <http://localhost:3000> in your browser. Keep the terminal running while you use the app; press **Ctrl+C** to stop it. Check server health at <http://localhost:3000/api/health>. The local server uses port 3000, so stop anything else using that port first.
+
+The app works without API keys. Its optional AI inspector returns a clearly labeled simulated response when no Gemini key is available. To try the upstream Gemini service, set `GEMINI_API_KEY` in the terminal **before** starting the server. For example, on macOS or Linux:
+
+```bash
+GEMINI_API_KEY=YOUR_KEY npm run dev
+```
+
+On PowerShell, set `$env:GEMINI_API_KEY = "YOUR_KEY"` and then run `npm run dev`. The development command does **not** automatically read `.env` files. Keep real keys out of Git.
+
+### Check the project
+
+Run these from the repository root:
+
+```bash
+npm run typecheck
+npm test
+npm run build
+```
+
+`npm run build` type-checks the code, builds the Vite client into `dist/`, and generates route and discovery files. To view that built client, stop `npm run dev` first, then run `npm run preview` and open **http://localhost:3000**. The preview is static; use `npm run dev` when you need the local Express API.
+
+If the browser still shows an older screen or an error after a code change, restart `npm run dev` and refresh the tab. If npm reports a missing native binding, run `npm ci --include=dev --include=optional` again with a supported Node version. Keep the committed `package-lock.json` in place.
+
 ## Try the prototype
 
 1. Open **Bills** and choose a sample bill. Its detail page shows stored section summaries, budget figures, and source cards. The source cards contain sample excerpts, not links to verified documents.
@@ -27,25 +64,6 @@ The [plain-language walkthrough](docs/how-the-governance-app-works.md) follows t
 | AI inspector | Request optional Gemini analysis through a server endpoint | Without a working key, or when a request fails, the endpoint returns a labeled simulated response |
 
 The app also includes an optional sample comment filter, a Monte Carlo demonstration driven by assumed distributions, and a Markdown report download. Bills search uses local fictional data; it does not call LegiScan. The safety card is an informational UI, not an audit or certification. The guided tour displays the current app routes in a live frame with narrated captions; its fictional inputs and claims still require independent verification.
-
-## Run locally
-
-Requirements: Node.js 22.12 or newer within the 22.x line, and npm 10 or newer. Vercel uses the latest available 22.x release because `package.json` selects that major version.
-
-```bash
-npm install
-npm run dev
-```
-
-Open <http://localhost:3000>. The Express development server serves the app and `/api/health`. The policy-analysis endpoint at `/api/gemini/analyze-policy` returns a simulated response unless `GEMINI_API_KEY` is configured and the upstream request succeeds. Keep the key in a local environment file or deployment secret; do not commit it.
-
-```bash
-npm run typecheck
-npm test
-npm run build
-```
-
-`npm run build` type-checks the app, builds the Vite client, and runs the discovery-file generator. `npm run preview` previews the static Vite output. Vercel deploys the API handler in `api/` separately; the Express server is for local development.
 
 ## Code map
 
