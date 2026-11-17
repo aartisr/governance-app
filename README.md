@@ -1,6 +1,12 @@
 # Civic Accord
 
-Civic Accord is an interactive prototype for exploring how people might review legislation, compare illustrative local effects, express priorities, and discuss amendments. Its bills, districts, sources, comments, and scores are examples defined in [`src/data/governance-data.ts`](src/data/governance-data.ts). They are fictional, not official records or measured outcomes.
+**A clearer way to explore public choices, together.**
+
+Imagine a proposal to rebuild a bridge. Families want a safer route. A nearby shop needs customers to reach its door during construction. Neighbors want to know whether public money will deliver what was promised. They can share a goal and still disagree about the bill. Those differences deserve to be understood before anyone is asked to choose a side.
+
+Civic Accord is a working prototype that helps people follow a sample bill from its sections to possible local effects, express priorities with a limited token budget, and compare amendments across groups. Its purpose is to make tradeoffs and assumptions visible so a community can ask better questions and discuss a path forward. The site is a starting point for that conversation, and its design and methods are open to scrutiny and improvement.
+
+The bills, districts, sources, comments, and scores in this version are examples defined in [`src/data/governance-data.ts`](src/data/governance-data.ts). They are fictional, not official records or measured outcomes.
 
 **Use the app to explore a method, not to make a real policy decision.** Verify any real bill against primary legislative sources. The app does not establish legal validity, public support, fairness, or compliance with a standard.
 
@@ -98,8 +104,17 @@ The GitHub Wiki source is in [`wiki/`](wiki/). The [Publish Wiki workflow](.gith
 
 Longer narrative and proposal material in this repository describes a possible future system. Read those documents as concepts unless a capability is confirmed in the current implementation.
 
-## Contribute
+## Help shape Civic Accord
 
-Start with [CONTRIBUTING.md](CONTRIBUTING.md). Keep new claims traceable to code or a verifiable source, label assumptions, and preserve the distinction between sample data and real evidence. For security issues, use the private reporting path in [SECURITY.md](SECURITY.md).
+I built this prototype to make a difficult civic question easier to approach: *What would help people understand a proposal, hear one another, and see what changes when the assumptions change?* I would be grateful for the community's help in finding where the experience is unclear, where the mathematics needs stronger evidence, and whose perspective is missing. A thoughtful question or a careful correction is as valuable as a code contribution.
+
+You can get involved by:
+
+- Trying the [sample journey](docs/citizen-journey.md) and [opening an issue](https://github.com/aartisr/governance-app/issues) when a step is confusing or a claim needs a better explanation.
+- Reviewing the [methods and mathematics](docs/pareto-governance-engine-and-math.md) and [failure-mode audit](docs/model-failure-modes.md); challenge an assumption with a reproducible example or a reliable source.
+- Improving accessibility, plain language, visual design, documentation, or tests through a focused pull request.
+- Sharing how this could serve classrooms or community discussions while keeping the distinction between a demonstration and evidence for a real decision.
+
+Please read [CONTRIBUTING.md](CONTRIBUTING.md) before making a change. Keep claims traceable, label assumptions, and treat other people's questions with care. For security issues, use the private reporting path in [SECURITY.md](SECURITY.md). Thank you for lending your time and judgment to this work.
 
 Created by [Aarti S Ravikumar](https://ai-aarti.com/) at [Pioneer Charter School of Science II](https://saugus.pioneercss.org). Licensed under [MIT](LICENSE).
