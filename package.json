@@ -23,7 +23,7 @@
   },
   "dependencies": {
     "@tanstack/react-form": "^1.25.0",
-    "@tanstack/react-router": "^1.139.12",
+    "@tanstack/react-router": "^1.170.46",
     "@tanstack/react-table": "^8.21.3",
     "express": "^4.22.2",
     "lucide-react": "^0.468.0",
