@@ -22,7 +22,7 @@
     "test": "node --import tsx --test tests/*.test.ts"
   },
   "dependencies": {
-    "@tanstack/react-form": "^1.25.0",
+    "@tanstack/react-form": "^1.33.5",
     "@tanstack/react-router": "^1.139.12",
     "@tanstack/react-table": "^8.21.3",
     "express": "^4.22.2",
